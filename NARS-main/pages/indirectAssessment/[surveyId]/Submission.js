@@ -20,7 +20,7 @@ const Submission = ({ cookies }) => {
   }, []);
 
   async function getSurveyDetails() {
-    const url = `${process.env.url}api/v1/surveys/${surveyId}`;
+    const url = `http://localhost:8082/${surveyId}`;
     try {
       const data = await fetch(url, {
         method: "GET",
@@ -49,7 +49,7 @@ const Submission = ({ cookies }) => {
   }
 
   async function getStudentSubmissions(surveyId) {
-    const url = `${process.env.url}api/v1/surveys/student-submissions?studentId=${cookies._id}`;
+    const url = `http://localhost:8082/student-submissions?studentId=${cookies._id}`;
     try {
       const data = await fetch(url, {
         method: "GET",
@@ -75,7 +75,7 @@ const Submission = ({ cookies }) => {
   }
 
   async function sendSubmission() {
-    const url = `${process.env.url}api/v1/surveys/submissions`;
+    const url = `http://localhost:8082/submissions`;
     try {
       const data = await fetch(url, {
         method: "POST",

@@ -71,7 +71,7 @@ const Surveys = ({ cookies }) => {
       .filter((course) => course && course._id)
       .map((course) => {
         return fetch(
-          `${process.env.url}api/v1/surveys/?courseInstance=${course._id}`,
+          `http://localhost:8082/?courseInstance=${course._id}`,
           {
             method: "GET",
             headers: {
@@ -100,7 +100,7 @@ const Surveys = ({ cookies }) => {
   }
 
   async function getStudentSubmissions(surveys) {
-    const url = `${process.env.url}api/v1/surveys/student-submissions?studentId=${cookies._id}`;
+    const url = `http://localhost:8082/student-submissions?studentId=${cookies._id}`;
     try {
       const data = await fetch(url, {
         method: "GET",
