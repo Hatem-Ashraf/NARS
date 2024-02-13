@@ -147,33 +147,43 @@ exports.signupWithEmail = catchAsync(async (req, res, next) => {
         404
       )
     );
-  console.log(user);
+  
   if (user.password) {
     return next(new AppError(`that email already signup`, 404));
   }
+
+  // Generate verification code
   const verifyCode = user.createPasswordResetToken();
+
+  // Log verification code in console
+  console.log('Verification Code:', verifyCode);
+
+  // Save user without validation
   await user.save({ validateBeforeSave: false });
 
-  const message = `that email for verifing your account pls copy this code in verification page`;
+  const message = `Your verification code: ${verifyCode}. Please copy this code to verify your account.`;
   try {
+    // Send email with verification code
     await sendEmail({
       email: user.email,
-      subject: "your verification code (Valid for 10m)",
+      subject: "Your verification code (Valid for 10m)",
       message,
       verifyCode,
     });
 
     res.status(200).json({
       status: "success",
-      message: "code sent to mail",
+      message: "Code sent to email",
     });
   } catch (err) {
+    // Handle error if email sending fails
     await user.save({ validateBeforeSave: false });
     return next(
-      new AppError("there aws an error sending the email. try again later", 500)
+      new AppError("There was an error sending the email. Please try again later", 500)
     );
   }
 });
+
 
 exports.completeSignup = catchAsync(async (req, res, next) => {
   const hashedToken = crypto
