@@ -131,7 +131,7 @@ const addfaculty = ({ cookies }) => {
     });
 
     try {
-      const r = await fetch(`${process.env.url}api/v1/faculty/`, {
+      const r = await fetch(`http://localhost:8083/`, {
         method: "POST",
 
         body: JSON.stringify({

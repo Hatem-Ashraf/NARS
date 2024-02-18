@@ -24,7 +24,7 @@ const courseGrade = ({ cookies }) => {
         }
         try {
             const resp = await fetch(
-                `${process.env.url}api/v1/courses/created-courses/${cookies.instance_id}`,
+                `http://localhost:8087/created-courses/${cookies.instance_id}`,
                 {
                     headers: {
                         Authorization: "Bearer " + cookies.token,
@@ -43,7 +43,7 @@ const courseGrade = ({ cookies }) => {
         if (e) e.preventDefault();
         try {
             const resp = await fetch(
-                `${process.env.url}api/v1/courses/${cookies.instance_id}/marks/${cookies._id}`,
+                `http://localhost:8087/${cookies.instance_id}/marks/${cookies._id}`,
                 {
                     headers: {
                         Authorization: "Bearer " + cookies.token,

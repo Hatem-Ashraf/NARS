@@ -30,7 +30,7 @@ const uploadgrades = ({ cookies }) => {
                 dataArr.push(obj);
 
             });
-            const resp = await fetch(`${process.env.url}api/v1/courses/${cookies.instance_id}/marks`, {
+            const resp = await fetch(`http://localhost:8087/${cookies.instance_id}/marks`, {
                 method: "POST",
                 body: JSON.stringify({
                     "marks": dataArr

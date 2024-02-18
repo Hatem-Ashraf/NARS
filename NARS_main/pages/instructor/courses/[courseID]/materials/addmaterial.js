@@ -35,7 +35,7 @@ const addmaterial = ({ cookies }) => {
             e.preventDefault();
         }
         try {
-            const resp = await fetch(`${process.env.url}api/v1/courses/created-courses/${courseID}`, {
+            const resp = await fetch(`http://localhost:8087/created-courses/${courseID}`, {
                 headers: {
                     Authorization: "Bearer " + cookies.token,
                 },
@@ -61,7 +61,7 @@ const addmaterial = ({ cookies }) => {
 
     try {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/original-courses/uploadMaterials`,
+        `http://localhost:8087/original-courses/uploadMaterials`,
         {
           method: "PATCH",
           body: data,

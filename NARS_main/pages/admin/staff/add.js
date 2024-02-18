@@ -50,7 +50,7 @@ const addStaff = ({ cookies }) => {
     console.log(selectedFacultyId);
 
     const resp = await fetch(
-      `${process.env.url}api/v1/faculty/${selectedFacultyId}`,
+      `http://localhost:8083/${selectedFacultyId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const addStaff = ({ cookies }) => {
 
     data.data.departments.map(async (d) => {
       const resp = await fetch(
-        `${process.env.url}api/v1/department/?name=${d}`,
+        `http://localhost:8084/?name=${d}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -161,7 +161,7 @@ const addStaff = ({ cookies }) => {
     console.log(depID);
     console.log(depID);
     const resp = await fetch(
-      `${process.env.url}api/v1/programs/?department=${depID}`,
+      `http://localhost:8086/?department=${depID}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -192,7 +192,7 @@ const addStaff = ({ cookies }) => {
   const [data, setData] = useState([]);
   useEffect(() => {
     async function getFacultyNames() {
-      const d = await fetch(`${process.env.url}api/v1/faculty/`, {
+      const d = await fetch(`http://localhost:8083/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

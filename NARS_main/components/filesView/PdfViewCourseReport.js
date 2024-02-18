@@ -17,7 +17,7 @@ const PdfFileCard = ({
   code,
 }) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  const pdfFile = `${process.env.url}api/v1/courses/exams/63ffebc34bef8c7adbf0b482`;
+  const pdfFile = `http://localhost:8087/exams/63ffebc34bef8c7adbf0b482`;
   const file =
     "../../media/ECE312C Control Systems (1) Course Specs 221CBL.pdf";
   const handleView = () => {};

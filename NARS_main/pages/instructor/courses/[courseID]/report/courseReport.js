@@ -54,7 +54,7 @@ const courseReport = ({ cookies }) => {
     formData.append("courseInstance", courseID);
     formData.append("courseReport", blob, "mypdf.pdf");
     try {
-      const r = await fetch(`${process.env.url}api/v1/courses/reportPdf/`, {
+      const r = await fetch(`http://localhost:8087/reportPdf/`, {
         method: "POST",
         body: formData,
         headers: {
@@ -72,7 +72,7 @@ const courseReport = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r2 = await fetch(
-        `${process.env.url}api/v1/courses/reportPdf/${courseID}`,
+        `http://localhost:8087/reportPdf/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -457,7 +457,7 @@ const courseReport = ({ cookies }) => {
   useEffect(() => {
     const getNameCode = async function () {
       const getNameCodeReq = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/?_id=${courseID}`,
+        `http://localhost:8087/created-courses/?_id=${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -476,7 +476,7 @@ const courseReport = ({ cookies }) => {
   const getCourse = async () => {
     try {
       const resp = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             Authorization: "Bearer " + cookies.token,

@@ -19,7 +19,7 @@ const coursedetails = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const coursedetails = ({ cookies }) => {
     };
     const getNameCode = async function () {
       const getNameCodeReq = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/?_id=${courseID}`,
+        `http://localhost:8087/created-courses/?_id=${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +64,7 @@ setInstanceName(dataGetNameCodeReq.data[0].course.name)
   useEffect(() => {
     const getData = async function () {
       const r2 = await fetch(
-        `${process.env.url}api/v1/courses/specsPdf/${courseID}`,
+        `http://localhost:8087/specsPdf/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -83,7 +83,7 @@ setInstanceName(dataGetNameCodeReq.data[0].course.name)
         setBlobIsFound(true);
       }
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",

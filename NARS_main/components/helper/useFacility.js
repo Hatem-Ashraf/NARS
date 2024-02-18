@@ -48,7 +48,7 @@ const useFacility = ({ cookies, courseID, hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const useFacility = ({ cookies, courseID, hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -119,7 +119,7 @@ const useFacility = ({ cookies, courseID, hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -144,7 +144,7 @@ const useFacility = ({ cookies, courseID, hasClass }) => {
     formData.append("courseInstance", courseID);
     formData.append("courseSpcs", blob, "mypdf.pdf");
     try {
-      const r = await fetch(`${process.env.url}api/v1/courses/specsPdf/`, {
+      const r = await fetch(`http://localhost:8087/specsPdf/`, {
         method: "POST",
         body: formData,
         headers: {
@@ -455,7 +455,7 @@ const useFacility = ({ cookies, courseID, hasClass }) => {
       e.preventDefault();
     }
     const r = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         method: "PATCH",
         body: JSON.stringify({

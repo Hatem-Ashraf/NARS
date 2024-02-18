@@ -10,7 +10,7 @@ const AssignFileItem = ({ name, id, dueTo, possibleMarks }) => {
   return (
     <div className="fileItem ">
       <Link
-        href={`${process.env.url}api/v1/courses/assignment/${id}`}
+        href={`http://localhost:8087/assignment/${id}`}
         target="_blank"
         download
       >

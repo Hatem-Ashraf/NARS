@@ -23,7 +23,7 @@ const viewprograms = ({ cookies }) => {
             e.preventDefault();
         }
         try {
-            const resp = await fetch(`${process.env.url}api/v1/programs/?department=${userState.department}`, {
+            const resp = await fetch(`http://localhost:8086/?department=${userState.department}`, {
                 headers: {
                     Authorization: "Bearer " + userState.token,
                 },

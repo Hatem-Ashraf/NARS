@@ -41,7 +41,7 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
 
   async function getCreatedCoursesForInstructor() {
     const data = await fetch(
-      `${process.env.url}api/v1/courses/original-courses?program=${userState.program}`,
+      `http://localhost:8087/original-courses?program=${userState.program}`,
       {
         method: "GET",
         headers: {
@@ -72,7 +72,7 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
     data.append("program", userState.program);
 
     try {
-      const r = await fetch(`${process.env.url}api/v1/programs/programSpcs`, {
+      const r = await fetch(`http://localhost:8086/programSpcs`, {
         method: "POST",
         body: data,
         headers: {
@@ -161,7 +161,7 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
 
               try {
                 const r = await fetch(
-                  `${process.env.url}api/v1/programs/programSpcs`,
+                  `http://localhost:8086/programSpcs`,
                   {
                     method: "POST",
                     body: data,
@@ -189,7 +189,7 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
                 ? "activeLinkDashboard2"
                 : "normalLinkDashboard2"
             }
-            href={`${process.env.url}api/v1/programs/programSpcs/${userState.program}`}
+            href={`http://localhost:8086/programSpcs/${userState.program}`}
             target="_blank"
             download
           >

@@ -22,7 +22,7 @@ const deleteFaculty = ({ cookies }) => {
 
   useEffect(() => {
     async function doThis() {
-      const resp = await fetch(`${process.env.url}api/v1/faculty/`, {
+      const resp = await fetch(`http://localhost:8083/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + userState.token,
@@ -42,7 +42,7 @@ const deleteFaculty = ({ cookies }) => {
     e.preventDefault();
     try {
       const r = await fetch(
-        `${process.env.url}api/v1/faculty/${faculty.current.value}`,
+        `http://localhost:8083/${faculty.current.value}`,
         {
           method: "DELETE",
 

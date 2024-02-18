@@ -16,7 +16,7 @@ export default function DepartmentAdminDashboard(cookies) {
     useEffect(() => {
         async function getName() {
             try {
-                const r = await fetch(`${process.env.url}api/v1/department/${userState.department}`, {
+                const r = await fetch(`http://localhost:8084/${userState.department}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

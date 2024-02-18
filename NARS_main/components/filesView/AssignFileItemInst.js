@@ -8,7 +8,7 @@ const AssignFileItem = ({ name, id, dueTo, courseID, possibleMarks }) => {
     return (
         <div className="fileItem ">
             <span>
-                <Link href={`${process.env.url}api/v1/courses/assignment/${id}`}
+                <Link href={`http://localhost:8087/assignment/${id}`}
                     target="_blank"
                     download className="fileItem--left" title="Click here to dowload the file">
                     <InsertDriveFileRounded />

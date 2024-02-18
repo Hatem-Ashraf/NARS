@@ -35,7 +35,7 @@ const TopicsTable = ({ lectureTopics, learningOutcomes, courseID, token }) => {
 
     try {
       const resp = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           method: "PATCH",
           body: JSON.stringify({

@@ -34,7 +34,7 @@ const useAssessment = ({ courseID, hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -174,7 +174,7 @@ const useAssessment = ({ courseID, hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -194,7 +194,7 @@ const useAssessment = ({ courseID, hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -306,7 +306,7 @@ const useAssessment = ({ courseID, hasClass }) => {
     console.log("cp2");
     console.log(cp2);
     const r = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         headers: {
           "Content-Type": "application/json",

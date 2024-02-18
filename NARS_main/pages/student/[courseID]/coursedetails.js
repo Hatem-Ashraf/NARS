@@ -16,7 +16,7 @@ const coursedetails = ({ cookies }) => {
     document.querySelector("body").classList.add("scrollbar-none");
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",

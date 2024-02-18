@@ -39,7 +39,7 @@ const useTeachingMethods = ({ courseID,hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const useTeachingMethods = ({ courseID,hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -147,7 +147,7 @@ const useTeachingMethods = ({ courseID,hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -225,7 +225,7 @@ const useTeachingMethods = ({ courseID,hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -383,7 +383,7 @@ console.log(cp2)
     }
 
     // const r = await fetch(
-    //   `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+    //   `http://localhost:8087/created-courses/${courseID}`,
     //   {
     //     method: "PATCH",
     //     body: JSON.stringify({

@@ -18,7 +18,7 @@ const part69 = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -154,7 +154,7 @@ const part69 = ({ cookies }) => {
     e.preventDefault();
 
     const r = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         method: "PATCH",
         body: JSON.stringify({

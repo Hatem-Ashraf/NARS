@@ -37,7 +37,7 @@ const addassignment = ({ cookies }) => {
     }
     try {
       const resp = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${cookies.instance_id}`,
+        `http://localhost:8087/created-courses/${cookies.instance_id}`,
         {
           headers: {
             Authorization: "Bearer " + cookies.token,
@@ -65,7 +65,7 @@ const addassignment = ({ cookies }) => {
     data.append("possibleMarks",mark.current.value);
 
     try {
-      const r = await fetch(`${process.env.url}api/v1/courses/assignment`, {
+      const r = await fetch(`http://localhost:8087/assignment`, {
         method: "POST",
         body: data,
         headers: {

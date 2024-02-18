@@ -7,7 +7,7 @@ const ExamFileItem = ({ title, caption, id }) => {
   return (
     <div className="fileItem ">
       <Link
-        href={`${process.env.url}api/v1/courses/exams/${id}`}
+        href={`http://localhost:8087/exams/${id}`}
         target="_blank"
         download
       >

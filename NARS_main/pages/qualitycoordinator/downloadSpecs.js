@@ -108,7 +108,7 @@ const coursesSpecs = ({ cookies }) => {
       }
       try {
         const resp = await fetch(
-          `${process.env.url}api/v1/courses/original-courses?program=${cookies.program}`,
+          `http://localhost:8087/original-courses?program=${cookies.program}`,
           {
             headers: {
               Authorization: "Bearer " + cookies.token,
@@ -151,7 +151,7 @@ const coursesSpecs = ({ cookies }) => {
     //   }
     //   try {
     //     const resp2 = await fetch(
-    //       `${process.env.url}api/v1/programs/viewComp/${cookies.program}`,
+    //       `http://localhost:8086/viewComp/${cookies.program}`,
     //       {
     //         headers: {
     //           Authorization: "Bearer " + cookies.token,
@@ -202,7 +202,7 @@ const coursesSpecs = ({ cookies }) => {
     const selectedOptionId = selectedOption.value;
     const getData = async function () {
       const r2 = await fetch(
-        `${process.env.url}api/v1/courses/specsPdf/${selectedOptionId}`,
+        `http://localhost:8087/specsPdf/${selectedOptionId}`,
         {
           headers: {
             "Content-Type": "application/json",

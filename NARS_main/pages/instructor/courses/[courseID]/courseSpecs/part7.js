@@ -30,7 +30,7 @@ const part8 = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087urses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -113,7 +113,7 @@ const part8 = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const part8 = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -361,7 +361,7 @@ const part8 = ({ cookies }) => {
       console.error("Cookie not found");
     }
     const r = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         method: "PATCH",
         body: JSON.stringify({

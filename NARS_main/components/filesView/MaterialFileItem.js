@@ -7,7 +7,7 @@ const MaterialFileItem = ({ title, caption, id, cookies }) => {
   return (
     <div className="fileItem ">
       <Link
-        href={`${process.env.url}api/v1/courses/original-courses/getMaterials/${cookies.original_id}/${id}`}
+        href={`http://localhost:8087/original-courses/getMaterials/${cookies.original_id}/${id}`}
         target="_blank"
         download
       >

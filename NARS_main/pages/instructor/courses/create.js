@@ -24,7 +24,7 @@ const create = ({ cookies }) => {
     }
     async function getCoursesNames() {
       const d = await fetch(
-        `${process.env.url}api/v1/courses/original-courses`,
+        `http://localhost:8087/original-courses`,
         {
           method: "GET",
           headers: {
@@ -63,7 +63,7 @@ const create = ({ cookies }) => {
       };
 
       let resp = await fetch(
-        `${process.env.url}api/v1/courses/created-courses`,
+        `http://localhost:8087/created-courses`,
         {
           method: "POST",
           body: JSON.stringify(obj),

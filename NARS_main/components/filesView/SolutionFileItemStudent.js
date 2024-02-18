@@ -10,7 +10,7 @@ const solutionFileItemStudent = ({ name, id, cookies, Mark, Assignment }) => {
         getGrade();
     }, []);
     async function getGrade() {
-        const r = await fetch(`${process.env.url}api/v1/courses/assignment?_id=${Assignment}`, {
+        const r = await fetch(`http://localhost:8087/assignment?_id=${Assignment}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const solutionFileItemStudent = ({ name, id, cookies, Mark, Assignment }) => {
     return (
         <div className="fileItem ">
             <span>
-                <Link className="fileItem--left" title="Click here to dowload the file" href={`${process.env.url}api/v1/courses/assignmentSolution/${id}`}
+                <Link className="fileItem--left" title="Click here to dowload the file" href={`http://localhost:8087/assignmentSolution/${id}`}
                     target="_blank"
                     download>
                     <InsertDriveFileRounded />

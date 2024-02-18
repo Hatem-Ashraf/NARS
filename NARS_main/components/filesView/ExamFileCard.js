@@ -8,7 +8,7 @@ import InsertDriveFileRounded from '@mui/icons-material/InsertDriveFileRounded'
 
 const ExamFileCard = ({ name, id ,cookies}) => {
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
-    const pdfFile = `${process.env.url}api/v1/courses/exams/63ffebc34bef8c7adbf0b482`
+    const pdfFile = `http://localhost:8087/exams/63ffebc34bef8c7adbf0b482`
     const file = '../../media/ECE312C Control Systems (1) Course Specs 221CBL.pdf'
     //const [counter, setCounter] = React.useState(0);
     const handleView = () => {
@@ -17,7 +17,7 @@ const ExamFileCard = ({ name, id ,cookies}) => {
     const handleDelete = async () => {
         try {
             const resp = await fetch(
-                `${process.env.url}api/v1/courses/exams/${id}`,
+                `http://localhost:8087/exams/${id}`,
                 {
                     method: "DELETE",
                     headers: {

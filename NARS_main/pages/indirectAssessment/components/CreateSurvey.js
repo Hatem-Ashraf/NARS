@@ -7,7 +7,7 @@ const CreateSurvey = ({ courses, token, onSurveyAdded }) => {
 
   async function createSurvey() {
     try {
-      const resp = await fetch(`${process.env.url}api/v1/surveys/`, {
+      const resp = await fetch(`http://localhost:8082/`, {
         method: "POST",
         body: JSON.stringify({
           courseInstance: courseId.current.value,

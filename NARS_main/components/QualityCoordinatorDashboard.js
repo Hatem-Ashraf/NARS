@@ -66,7 +66,7 @@ export default function QualityCoordinatorDashboard() {
       </Link>
       <Link
         className="link2 focus:text-green-400 "
-        href={`${process.env.url}api/v1/programs/programSpcs/${userState.program}`}
+        href={`http://localhost:8086/programSpcs/${userState.program}`}
         target="_blank"
         download
       >

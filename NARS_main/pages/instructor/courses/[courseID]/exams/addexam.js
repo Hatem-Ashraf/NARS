@@ -36,7 +36,7 @@ const addexam = ({ cookies }) => {
             e.preventDefault();
         }
         try {
-            const resp = await fetch(`${process.env.url}api/v1/courses/created-courses/${cookies.instance_id}`, {
+            const resp = await fetch(`http://localhost:8087/created-courses/${cookies.instance_id}`, {
                 headers: {
                     Authorization: "Bearer " + cookies.token,
                 },
@@ -62,7 +62,7 @@ const addexam = ({ cookies }) => {
     data.append("date", date.current.value);
 
     try {
-      const r = await fetch(`${process.env.url}api/v1/courses/exams`, {
+      const r = await fetch(`http://localhost:8087/exams`, {
         method: "POST",
         body: data,
         headers: {

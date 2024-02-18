@@ -24,7 +24,7 @@ const viewexams = ({ cookies }) => {
     async function submitHandler() {
       try {
         const resp = await fetch(
-          `${process.env.url}api/v1/courses/exams?course=${cookies.original_id}`,
+          `http://localhost:8087/exams?course=${cookies.original_id}`,
           {
             headers: {
               Authorization: "Bearer " + cookies.token,

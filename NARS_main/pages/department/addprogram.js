@@ -72,7 +72,7 @@ const addprogram = ({ cookies }) => {
         });
 
         try {
-            const r = await fetch(`${process.env.url}api/v1/programs/`, {
+            const r = await fetch(`http://localhost:8086/`, {
                 method: "POST",
 
                 body: JSON.stringify({

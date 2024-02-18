@@ -18,7 +18,7 @@ const SearchStudent = ({ cookies }) => {
 
   useEffect(() => {
     async function getFacultyNames() {
-      const d = await fetch(`${process.env.url}api/v1/faculty/`, {
+      const d = await fetch(`http://localhost:8083/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

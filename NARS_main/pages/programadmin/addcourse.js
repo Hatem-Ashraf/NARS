@@ -27,7 +27,7 @@ const addcourse = ({ cookies }) => {
   async function getLevels(faculty) {
     try {
       const resp = await fetch(
-        `${process.env.url}api/v1/faculty/${faculty.current.value}`,
+        `http://localhost:8083/${faculty.current.value}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const addcourse = ({ cookies }) => {
   useEffect(() => {
     async function doThis() {
       try {
-        const resp = await fetch(`${process.env.url}api/v1/faculty/`, {
+        const resp = await fetch(`http://localhost:8083/`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + cookies.token,
@@ -71,7 +71,7 @@ const addcourse = ({ cookies }) => {
     e.preventDefault();
     try {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/original-courses`,
+        `http://localhost:8087/original-courses`,
         {
           method: "POST",
 

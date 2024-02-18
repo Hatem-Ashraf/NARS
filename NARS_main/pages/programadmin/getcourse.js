@@ -24,7 +24,7 @@ const getcourse = ({ cookies }) => {
     }
     try {
       const resp = await fetch(
-        `${process.env.url}/api/v1/courses/original-courses?program=${cookies.program}`,
+        `http://localhost:8087/original-courses?program=${cookies.program}`,
         {
           headers: {
             Authorization: "Bearer " + cookies.token,

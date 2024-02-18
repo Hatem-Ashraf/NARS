@@ -7,7 +7,7 @@ import InsertDriveFileRounded from "@mui/icons-material/InsertDriveFileRounded";
 const solutionFileItem = ({ name, id, possibleMarks, cookies, Mark }) => {
     const mark = useRef();
     async function updateGrades() {
-        const r = await fetch(`${process.env.url}api/v1/courses/assignmentSolution/${id}`, {
+        const r = await fetch(`http://localhost:8087/assignmentSolution/${id}`, {
             method: "PATCH",
 
             body: JSON.stringify({
@@ -26,7 +26,7 @@ const solutionFileItem = ({ name, id, possibleMarks, cookies, Mark }) => {
     return (
         <div className="fileItem ">
             <span>
-                <Link className="fileItem--left" title="Click here to dowload the file" href={`${process.env.url}api/v1/courses/assignmentSolution/${id}`}
+                <Link className="fileItem--left" title="Click here to dowload the file" href={`http://localhost:8087/assignmentSolution/${id}`}
                     target="_blank"
                     download>
                     <InsertDriveFileRounded />

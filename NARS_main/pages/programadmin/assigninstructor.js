@@ -24,7 +24,7 @@ const assigninstrctor = ({ cookies }) => {
   useEffect(() => {
     async function getCourse() {
       const resp = await fetch(
-        `${process.env.url}api/v1/courses/original-courses?program=${cookies.program}`,
+        `http://localhost:8087/original-courses?program=${cookies.program}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -66,7 +66,7 @@ const assigninstrctor = ({ cookies }) => {
     e.preventDefault();
     try {
       const r = await fetch(
-        `${process.env.url}/api/v1/courses/assign-course-instructor`,
+        `http://localhost:8087/assign-course-instructor`,
         {
           method: "PATCH",
 

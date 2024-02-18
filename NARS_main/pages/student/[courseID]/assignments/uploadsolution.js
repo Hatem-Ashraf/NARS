@@ -17,7 +17,7 @@ const uploadsolution = ({ cookies }) => {
     useEffect(() => {
         document.querySelector("body").classList.add("scrollbar-none");
         async function get_assignments() {
-            const resp = await fetch(`${process.env.url}api/v1/courses/assignment?course=${courseID}`, {
+            const resp = await fetch(`http://localhost:8087/assignment?course=${courseID}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + cookies.token,
@@ -61,7 +61,7 @@ const uploadsolution = ({ cookies }) => {
         data.append("student",cookies._id);
 
         try {
-            const r = await fetch(`${process.env.url}api/v1/courses/assignmentSolution`, {
+            const r = await fetch(`http://localhost:8087/assignmentSolution`, {
                 method: "POST",
                 body: data,
                 headers: {

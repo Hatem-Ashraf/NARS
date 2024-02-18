@@ -17,7 +17,7 @@ function MainHeader() {
     const fetchImage = async () => {
       try {
         const res = await fetch(
-          `${process.env.url}api/v1/users/staff/getPhoto/${userState._id}`,
+          `http://localhost:8081/staff/getPhoto/${userState._id}`,
           {
             method: "GET",
 

@@ -29,7 +29,7 @@ const viewmaterials = ({ cookies }) => {
       }
       try {
         const resp = await fetch(
-          `${process.env.url}api/v1/courses/original-courses/getAllMaterials/${cookies.original_id}`,
+          `http://localhost:8087/original-courses/getAllMaterials/${cookies.original_id}`,
           {
             headers: {
               Authorization: "Bearer " + cookies.token,

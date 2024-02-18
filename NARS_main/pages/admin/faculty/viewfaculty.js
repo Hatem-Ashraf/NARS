@@ -25,7 +25,7 @@ const viewfaculty = ({ cookies }) => {
       e.preventDefault();
     }
     try {
-      const resp = await fetch(`${process.env.url}api/v1/faculty/`, {
+      const resp = await fetch(`http://localhost:8083/`, {
         headers: {
           Authorization: "Bearer " + userState.token,
         },

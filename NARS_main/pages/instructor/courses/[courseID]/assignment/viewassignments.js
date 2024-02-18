@@ -30,7 +30,7 @@ const viewassignments = ({ cookies }) => {
     }
     try {
       const resp = await fetch(
-        `${process.env.url}api/v1/courses/assignment?course=${courseID}`,
+        `http://localhost:8087/assignment?course=${courseID}`,
         {
           headers: {
             Authorization: "Bearer " + cookies.token,

@@ -173,7 +173,7 @@ const part1 = ({ cookies }) => {
       courseLearningOutcomes = cookies.courseSpecs.courseLearningOutcomes;
     }
     const r = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         method: "PATCH",
         body: JSON.stringify({
@@ -248,7 +248,7 @@ const part1 = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -328,7 +328,7 @@ const part1 = ({ cookies }) => {
     };
     const getNameCode = async function () {
       const getNameCodeReq = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/?_id=${courseID}`,
+        `http://localhost:8087/created-courses/?_id=${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -358,7 +358,7 @@ const part1 = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r2 = await fetch(
-        `${process.env.url}api/v1/courses/specsPdf/${courseID}`,
+        `http://localhost:8087/specsPdf/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -376,7 +376,7 @@ const part1 = ({ cookies }) => {
       }
 
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -688,7 +688,7 @@ const part1 = ({ cookies }) => {
       await buttonRef33.current.click();
 
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           method: "PATCH",
           body: JSON.stringify({

@@ -43,7 +43,7 @@ export default function InstructorDashboard({ cookies }) {
       console.log(userState.token);
       console.log(userState._id);
       const data = await fetch(
-        `${process.env.url}api/v1/courses/created-courses?instructor=${userState._id}`,
+        `http://localhost:8087/created-courses?instructor=${userState._id}`,
         {
           method: "GET",
           headers: {

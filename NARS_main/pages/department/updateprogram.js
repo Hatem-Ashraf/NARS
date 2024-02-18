@@ -17,7 +17,7 @@ const updateprogram = ({ cookies }) => {
     });
     useEffect(() => {
         async function doThis() {
-            const resp = await fetch(`${process.env.url}api/v1/programs/?department=${userState.department}`, {
+            const resp = await fetch(`http://localhost:8086/?department=${userState.department}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + userState.token,
@@ -44,7 +44,7 @@ const updateprogram = ({ cookies }) => {
         e.preventDefault();
         try {
             const r = await fetch(
-                `${process.env.url}api/v1/programs/${program.current.value}`,
+                `http://localhost:8086/${program.current.value}`,
                 {
                     method: "PATCH",
                     body: JSON.stringify({

@@ -9,7 +9,7 @@ import Router, { useRouter } from 'next/router';
 
 const MaterialFileCard = ({ name, id, cookies }) => {
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
-    const pdfFile = `${process.env.url}api/v1/courses/exams/63ffebc34bef8c7adbf0b482`
+    const pdfFile = `http://localhost:8087/exams/63ffebc34bef8c7adbf0b482`
     const file = '../../media/ECE312C Control Systems (1) Course Specs 221CBL.pdf'
     const router = useRouter();
     const handleView = () => {
@@ -18,7 +18,7 @@ const MaterialFileCard = ({ name, id, cookies }) => {
     const handleDelete = async () => {
         try {
             const resp = await fetch(
-                `${process.env.url}api/v1/courses/original-courses/deleteMaterials/${cookies.original_id}/${id}`,
+                `http://localhost:8087/original-courses/deleteMaterials/${cookies.original_id}/${id}`,
                 {
                     method: "GET",
                     headers: {

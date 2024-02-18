@@ -8,7 +8,7 @@ const HeaderSpecs =  ({ data, token }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.url}api/v1/faculty/${data.course.faculty}`, {
+        const response = await fetch(`http://localhost:8083/${data.course.faculty}`, {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',

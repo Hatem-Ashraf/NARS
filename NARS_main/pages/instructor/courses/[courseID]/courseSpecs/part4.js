@@ -137,7 +137,7 @@ const part4 = ({ cookies }) => {
   useEffect(() => {
     const getData = async () => {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087urses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -192,7 +192,7 @@ const part4 = ({ cookies }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -666,7 +666,7 @@ const part4 = ({ cookies }) => {
   const assessmentContent = assessmentHandler.content;
   const getComp = async () => {
     const resp = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -788,7 +788,7 @@ const part4 = ({ cookies }) => {
     setTableData3([...checkboxRefs3.current]);
 
     const r2 = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -918,7 +918,7 @@ const part4 = ({ cookies }) => {
       console.log(lecturePlan);
       console.log(lecturePlan);
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           method: "PATCH",
           body: JSON.stringify({
@@ -951,7 +951,7 @@ const part4 = ({ cookies }) => {
       const newCLOS2 = await teachingMethodsHandler.handleSubmit(newCLOS);
 
       const r2 = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           method: "PATCH",
           body: JSON.stringify({

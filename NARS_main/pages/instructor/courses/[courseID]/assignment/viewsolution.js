@@ -31,7 +31,7 @@ const viwesolution = ({ cookies }) => {
         }
         try {
             const resp = await fetch(
-                `${process.env.url}api/v1/courses/assignmentSolution?Assignment=${assignmentID}`,
+                `http://localhost:8087/assignmentSolution?Assignment=${assignmentID}`,
                 {
                     headers: {
                         Authorization: "Bearer " + cookies.token,

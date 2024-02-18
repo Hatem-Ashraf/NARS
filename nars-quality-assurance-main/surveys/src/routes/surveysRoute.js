@@ -18,11 +18,11 @@ router
   .route("/student-submissions")
   .get(protect, surveyController.getStudentSubmissions);
 
-router
+  router
   .route("/:id")
   .get(protect, surveyController.getSurveyById)
   .delete(protect, surveyController.deleteSurvey);
-
+  
 router
   .route("/submissions/:id")
   .get(protect, surveyController.getSubmission)

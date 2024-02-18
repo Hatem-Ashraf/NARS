@@ -29,7 +29,7 @@ const grades = ({ cookies }) => {
         }
         try {
             const resp = await fetch(
-                `${process.env.url}api/v1/courses/assignmentSolution?student=${cookies._id}`,
+                `http://localhost:8087/assignmentSolution?student=${cookies._id}`,
                 {
                     headers: {
                         Authorization: "Bearer " + cookies.token,

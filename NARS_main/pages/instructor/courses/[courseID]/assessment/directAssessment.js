@@ -30,7 +30,7 @@ function directAssessment({ cookies }) {
   const getCourse = async () => {
     try {
       const resp = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             Authorization: "Bearer " + userState.token,
@@ -78,7 +78,7 @@ function directAssessment({ cookies }) {
       console.log("DATA IS " + JSON.stringify(allQuestions));
       try {
         const resp = await fetch(
-          `${process.env.url}api/v1/courses/created-courses/directAssesments/${courseID}`,
+          `http://localhost:8087/created-courses/directAssesments/${courseID}`,
           {
             method: "POST",
             headers: {

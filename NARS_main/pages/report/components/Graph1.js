@@ -19,7 +19,7 @@ const CoursesCompetences = ({ cookies }) => {
       }
       try {
         const resp2 = await fetch(
-          `${process.env.url}api/v1/programs/getProgramSummary/${cookies.program}`,
+          `http://localhost:8086/getProgramSummary/${cookies.program}`,
           {
             headers: {
               Authorization: "Bearer " + cookies.token,
@@ -59,7 +59,7 @@ const CoursesCompetences = ({ cookies }) => {
         setCoursesAvg(coursesTemp);
 
         const resp3 = await fetch(
-          `${process.env.url}api/v1/programs/${cookies.program}/percentageSpecsAndReports`,
+          `http://localhost:8086/${cookies.program}/percentageSpecsAndReports`,
           {
             headers: {
               Authorization: "Bearer " + cookies.token,

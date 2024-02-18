@@ -54,7 +54,7 @@ const ListOfReferences = ({ cookies, courseID, hasClass }) => {
   useEffect(() => {
     const getData = async function () {
       const r = await fetch(
-        `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+        `http://localhost:8087/created-courses/${courseID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +130,7 @@ const ListOfReferences = ({ cookies, courseID, hasClass }) => {
       e.preventDefault();
     }
     const r = await fetch(
-      `${process.env.url}api/v1/courses/created-courses/${courseID}`,
+      `http://localhost:8087/created-courses/${courseID}`,
       {
         method: "PATCH",
         body: JSON.stringify({

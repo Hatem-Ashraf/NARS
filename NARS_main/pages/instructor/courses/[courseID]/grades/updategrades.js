@@ -43,7 +43,7 @@ const updategrades = ({ cookies }) => {
         e.preventDefault();
         try {
             const r = await fetch(
-                `${process.env.url}api/v1/courses/${cookies.instance_id}/marks/${student.current.value}`,
+                `http://localhost:8087/${cookies.instance_id}/marks/${student.current.value}`,
                 {
                     method: "PATCH",
 
