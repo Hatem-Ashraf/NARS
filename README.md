@@ -27,3 +27,7 @@ role:faculty admin
 eco.maged@fcom.bu.edu.eg
 pass:123456789
 role:quality coordinato
+
+ibrahim.maged@bhit.bu.edu.eg
+pass:12356789
+role:Department admin
