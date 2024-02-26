@@ -68,7 +68,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8080
-      - MONGO_URL=mongodb://user_db:27017/users
+      - MONGO_URL=mongodb+srv://Nars-db:QxUzjVISTJaXI4lG@cluster0.k3j68hz.mongodb.net/Test
       - EMAIL=nars_qa@outlook.com
       - EMAIL_PASSWORD=NARSsystem
       - EXPIRES_IN=90d
@@ -114,7 +114,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8080
-      - MONGO_URL=mongodb://program_db:27017/programs
+      - MONGO_URL=mongodb+srv://Nars-db:QxUzjVISTJaXI4lG@cluster0.k3j68hz.mongodb.net/Test
       - EMAIL=nars-qa@outlook.com
       - EMAIL_PASSWORD=NARSsystem
       - EXPIRES_IN=90d
@@ -143,7 +143,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8080
-      - MONGO_URL=mongodb://faculty_db:27017/faculty
+      - MONGO_URL=mongodb+srv://Nars-db:QxUzjVISTJaXI4lG@cluster0.k3j68hz.mongodb.net/Test
       - EMAIL=nars-qa@outlook.com
       - EMAIL_PASSWORD=NARSsystem
       - EXPIRES_IN=90d
@@ -174,7 +174,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8080
-      - MONGO_URL=mongodb://department_db:27017/department
+      - MONGO_URL=mongodb+srv://Nars-db:QxUzjVISTJaXI4lG@cluster0.k3j68hz.mongodb.net/Test
       - EMAIL=nars-qa@outlook.com
       - EMAIL_PASSWORD=NARSsystem
       - EXPIRES_IN=90d
@@ -195,7 +195,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8080
-      - MONGO_URL=mongodb://survey_db:27017/surveys
+      - MONGO_URL=mongodb+srv://Nars-db:QxUzjVISTJaXI4lG@cluster0.k3j68hz.mongodb.net/Test
       - EMAIL=nars-qa@outlook.com
       - EMAIL_PASSWORD=NARSsystem
       - EXPIRES_IN=90d
@@ -222,7 +222,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8080
-      - MONGO_URL=mongodb://courses_db:27017/courses
+      - MONGO_URL=mongodb+srv://Nars-db:QxUzjVISTJaXI4lG@cluster0.k3j68hz.mongodb.net/Test
       - EMAIL=nars-qa@outlook.com
       - EMAIL_PASSWORD=NARSsystem
       - EXPIRES_IN=90d
