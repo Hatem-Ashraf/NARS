@@ -15,7 +15,7 @@ const Students = ({ cookies }) => {
   const [filteredStudents, setFilteredStudents] = useState([]);
   
   useEffect(() => {
-    document.querySelector("body").classList.add("scrollbar-none");
+    // document.querySelector("body").classList.add("scrollbar-none");
     submitHandler();
   }, []);
 

@@ -13,7 +13,7 @@ const addprogram = ({ cookies }) => {
         setMsg("");
     };
     useEffect(() => {
-        document.querySelector("body").classList.add("scrollbar-none");
+        // document.querySelector("body").classList.add("scrollbar-none");
     });
     const [inputs, setInputs] = useState([]);
     const [inputs2, setInputs2] = useState([]);
@@ -177,12 +177,12 @@ const addprogram = ({ cookies }) => {
 
     return (
         <>
-            <div className="flex flex-row w-screen h-screen mt-2 scrollbar-none">
+            <div className="flex flex-row w-screen h-screen mt-2">
                 <form
                     onSubmit={submitHandler}
                     className="bg-sky-50 h-screen w-[80%]  translate-x-[25%]  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
                 >
-                    <div className="contentAddUser2 flex flex-col gap-10 overflow-auto scrollbar-none">
+                    <div className="contentAddUser2 flex flex-col gap-10 overflow-auto ">
                         <p className="font-normal">Department {">"} Add Program</p>
                         <div className="flex gap-20 ">
                             <div className="flex flex-col gap-5 w-1/3">

@@ -13,7 +13,7 @@ const addfaculty = ({ cookies }) => {
     setMsg("");
   };
   useEffect(() => {
-    document.querySelector("body").classList.add("scrollbar-none");
+    // document.querySelector("body").classList.add("scrollbar-none");
   });
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
@@ -239,13 +239,13 @@ const addfaculty = ({ cookies }) => {
 
   return (
     <>
-      <div className="flex flex-row w-screen h-screen mt-2 scrollbar-none">
+      <div className="flex flex-row w-screen h-screen mt-2">
         <form
         style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}
           onSubmit={submitHandler}
           className="bg-sky-50 h-screen w-[80%]  translate-x-[25%]  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
-          <div className="contentAddUser2 flex flex-col gap-10 overflow-auto scrollbar-none">
+          <div className="contentAddUser2 flex flex-col gap-10 overflow-auto ">
             <p className="font-normal">Faculty {">"} Update Faculty</p>
             <div className="flex gap-20 ">
               <div className="flex flex-col gap-5 w-1/3">

@@ -11,7 +11,7 @@ const deleteprogram = ({ cookies }) => {
         return <div className="error">404 could not found</div>;
     }
     useEffect(() => {
-        document.querySelector("body").classList.add("scrollbar-none");
+        // document.querySelector("body").classList.add("scrollbar-none");
     });
     const [msg, setMsg] = useState("");
     const closeMsg = () => {

@@ -7,7 +7,7 @@ import Modal from "@/components/Modal";
 
 const Profile = ({ cookies }) => {
     useEffect(() => {
-        document.querySelector("body").classList.add("scrollbar-none");
+        // document.querySelector("body").classList.add("scrollbar-none");
     });
     const globalState = useSelector((s) => s.user);
     if (globalState.loggedInStatus != "true") {

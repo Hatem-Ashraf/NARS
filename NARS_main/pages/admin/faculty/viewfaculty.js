@@ -12,7 +12,7 @@ const viewfaculty = ({ cookies }) => {
   }
 
   useEffect(() => {
-    document.querySelector("body").classList.add("scrollbar-none");
+    // document.querySelector("body").classList.add("scrollbar-none");
   });
   console.log(cookies.token);
   const router = useRouter();

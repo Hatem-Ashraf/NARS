@@ -7,7 +7,7 @@ import Modal from "@/components/Modal";
 
 const Profile = ({ cookies }) => {
     useEffect(() => {
-        document.querySelector("body").classList.add("scrollbar-none");
+        // document.querySelector("body").classList.add("scrollbar-none");
     });
     const globalState = useSelector((s) => s.user);
     if (globalState.loggedInStatus != "true") {
@@ -178,7 +178,7 @@ const Profile = ({ cookies }) => {
     <form
                 className="bg-sky-50 h-screen w-[100%]    flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
             >
-    <div className="p-8 mt-16 ml-10 shadow-2xl rounded-3xl bg-blue-100 w-[50%] hover:bg-blue-300 ">
+    <div className="ml-[20%] p-8 mt-16 ml-10 shadow-2xl rounded-3xl bg-blue-100 w-[50%] hover:bg-blue-300 ">
                     <div className="grid md:grid-cols-3 grid-cols-1">
                         {/* Profile Picture */}
                         <div className="relative col-span-1">

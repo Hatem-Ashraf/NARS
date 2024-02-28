@@ -10,7 +10,7 @@ const updatefaculty = ({ cookies }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [facultyArr, setFaculty] = useState([]);
   useEffect(() => {
-    document.querySelector("body").classList.add("scrollbar-none");
+    // document.querySelector("body").classList.add("scrollbar-none");
   });
   useEffect(() => {
     async function doThis() {
