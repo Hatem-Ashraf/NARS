@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Creategrade = ({ cookies }) => {
   const [numCourses, setNumCourses] = useState(1);
@@ -30,73 +30,149 @@ const Creategrade = ({ cookies }) => {
 
   const renderCourseTable = () => {
     return (
-      <table className="w-full border-collapse border border-blue-800">
-        <thead>
-          <tr className="bg-blue-200">
-            <th className="border border-blue-800 py-2">Student</th>
-            <th className="border border-blue-800 py-2">Final Exam</th>
-            <th className="border border-blue-800 py-2">Midterm Exam</th>
-            <th className="border border-blue-800 py-2">Final Project</th>
-            {[...Array(numQuizzes)].map((_, index) => (
-              <th key={index} className="border border-blue-800 py-2">Quiz {index + 1}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student, studentIndex) => (
-            <tr key={studentIndex} className={studentIndex % 2 === 0 ? "bg-blue-100" : "bg-blue-50"}>
-              <td className="border border-blue-800 px-4 py-2">
-                <input
-                  type="text"
-                  value={student.name}
-                  onChange={(e) => handleStudentChange(e, studentIndex)}
-                  className="w-full outline-none"
-                />
-              </td>
-              <td className="border border-blue-800 px-4 py-2">
-                <input
-                  type="text"
-                  value={grades[studentIndex][0] || ""}
-                  onChange={(e) => handleGradeChange(e, studentIndex, 0)}
-                  className="w-full outline-none"
-                />
-              </td>
-              <td className="border border-blue-800 px-4 py-2">
-                <input
-                  type="text"
-                  value={grades[studentIndex][1] || ""}
-                  onChange={(e) => handleGradeChange(e, studentIndex, 1)}
-                  className="w-full outline-none"
-                />
-              </td>
-              <td className="border border-blue-800 px-4 py-2">
-                <input
-                  type="text"
-                  value={grades[studentIndex][2] || ""}
-                  onChange={(e) => handleGradeChange(e, studentIndex, 2)}
-                  className="w-full outline-none"
-                />
-              </td>
-              {[...Array(numQuizzes)].map((_, quizIndex) => (
-                <td key={quizIndex} className="border border-blue-800 px-4 py-2">
+      <div className="mx-auto" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <style>{`
+          body {
+            background-color: #012a4a;
+            font-family: Arial, sans-serif;
+          }
+          th, td {
+            text-align: center;
+          }
+          input[type="text"] {
+            color: white;
+            background-color: transparent;
+            border: none;
+            text-align: center;
+            width: 100%;
+            outline: none;
+          }
+          .table-container {
+            max-width: 1200px; /* Adjust as needed */
+          }
+        `}</style>
+        <div className="table-container">
+          <table className="w-full border-collapse border border-blue-800">
+            <thead>
+              <tr className="bg-blue-200">
+                <th className="border border-blue-800 py-2">
                   <input
                     type="text"
-                    value={grades[studentIndex][quizIndex + 3] || ""}
-                    onChange={(e) => handleGradeChange(e, studentIndex, quizIndex + 3)}
-                    className="w-full outline-none mb-4"
+                    placeholder="Student"
+                    onChange={(e) => handleStudentChange(e, 0)}
                   />
-                </td>
+                </th>
+                {[...Array(numCourses)].map((_, index) => (
+                  <th key={index} className="border border-blue-800 py-2">
+                    <input
+                      type="text"
+                      placeholder={`Course ${index + 1}`}
+                      onChange={(e) => handleGradeChange(e, 0, index)}
+                    />
+                  </th>
+                ))}
+                <th className="border border-blue-800 py-2">
+                  <input
+                    type="text"
+                    placeholder="Final Exam"
+                    onChange={(e) => handleGradeChange(e, 0, numCourses)}
+                  />
+                </th>
+                <th className="border border-blue-800 py-2">
+                  <input
+                    type="text"
+                    placeholder="Midterm Exam"
+                    onChange={(e) => handleGradeChange(e, 0, numCourses + 1)}
+                  />
+                </th>
+                <th className="border border-blue-800 py-2">
+                  <input
+                    type="text"
+                    placeholder="Final Project"
+                    onChange={(e) => handleGradeChange(e, 0, numCourses + 2)}
+                  />
+                </th>
+                {[...Array(numQuizzes)].map((_, index) => (
+                  <th key={index} className="border border-blue-800 py-2">
+                    <input
+                      type="text"
+                      placeholder={`Quiz ${index + 1}`}
+                      onChange={(e) => handleGradeChange(e, 0, numCourses + 3 + index)}
+                    />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student, studentIndex) => (
+                <tr key={studentIndex} className={studentIndex % 2 === 0 ? "bg-blue-100" : "bg-blue-50"}>
+                  <td className="border border-blue-800 px-4 py-2">
+                    <input
+                      type="text"
+                      value={student.name}
+                      onChange={(e) => handleStudentChange(e, studentIndex)}
+                    />
+                  </td>
+                  {[...Array(numCourses)].map((_, courseIndex) => (
+                    <td key={courseIndex} className="border border-blue-800 px-4 py-2">
+                      {/* Input fields for course grades */}
+                    </td>
+                  ))}
+                  <td className="border border-blue-800 px-4 py-2">
+                    <input
+                      type="text"
+                      value={grades[studentIndex][0] || ""}
+                      onChange={(e) => handleGradeChange(e, studentIndex, 0)}
+                    />
+                  </td>
+                  <td className="border border-blue-800 px-4 py-2">
+                    <input
+                      type="text"
+                      value={grades[studentIndex][1] || ""}
+                      onChange={(e) => handleGradeChange(e, studentIndex, 1)}
+                    />
+                  </td>
+                  <td className="border border-blue-800 px-4 py-2">
+                    <input
+                      type="text"
+                      value={grades[studentIndex][2] || ""}
+                      onChange={(e) => handleGradeChange(e, studentIndex, 2)}
+                    />
+                  </td>
+                  {[...Array(numQuizzes)].map((_, quizIndex) => (
+                    <td key={quizIndex} className="border border-blue-800 px-4 py-2">
+                      <input
+                        type="text"
+                        value={grades[studentIndex][numCourses + 3 + quizIndex] || ""}
+                        onChange={(e) => handleGradeChange(e, studentIndex, numCourses + 3 + quizIndex)}
+                      />
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex justify-end mt-4">
+          <button
+            type="button"
+            onClick={addStudent}
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300"
+          >
+            Add Student
+          </button>
+        </div>
+      </div>
     );
   };
 
   const addStudent = () => {
     setStudents((prevStudents) => [...prevStudents, { name: "" }]);
-    setGrades((prevGrades) => [...prevGrades, Array.from({ length: numCourses + numQuizzes + 3 }, () => "")]);
+    setGrades((prevGrades) => [
+      ...prevGrades,
+      Array.from({ length: numCourses + numQuizzes + 3 }, () => ""),
+    ]);
   };
 
   const submitGrades = () => {
@@ -104,23 +180,18 @@ const Creategrade = ({ cookies }) => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen"
-    style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}
->
-      <div className="ml-[20%] bg-blue-100 p-12 max-w-3xl w-full shadow-2xl rounded-3xl mt-10">
+    <div className="flex justify-center min-h-screen text-white">
+      <div className="bg-form p-12 max-w-3xl w-full shadow-2xl rounded-3xl mt-10 text-form">
         <h2 className="font-bold text-blue-900 mb-4 text-3xl">Enter Student Grades</h2>
         <div className="flex flex-col gap-4">
-          
-           
-
-          <label htmlFor="numQuizzes" className="text-blue-700 font-bold mb-3">
+          <label htmlFor="numQuizzes" className="text-form font-bold mb-3">
             Number of Quizzes:
           </label>
           <select
             id="numQuizzes"
             value={numQuizzes}
             onChange={handleNumQuizzesChange}
-            className="input-field mb-4"
+            className="input-field mb-4 bg-blue-400"
             required
           >
             {[...Array(6)].map((_, index) => (
@@ -134,13 +205,6 @@ const Creategrade = ({ cookies }) => {
         {renderCourseTable()}
 
         <div className="flex justify-end mt-4">
-          <button
-            type="button"
-            onClick={addStudent}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300"
-          >
-            Add Student
-          </button>
           <button
             type="button"
             onClick={submitGrades}

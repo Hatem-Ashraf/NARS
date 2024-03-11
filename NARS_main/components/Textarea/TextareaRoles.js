@@ -22,9 +22,9 @@ const Textarea = forwardRef((props, ref) => {
   }, [ref.current, ref, value, ref.current?.value]);
   console.log(props.invalid);
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <textarea
-        className={` bg-[#ffffff] text-black px-4 rounded-full  block w-full  p-2 leading-6 resize-none border-gray-300   shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 overflow-hidden `}
+        className={` bg-[#ffffff] text-black px-4  block w-full  p-2 leading-6 resize-none border-gray-300   shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 overflow-hidden `}
         value={value}
         rows={1}
         placeholder={placeholder}

@@ -64,11 +64,10 @@ const viewAll = ({ cookies }) => {
 
   return (
     <>
-      <div className="flex flex-row w-screen h-screen">
+      <div className="flex flex-row h-screen mt-5 mb-5">
         <form
-        style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}
           onSubmit={submitHandler}
-          className="bg-sky-50 h-screen w-[80%]  translate-x-[25%]  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className="h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
           >
           <div className="contentAddUser2 overflow-auto flex flex-col gap-10">
             <div className="flex items-center justify-between">

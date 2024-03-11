@@ -50,12 +50,19 @@ const CreateCourse = ({ cookies }) => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen" style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}>
-      <div className="ml-[20%] bg-blue-100 p-12 max-w-3xl w-full shadow-2xl rounded-3xl mt-10">
-        <h2 className="font-bold text-blue-900 mb-4 text-3xl">Create a Course</h2>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <style>{`
+        body {
+          background-color: rgb(243 244 246);
+          font-family: Arial, sans-serif;
+        }
+      `}</style>
+      <div className="mt-5  flex justify-center min-h-screen">
+      <div className=" p-20 max-w-3xl bg-gray-100 w-full shadow-2xl rounded-3xl">
+        <h2 className="font-bold text-form mb-4 text-3xl text-center">Create a Course</h2>
         <form onSubmit={submitHandler}>
-          <div className="flex flex-col gap-4">
-          <label htmlFor="title" className="text-blue-700 font-bold w-1/3">Course Title:</label>
+          <div className="flex flex-col gap-4 ">
+          <label htmlFor="title" className="text-form font-bold w-1/3">Course Title:</label>
               <select
                 id="title"
                 name="title"
@@ -69,7 +76,7 @@ const CreateCourse = ({ cookies }) => {
               </select>
             
 
-            <label htmlFor="code" className="text-blue-700 font-bold">
+            <label htmlFor="code" className="text-form font-bold">
               Course Code:
             </label>
             <input
@@ -82,7 +89,7 @@ const CreateCourse = ({ cookies }) => {
               required
             />
 
-            <label htmlFor="hours" className="text-blue-700 font-bold">
+            <label htmlFor="hours" className="text-form font-bold">
               Hours:
             </label>
             <input
@@ -95,7 +102,7 @@ const CreateCourse = ({ cookies }) => {
               required
             />
 
-            <label htmlFor="information" className="text-blue-700 font-bold">
+            <label htmlFor="information" className="text-form font-bold">
               Specific Course Information:
             </label>
             <textarea
@@ -108,7 +115,7 @@ const CreateCourse = ({ cookies }) => {
               required
             ></textarea>
 
-            <label htmlFor="goals" className="text-blue-700 font-bold">
+            <label htmlFor="goals" className="text-form font-bold">
               Specific Goals of the Course:
             </label>
             <textarea
@@ -132,6 +139,8 @@ const CreateCourse = ({ cookies }) => {
         </form>
       </div>
     </div>
+    </div>
+   
   );
 };
 

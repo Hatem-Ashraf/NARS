@@ -85,29 +85,66 @@ const AddStudent = () => {
   };
 
   return (
-    <div className="ml-[20%] flex justify-center items-center h-screen w-75 " style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}>
-      <form onSubmit={handleSubmit} className="bg-gray-100 p-12 rounded-lg shadow-lg">
+    <div className=" flex flex-row h-screen">
+      <form onSubmit={handleSubmit} className="h-screen w-screen flex flex-col justify-center items-center text-black">
+        <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
         <h2 className="text-2xl font-semibold mb-4">Add Department</h2>
         <div className="grid grid-cols-1 gap-4">
-          <div>
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input-field"
-            />
+          <div className="flex justify-between">
+            <div className="w-2/5">
+              <div>Name</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
+            <div className="w-2/5">
+              <div>Department Code </div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="name">Department Code</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input-field"
-            />
+          <div className="flex justify-between">
+            <div className="w-2/5">
+              <div>Head of Department (Email)</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
+            <div className="w-2/5">
+              <div>Vission</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div className="w-2/5">
+              <div>Mission</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
           </div>
           {/* <div>
             <label htmlFor="code">D Code</label>
@@ -120,20 +157,10 @@ const AddStudent = () => {
             />
           </div> */}
           <div>
-            <label htmlFor="email">Head of department (Email)</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
           <label htmlFor="desciption">Description</label>
           <textarea class="w-full input-form bg-white"
           id="desciption"
-           rows="4" placeholder="Type here  about the faculty"></textarea>
+           rows="4" placeholder="Departmen descriptiont"></textarea>
           </div>
         </div>
         <div className="flex justify-end mt-6">
@@ -142,7 +169,7 @@ const AddStudent = () => {
             <button
               type="button"
               onClick={downloadTemplateHandler}
-              className="btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+              className="btn bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg"
             >
               Download Template
             </button>
@@ -160,6 +187,7 @@ const AddStudent = () => {
               Submit
             </button>
           </div>
+        </div>
         </div>
       </form>
     </div>

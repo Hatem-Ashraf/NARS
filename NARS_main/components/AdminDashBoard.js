@@ -4,7 +4,7 @@ import { header } from "./header";
 import { userActions } from "./store/userSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { CgProfile } from "react-icons/cg";
+import { CgProfile, CgScreen  } from "react-icons/cg";
 import { CgLogOut } from "react-icons/cg";
 import { GiTeacher } from "react-icons/gi";
 import { FaUniversity } from "react-icons/fa";
@@ -25,16 +25,26 @@ export default function AdminDashBoard() {
   };
   return (
     <nav
-      className={`nav2 transition-all ${modalOpen ? `z-30  ` : ``} duration-300 transform ${navStatus ? ` -translate-x-full` : `translate-x-0 `
-        }`}
+      className="nav2"
     >
       <Link className="link2 focus:text-green-400 " href="/profile">
+        <div className="text-center text-4xl text-indigo-900">
+          NARQA
+        </div>
+      </Link>
+      <Link className="link2focus:text-green-400 " href="/profile">
         <span>
           <CgProfile
             style={{ fontSize: 30, display: "inline", marginBottom: 5 }}
           />
         </span>
         <span className="ml-2">Profile</span>
+      </Link>
+      <Link className="link2 focus:text-green-400 " href="/HomeDash">
+        <span>
+          <i class="fa-solid fa-chart-simple text-3xl"></i>
+        </span>
+        <span className="ml-2">Dash Board</span>
       </Link>
       {header(
         <span>

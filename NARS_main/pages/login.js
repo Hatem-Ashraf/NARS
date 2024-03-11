@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import MainHeader from "@/components/shared/MainHeader";
 import LoginModal from "@/components/LoginModal";
+import { translate } from "pdf-lib";
 
 export default function Login({ cookies }) {
   const s = useSelector((s) => s.user);
@@ -74,48 +75,86 @@ export default function Login({ cookies }) {
     router.push("/profile");
   };
   return (
-    <>
-      <div className="flex flex-col justify-center items-center gap-10 w-[100%] mt-10 text-blue-900 font-bold">
-  <div class="text2 text-2xl font-bold">Login</div>
+    <div className="mt-5" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <style>{`
+        body {
+          background-color: #012a4a;
+          font-family: Arial, sans-serif;
+        }
+      `}</style>
+      {/* <MainHeader /> */}
+      <div style={{ display: "flex", justifyContent: "between", }} >
+       
+      <div style={{ 
+  background: "#023e7d",
+  borderRadius: "20px",
+  borderTopRightRadius: "120px",
+  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+  width: "600px",
+  margin: "auto", // Center horizontally
+  marginTop: "80px", // Add margin from the top
+  padding: "30px",
+  height: "320px",
+  position:"relative",
+  transform:"translate(8%,50%)",
+  
+}}>
+  <div className="flex justify-center items-center h-full ">
+    <p className=" font-bold text-white text-center p-4 text-2xl">
+      Welcome to NARQA, a competency-based quality assurance system tailored for higher education programs, especially in computer systems engineering.
+    </p>
+  </div>
+</div>
+
+<div className="flex  justify-center h-screen mb-8">
+  <div style={{ 
+    backgroundColor: "#ffffff",
+    borderRadius: "20px",
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+    width: "700px",
+    marginRight: "20px",
+  }}>
+    <div className="flex flex-col justify-center items-center gap-8 w-full mt-10 text-blue-900 font-bold">
+  <div className=" text-3xl font-bold"> Welcome to Login Page  </div>
   <form
     onSubmit={submitHandler}
-    className="border-2 border-gray-200 shadow-lg rounded-xl px-10 py-8 w-[600px] max-w-full"
+    className=" px-5 py-10 w-[600px] max-w-full"
   >
-    <label for="email" className="text-lg font-semibold   text-blue-800 ">
-     Email
-    </label>
-    <div class="mt-2">
+    <div className="mb-4">
+      <label htmlFor="email" className="block text-lg font-semibold text-gray-800 mb-2">
+        Email
+      </label>
       <input
         type="email"
         id="email"
         name="email"
-        className="input-field"
+        className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
         placeholder="Enter your email"
         required
         ref={email}
       />
     </div>
-    <label for="password" className="text-lg font-semibold mt-4  text-blue-800 ">
-      Password
-    </label>
-    <div class="mt-2">
+    <div className="mb-6">
+      <label htmlFor="password" className="block text-lg font-semibold text-gray-800 mb-2">
+        Password
+      </label>
       <input
         type="password"
         id="password"
         name="password"
-        className="input-field"
+        className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
         placeholder="Enter your password"
         required
         ref={password}
       />
     </div>
-   <div className="flex items-center justify-center">
-   <button type="submit" class="w-[50%] py-3 mt-6    bg-blue-500 hover:bg-blue-600 rounded-xl shadow-xl transition duration-300  font-bold text-blue-900 ">
-      Login
-    </button>
-   </div>
-    <div className="mt-4 text-sm text-center">
-      <p>
+    <div className="flex items-center justify-center">
+      <button type="submit" className="w-[50%] py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Login
+      </button>
+    </div>
+    <div className="mt-8 text-center">
+      <p className="text-sm">
         Don't have an account?{" "}
         <Link href="/register" className="text-blue-500 hover:underline">
           Register now
@@ -125,16 +164,32 @@ export default function Login({ cookies }) {
     {invalidData && (
       <span className="text-red-500 block mt-4">Wrong email or password</span>
     )}
-  </form>
-  <p className="text-sm mt-4">
+     <p className="text-sm text-center mt-8">
     Forgot your password?{" "}
     <Link href="/forget_password" className="text-blue-500 hover:underline">
       Reset now
     </Link>
   </p>
+  <h1 className="text-blue-600 text-center mt-10 text-2xl">OR login with social media</h1>
+  <div className="flex justify-center items-center mt-12 space-x-4">
+  {/* Replace "fa-facebook" and "fa-twitter" with actual icon classes */}
+  <a href="#" className="text-blue hover:text-blue-500 text-3xl mr-5"><i className="fab fa-facebook fa-lg"></i></a>
+  <a href="#" className="text-blue text-3xl hover:text-blue-500"><i className="fab fa-twitter fa-lg"></i></a>
+  <a href="#" className="text-blue text-3xl hover:text-blue-500"><i className="fab fa-google fa-lg"></i></a>
+
+  {/* Add more social media icons as needed */}
+</div>
+  </form>
+  
+ 
+ 
+ 
 </div>
 
+  </div>
+</div>
 
+      </div>
       <LoginModal isVisible={showModal} onClose={() => setShowModal(false)}>
         <div className="py-6 px-6 lg:px-8 text-left">
           <h3 className="mb-4 text-xl font-medium text-gray-900">
@@ -148,8 +203,8 @@ export default function Login({ cookies }) {
               rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
             >
               <option selected>Choose a role</option>
-              {rolesArr.map((e) => {
-                return <option value={e}>{e}</option>;
+              {rolesArr.map((e, index) => {
+                return <option key={index} value={e}>{e}</option>;
               })}{" "}
             </select>
             <button
@@ -163,7 +218,7 @@ export default function Login({ cookies }) {
           </form>
         </div>
       </LoginModal>
-    </>
+    </div>
   );
 }
 

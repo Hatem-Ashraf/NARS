@@ -239,16 +239,15 @@ const addfaculty = ({ cookies }) => {
 
   return (
     <>
-      <div className="flex flex-row w-screen h-screen mt-2">
+      <div className="flex flex-row h-screen">
         <form
-        style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}
           onSubmit={submitHandler}
-          className="bg-sky-50 h-screen w-[80%]  translate-x-[25%]  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
-          <div className="contentAddUser2 flex flex-col gap-10 overflow-auto ">
+          <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
             <p className="font-normal">Faculty {">"} Update Faculty</p>
-            <div className="flex gap-20 ">
-              <div className="flex flex-col gap-5 w-1/3">
+            <div className="flex justify-between gap-20">
+              <div className="flex flex-col gap-5 w-2/5">
                 <div>Faculty Name:</div>
                 <input
                   type="text"
@@ -268,6 +267,7 @@ const addfaculty = ({ cookies }) => {
                 />
               </div>
             </div>
+
 
             <div className="flex gap-20 ">
               <div className="flex flex-col gap-5 w-full">
@@ -292,61 +292,62 @@ const addfaculty = ({ cookies }) => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 ">
-                  <div className="">
-                    <div className="mb-5">
-                      Code: &emsp; &emsp; &emsp; &emsp; &emsp;Description:
-                    </div>
-                    {inputs.map((input, index) => {
-                      return (
-                        <input
-                          key={index}
-                          type="text"
-                          ref={input.ref}
-                          className="input-form w-1/6"
-                        />
-                      );
-                    })}
-                  </div>
-                  <div className="-space-x-96 ">
-                    <div className="mb-10  inline-block"></div>
-                    {inputs2.map((input2, index) => {
-                      const input = inputs[index];
-                      return (
-                        <div className="relative">
-                          <input
-                            key={index}
-                            type="text"
-                            ref={input2.ref}
-                            className="input-form w-3/6"
-                          />
-                          <button
-                            type="button"
-                            onClick={(e) => removeLO1(e, input2, input)}
-                            className="ml-100 absolute bottom-2 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
-                            data-dismiss-target="#alert-border-2 "
-                            aria-label="Close"
-                          >
-                            <span className="sr-only ">Dismiss</span>
-                            <svg
-                              aria-hidden="true"
-                              className="w-5 h-5"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                              xmlns="http://www.w3.org/2000/svg"
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50 dark:bg-gray-800">
+                      <tr>
+                        <th className="py-2 px-4 text-left w-[10%]">Code</th>
+                        <th className="py-2 px-4 text-left w-[80%]">Description</th>
+                        <th className="py-2 px-4 text-left w-[10%]">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {inputs.map((input, index) => (
+                        <tr key={index} className="bg-white dark:bg-gray-700">
+                          <td className="py-2 px-4">
+                            <input
+                              type="text"
+                              ref={input.ref}
+                              className="input-form w-full"
+                            />
+                          </td>
+                          <td className="py-2 px-4">
+                            <input
+                              type="text"
+                              ref={inputs2[index].ref}
+                              className="input-form w-full"
+                            />
+                          </td>
+                          <td className="py-2 px-4">
+                            <button
+                              type="button"
+                              onClick={(e) => removeLO1(e, inputs2[index], input)}
+                              className="bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                              data-dismiss-target="#alert-border-2 "
+                              aria-label="Close"
                             >
-                              <path
-                                fillRule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              ></path>
-                            </svg>
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
+                              <span className="sr-only">Dismiss</span>
+                              <svg
+                                aria-hidden="true"
+                                className="w-5 h-5"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
+
               </div>
             </div>
             <div className="flex gap-20 ">

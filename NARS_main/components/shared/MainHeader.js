@@ -46,7 +46,7 @@ function MainHeader() {
       href="/profile"
     >
       <div>
-        <Image
+        {img && <Image
           src={img}
           alt="no photo"
           style={{
@@ -59,7 +59,7 @@ function MainHeader() {
           height={50}
           Layout={"fixed"}
           quality={100}
-        />
+        />}
       </div>
       <span className="">{userState.name}</span>
     </Link>

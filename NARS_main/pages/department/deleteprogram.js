@@ -140,10 +140,10 @@ const deleteprogram = ({ cookies }) => {
 
     return (
         <>
-            <div className="flex flex-row w-screen h-screen mt-2">
+            <div className="flex flex-row  h-screen mt-2">
                 <form
                     onSubmit={submitHandler}
-                    className="bg-sky-50 h-screen w-[80%]  translate-x-[25%]  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+                    className=" h-screenw w-screen  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
                 >
                     <div className="contentAddUser2 flex flex-col gap-10">
                         <p className="font-normal">Department {">"} Delete Program</p>
@@ -153,7 +153,7 @@ const deleteprogram = ({ cookies }) => {
                                 <select
                                     ref={program}
                                     id="small"
-                                    class="block w-full text-xl md:text-lg p-3   text-gray-900 border border-gray-300 rounded-lg bg-gray-200 focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "
+                                    class="block w-full text-xl md:text-lg p-3   text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "
                                 >
                                     <option selected>Choose a Program</option>
                                     {programArr.map((e) => {

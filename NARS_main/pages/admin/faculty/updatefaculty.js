@@ -151,7 +151,7 @@ const updatefaculty = ({ cookies }) => {
 
   return (
     <>
-      <div className="flex flex-row w-screen h-screen mt-2">
+      <div className="flex flex-row w-screen h-screen">
         <form
         
           onSubmit={submitHandler}

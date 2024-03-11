@@ -7,7 +7,7 @@ import UserCard from "@/components/user/UserCard";
 import { useDispatch, useSelector } from "react-redux";
 import { updateField } from "@/components/store/userSlice";
 
-const SearchStudent = ({ cookies }) => {
+const SearchDepartment = ({ cookies }) => {
   const userState = useSelector((s) => s.user);
   const [faculyTitles, setFacultyTitles] = useState([]);
   const [facultyValue, setFacultyValue] = useState("null");
@@ -204,14 +204,14 @@ const SearchStudent = ({ cookies }) => {
           <div className=" mt-16 ">
             <div className="p-4 m-auto max-w-sm rounded  relative  ">
               <div className="flex flex-col justify-center items-center gap-10 w-full mt-10 ">
-                <form className="text-xl border-2 border-none shadow-2xl rounded-2xl px-7 py-4 gap-10 w-[150%] relative bg-white">
+                <form className="text-xl border-2 border-none shadow-2xl rounded-2xl px-7 py-4 gap-10 w-[150%] relative">
                   <button
                     onClick={deleteCancel}
                     className=" text-gray-700 duration-200 transition-all hover:bg-gray-400 px-2 rounded absolute top-4 right-4 py-1"
                   >
                     <i class="fa-solid fa-xmark fa-lg"></i>
                   </button>
-                  <div className="mb-8 text-2xl ">Delete Student:</div>
+                  <div className="mb-8 text-2xl ">Delete department:</div>
                   <div className="flex w-full h-full items-center justify-center text-red-800">
                     Are you sure you want to delete this user
                   </div>
@@ -244,7 +244,7 @@ const SearchStudent = ({ cookies }) => {
                   >
                     <i class="fa-solid fa-xmark fa-lg"></i>
                   </button>
-                  <div className="mb-8 text-2xl">Edit Student Info:</div>
+                  <div className="mb-8 text-2xl">Edit Staff Info:</div>
                   <label for="email" className="  ">
                     Edu Email
                   </label>
@@ -305,10 +305,8 @@ const SearchStudent = ({ cookies }) => {
         </div>
       ) : null}
 
-      <div className={`flex flex-row w-screen h-screen ${deleteModalIsOpen ? `bg-white opacity-60 overflow-hidden ` : null} ${editModalIsOpen ? `bg-white opacity-60 overflow-hidden ` : null}`}
-      >
-        <form onSubmit={submitHandler} className="bg-sky-50 h-screen w-[80%] translate-x-[25%] flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
-        style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}
+<form onSubmit={submitHandler} className=" h-screen  flex flex-col justify-center items-center text-black "
+         
         >
           <div className="overflow-auto contentAddUser2 flex flex-col gap-10">
             <div className=" text-center text-gray-900 font-bold text-2xl">Search Department</div>
@@ -319,11 +317,11 @@ const SearchStudent = ({ cookies }) => {
                     <div></div>
                     <div className="flex-col-1">Department Code</div>
                     <div>
-                      <input type="text" className="inputAddUser2" ref={code} onChange={handleCodeField} disabled={anyStudent} placeholder={anyStudent ? 'Input disabled (Search all students selected)' : 'Enter code'} />
+                      <input type="text" className="inputAddUser2" ref={code} onChange={handleCodeField} disabled={anyStudent} placeholder={anyStudent ? 'Input disabled (Search all departments selected)' : 'Enter code'} />
                     </div>
                     <div className="flex items-center space-x-3">
                       <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={() => setAnyStudent(!anyStudent)} checked={anyStudent} />{" "}
-                      <div>Search all students</div>
+                      <div>Search all departments</div>
                     </div>
                   </div>
                 </div>
@@ -343,7 +341,7 @@ const SearchStudent = ({ cookies }) => {
                   </select>
                 </div>
 
-                <button type="submit" className="px-10 py-3 duration-200 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <button type="submit" className="px-10 py-3 duration-200 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm md:text-lg  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                   Search
                 </button>
               </div>
@@ -352,10 +350,10 @@ const SearchStudent = ({ cookies }) => {
               <div className="w-3/5 h-[5rem] flex flex-col">
                 {invalidInput && (
                   <div>
-                    You must choose a faculty and either enter student code or check the all students checkbox
+                    You must choose a faculty and either enter department code or check the all departments checkbox
                   </div>
                 )}
-                {noStudents && <div>No students found</div>}
+                {noStudents && <div>No departments found</div>}
                 {student.map((s) => {
                   return (
                     <div className="flex w-full space-x-5 justify-between">
@@ -365,7 +363,7 @@ const SearchStudent = ({ cookies }) => {
                           <i class="fa-solid fa-pen-to-square"></i>{" "}
                         </button>
                         <button onClick={() => deleteConfirm(s)} type="submit" className="text-white bg-[#FF0000] duration-200 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
-                          <i class="fa-solid fa-delete-left"></i>{" "}
+                          <i class="fas fa-trash"></i>{" "}
                         </button>
                       </div>
                     </div>
@@ -375,8 +373,7 @@ const SearchStudent = ({ cookies }) => {
             </div>
           </div>
         </form>
-      </div>
     </>
   );
 };
-export default SearchStudent;
+export default SearchDepartment;

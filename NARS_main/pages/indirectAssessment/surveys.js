@@ -53,12 +53,20 @@ const CreateSurvey = ({ cookies }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen" style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}>
-      <div className=" ml-[20%] bg-blue-100 p-12 max-w-3xl w-full shadow-2xl rounded-3xl mt-10">
-        <h2 className="font-bold text-blue-900 mb-6 text-3xl">Create a Survey</h2>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <style>{`
+        body {
+          background-color: #012a4a;
+          font-family: Arial, sans-serif;
+        }
+      `}</style>
+    <div className="flex justify-center  min-h-screen">
+     
+      <div className=" bg-form text-form p-20 max-w-3xl w-full shadow-2xl rounded-3xl mt-10">
+        <h2 className="font-bold  mb-6 text-3xl text-center">Create a Survey</h2>
         <form>
           <div className="flex flex-col gap-4">
-            <label htmlFor="number" className="text-blue-900 font-bold">
+            <label htmlFor="number" className=" font-bold">
               Question Number:
             </label>
             <input
@@ -71,7 +79,7 @@ const CreateSurvey = ({ cookies }) => {
               required
             />
 
-            <label htmlFor="title" className="text-blue-900 font-bold">
+            <label htmlFor="title" className="font-bold">
               Question Title:
             </label>
             <input
@@ -84,7 +92,7 @@ const CreateSurvey = ({ cookies }) => {
               required
             />
 
-            <label htmlFor="description" className="text-blue-900 font-bold">
+            <label htmlFor="description" className=" font-bold">
               Question Description:
             </label>
             <textarea
@@ -97,7 +105,7 @@ const CreateSurvey = ({ cookies }) => {
               required
             ></textarea>
              <div className="mt-4">
-          <label htmlFor="surveyQuestions" className="text-blue-900 font-bold">
+          <label htmlFor="surveyQuestions" className=" font-bold">
             Survey Questions:
           </label>
           <input
@@ -136,6 +144,7 @@ const CreateSurvey = ({ cookies }) => {
         </form>
        
       </div>
+    </div>
     </div>
   );
 };

@@ -47,14 +47,14 @@ const viewprograms = ({ cookies }) => {
 
     return (
         <>
-            <div className="flex flex-row w-screen h-screen mt-2">
+            <div className="flex flex-row  h-screen mt-2 text-xl">
                 <form
                     onSubmit={submitHandler}
-                    className="bg-sky-50 h-screen w-[80%]  translate-x-[25%]  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+                    className="h-screen w-screen  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
                 >
                     <div className="contentAddUser2 overflow-auto flex flex-col gap-10">
                         <div className="flex items-center justify-between">
-                            <p className="font-normal">Department {">"} View Programs</p>
+                            <p className="font-normal text-xl">Department {">"} View Programs</p>
                         </div>
 
                         <ProgramList programs={programs} />

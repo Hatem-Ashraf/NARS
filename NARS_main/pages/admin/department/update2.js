@@ -85,57 +85,96 @@ const AddStudent = () => {
   };
 
   return (
-    <div className="ml-[20%] flex justify-center items-center  w-75 " style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}>
-      <form onSubmit={handleSubmit} className="bg-gray-100 mt-20 mb-20 p-12 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Update department</h2>
+    <div className=" flex flex-row h-screen">
+      <form onSubmit={handleSubmit} className="h-screen w-screen flex flex-col justify-center items-center text-black">
+        <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
+        <h2 className="text-2xl font-semibold mb-4">Update Department</h2>
         <div className="grid grid-cols-1 gap-4">
-          <p>Select faculty and Department first</p>
-          <div>
-          <label htmlFor="faculty">faculty</label>
-          <select
-          id="faculty"
-              className="input-field appearance-none border border-gray-300 rounded-md py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-blue-500 focus:bg-white focus:ring focus:ring-blue-200"
-              onChange={(e) => {
-                // Handle selected option logic
-              }}
-            >
-              <option value="" disabled selected>Select Faculty</option>
-              <option value="Computer Engineering">Shoubra Faculty of Engineering</option>
-          </select>
+        <div className="flex justify-between">
+            <div className="w-2/5">
+              <label htmlFor="faculty">Faculty</label>
+              <select
+              id="faculty"
+                  className="input-field appearance-none border border-gray-300 rounded-md py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-blue-500 focus:bg-white focus:ring focus:ring-blue-200"
+                  onChange={(e) => {
+                    // Handle selected option logic
+                  }}
+                >
+                  <option value="" disabled selected>Select Faculty</option>
+                  <option value="Computer Engineering">Shoubra Faculty of Engineering</option>
+              </select>
+
+            </div>
+            <div className="w-2/5">
+              <label htmlFor="department">Department</label>
+              <select
+              id="department"
+                  className="input-field appearance-none border border-gray-300 rounded-md py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-blue-500 focus:bg-white focus:ring focus:ring-blue-200"
+                  onChange={(e) => {
+                    // Handle selected option logic
+                  }}
+                >
+                  <option value="" disabled selected>Select Department</option>
+                  <option value="Electrical Engineering">Electrical Engineering</option>
+                  <option value="Civil Engineering">Civil Engineering</option>
+              </select>
+            </div>
           </div>
-          <div>
-          <label htmlFor="department">department</label>
-          <select
-          id="department"
-              className="input-field appearance-none border border-gray-300 rounded-md py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-blue-500 focus:bg-white focus:ring focus:ring-blue-200"
-              onChange={(e) => {
-                // Handle selected option logic
-              }}
-            >
-              <option value="" disabled selected>Select Department</option>
-              <option value="Electrical Engineering">Electrical Engineering</option>
-              <option value="Civil Engineering">Civil Engineering</option>
-          </select>
+          <div className="flex justify-between">
+            <div className="w-2/5">
+              <div>Name</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
+            <div className="w-2/5">
+              <div>Department Code </div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input-field"
-            />
+          <div className="flex justify-between">
+            <div className="w-2/5">
+              <div>Head of Department (Email)</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
+            <div className="w-2/5">
+              <div>Vission</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="name">Department Code</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input-field"
-            />
+          <div className="flex justify-between">
+            <div className="w-2/5">
+              <div>Mission</div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+              />
+            </div>
           </div>
           {/* <div>
             <label htmlFor="code">D Code</label>
@@ -148,32 +187,37 @@ const AddStudent = () => {
             />
           </div> */}
           <div>
-            <label htmlFor="email">Head of department (Email)</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
           <label htmlFor="desciption">Description</label>
           <textarea class="w-full input-form bg-white"
           id="desciption"
-           rows="4" placeholder="Type here  about the faculty"></textarea>
+           rows="4" placeholder="Departmen descriptiont"></textarea>
           </div>
         </div>
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-end mt-6">
           <div>{msg}</div>
           <div className="space-x-4">
+            <button
+              type="button"
+              onClick={downloadTemplateHandler}
+              className="btn bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg"
+            >
+              Download Template
+            </button>
+            <input type="file" id="selectFile" className="hidden" onChange={handleImport} />
+            <label
+              htmlFor="selectFile"
+              className="btn bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg cursor-pointer"
+            >
+              Import
+            </label>
             <button
               type="submit"
               className="btn bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg"
             >
-              Update
+              Submit
             </button>
           </div>
+        </div>
         </div>
       </form>
     </div>

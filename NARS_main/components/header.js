@@ -5,7 +5,7 @@ function createHeader(headerName, array, optionalCreatedAt) {
   return (
     <header className="relative bg-white shadow w-full">
       <button
-        className="flex items-center justify-between w-full p-2 border hover:border-gray-300 focus:outline-none "
+        className="flex items-center justify-between w-full p-2 border border-indigo-300 hover:border-indigo-500 focus:outline-none "
         onClick={() => setIsOpen2(!isOpen2)}
       >
         <div className="flex flex-col text-center ">

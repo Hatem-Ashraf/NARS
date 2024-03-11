@@ -39,14 +39,18 @@ export default function DepartmentAdminDashboard(cookies) {
     };
     return (
         <nav
-            className={`nav2 transition-all duration-300 transform ${navStatus ? ` -translate-x-full` : `translate-x-0 `
-                }`}
+            className="nav2"
         >
             <Link className="link2 focus:text-green-400 " href="/profile">
+                <div className="text-center text-4xl text-indigo-900">
+                NARQA
+                </div>
+            </Link>
+            <Link className="link2 focus:text-green-400 " href="/profile">
                 <span>
-                    <CgProfile
-                        style={{ fontSize: 30, display: "inline", marginBottom: 5 }}
-                    />
+                <CgProfile
+                    style={{ fontSize: 30, display: "inline", marginBottom: 5 }}
+                />
                 </span>
                 <span className="ml-2">Profile</span>
             </Link>

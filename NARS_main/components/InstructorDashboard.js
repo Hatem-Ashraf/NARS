@@ -57,9 +57,14 @@ export default function InstructorDashboard({ cookies }) {
         navStatus ? "-translate-x-full" : "translate-x-0"
       }`}
     >
-      <Link className="link2 text-gray-600 hover:text-slate-900 font-semibold" href="/profile">
+      <Link className="link2 focus:text-green-400 " href="/profile">
+        <div className="text-center text-4xl text-indigo-900">
+          NARQA
+        </div>
+      </Link>
+      <Link className="link2font-semibold" href="/profile">
         <div className="flex items-center">
-          <CgProfile style={{ fontSize: 40, marginBottom: 5, color: "#023e8a" }} />
+          <CgProfile style={{ fontSize: 40, marginBottom: 5, }} />
           <span className="ml-2 text-lg">Profile</span>
         </div>
       </Link>
@@ -83,36 +88,36 @@ export default function InstructorDashboard({ cookies }) {
         </ul>
       </div> */}
 
-      <Link className="link2  text-gray-600 hover:text-slate-900 font-semibold" href="/instructor/courses/create">
+      <Link className="link2  font-semibold" href="/instructor/courses/create">
         <div className="flex items-center mt-4">
-          <GrAddCircle style={{ fontSize: 30, marginBottom: 5,color: "#023e8a" }} />
+          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
           <span className="ml-2 text-lg">Create Course</span>
         </div>
       </Link>
       <Link
-        className="link2 text-gray-600 hover:text-slate-900 font-semibold"
+        className="link2   font-semibold"
         href={{ pathname: `/indirectAssessment/grade`, query: { role: "isInstructor" } }}
       >
         <div className="flex items-center mt-4">
-        <GrAddCircle style={{ fontSize: 30, marginBottom: 5,color: "#023e8a" }} />
+        <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
           <span className="ml-2 text-lg">Add Student Marks</span>
         </div>
       </Link>
 
       <Link
-        className="link2 text-gray-600 hover:text-slate-900 font-semibold"
+        className="link2   font-semibold"
         href={{ pathname: `/indirectAssessment/surveys`, query: { role: "isInstructor" } }}
       >
         <div className="flex items-center mt-4">
-          <GrAddCircle style={{ fontSize: 30, marginBottom: 5,color: "#023e8a" }} />
-          {/* <GrOrderedList style={{ fontSize: 30, marginBottom: 5, color: "#023e8a" x}} /> */}
+          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
+          {/* <GrOrderedList style={{ fontSize: 30, marginBottom: 5, x}} /> */}
           <span className="ml-2 text-lg">Create Surveys</span>
         </div>
       </Link>
 
-      <button className="link2 text-gray-600 hover:text-slate-900 text-left mt-4 font-semibold" onClick={logoutHandler}>
+      <button className="link2   text-left mt-4 font-semibold" onClick={logoutHandler}>
         <div className="flex items-center">
-          <CgLogOut style={{ fontSize: 30, marginBottom: 0, color: "#023e8a" }} />
+          <CgLogOut style={{ fontSize: 30, marginBottom: 0, }} />
           <span className="ml-2 text-lg">Logout</span>
         </div>
       </button>

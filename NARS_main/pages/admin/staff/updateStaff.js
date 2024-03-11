@@ -528,15 +528,15 @@ setMsg(failImport);
         </div>
       ) : null}
       <div
-        className={`flex flex-row w-screen h-screen `}
+        className={`flex flex-row h-screen `}
       >
         <form
-        style={{ background: "linear-gradient(135deg, #023e8a, #8ecae6)" }}
+         
           onSubmit={submitHandler}
-          className="bg-sky-50 h-screen w-[80%]  translate-x-[25%]  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className="h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 flex flex-col gap-10">
-            <p>Update Staff</p>
+            <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Update Staff</p>
 
             <div className="flex gap-10 ">
               <div className="flex flex-col gap-5 w-1/4  ">

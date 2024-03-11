@@ -18,7 +18,7 @@ const Home = ({ cookies }) => {
         r.push("/studentProfile");
       }
       else if (isLoggedIn && cookies.role !== "student") {
-        r.push("/profile");
+        r.push("/HomeDash");
       }
     }
   }, 0);
