@@ -1,33 +1,38 @@
 # NARS
-ahmedbadawy@feng.bu.edu.eg
+maged14@feng.bu.edu.eg
 pass: password123
 role:student
 
-ahmed.ashour@fedu.bu.edu.eg
+said195451@feng.bu.edu.eg
 pass:123456789
 role:instructor 
 
-lamia.alrefaai@feng.bu.edu.eg
+rana195387@feng.bu.edu.eg
 pass:123456789
 role: system admin
 
-hatem.ashour@fmed.bu.edu.eg
-pass: 123456789
-role: program admin
-
-hala.hashem@fmed.bu.edu.eg
+hatem195301@feng.bu.edu.eg
 pass:123456789
 role:program coordinator
 
-
-asmaa.ibrahim@fedu.bu.edu.eg
+zainab195418@feng.bu.edu.eg
 pass: 123456789
 role:faculty admin
 
-eco.maged@fcom.bu.edu.eg
+aya195255@feng.bu.edu.eg
 pass:123456789
-role:quality coordinato
+role:quality coordinator
 
-ibrahim.maged@bhit.bu.edu.eg
+beter195290@feng.bu.edu.eg
 pass:12356789
 role:Department admin
+
+ranatarek813@feng.bu.edu.eg
+pass:123456789
+role:dean
+
+aya11@feng.bu.edu.eg
+pass:123456789
+role:department head
+
+
