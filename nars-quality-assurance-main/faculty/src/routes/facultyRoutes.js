@@ -9,13 +9,7 @@ router
   .get(protect, facultyController.getAllFaculties)
   .post(protect, facultyController.createFaculty);
 
-// router
-//   .route("/updateCompetences/:id")
-//   .patch(
-//     protect,
-//     facultyController.updateCompetences,
-//     facultyController.getFaculty
-//   );
+
 router
   .route("/:id")
   .get(protect, facultyController.getFaculty)

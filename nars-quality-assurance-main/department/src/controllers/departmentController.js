@@ -8,34 +8,33 @@ exports.getAllDepartments = factory.getAll(Department);
 exports.deleteDepartment = factory.deleteOne(Department);
 exports.getDepartmentSummary = factory.getOne(Department);
 exports.updateDepartment = factory.updateOne(Department);
-exports.createDepartment = catchAsync(async (req, res, next) => {
-  // if (!req.body.competences) {
-  //   return next(new AppError("faculty must have competences", 400));
-  // }
-  // const competences_ids = await axios
-  //   .post(`http://competences:8080/`, {
-  //     competences: req.body.competences,
-  //     code: "b",
-  //   })
-  //   .then((res) => res.data)
-  //   .catch((e) => {
-  //     return {
-  //       status: false,
-  //       message: "something went wrong",
-  //       code: 500,
-  //     };
-  //   });
-  // if (competences_ids.status === false) {
-  //   return next(new AppError(competences_ids.message, competences_ids.code));
-  // }
-  // req.body.competences = competences_ids.ids;
-  const doc = await Department.create(req.body);
-  res.status(201).json({
-    status: "success",
 
-    data: doc,
-  });
+exports.createDepartment = catchAsync(async (req, res, next) => {
+  try {
+    const { name, code, about, departmentHead, competences, facultyId, vision, mission } = req.body;
+    const department = await Department.create({
+      name,
+      code,
+      about,
+      departmentHead,
+      competences, 
+      facultyId,
+      vision,
+      mission
+    });
+    res.status(201).json({
+      status: "success",
+      data: department,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message 
+    });
+  }
 });
+
+
 exports.getDepartment = catchAsync(async (req, res, next) => {
   let query = Department.findById(req.params.id);
   const doc = await query;
@@ -46,7 +45,7 @@ exports.getDepartment = catchAsync(async (req, res, next) => {
   const header = `authorization: Bearer ${req.cookies.jwt}`;
 
   const faculty = await axios
-    .get(`http://faculty:8080/getFacultySummary/${doc.faculty}`, {
+    .get(`http://faculty:8080/getFacultySummary/${doc.facultyId}`, {
       headers: header,
     })
     .then((res) => res.data)
@@ -57,37 +56,9 @@ exports.getDepartment = catchAsync(async (req, res, next) => {
         code: 500,
       };
     });
-  // if (faculty.status === false) {
-  //   return next(new AppError(faculty.message, faculty.code));
-  // }
-  // const competences_description = await axios
-  //   .post(`http://competences:8080/all/`, { ids: doc.competences })
-  //   .then((res) => res.data)
-  //   .catch((e) => {
-  //     return {
-  //       status: false,
-  //       message: "something went wrong",
-  //       code: 500,
-  //     };
-  //   });
-  // if (competences_description.status === false) {
-  //   return next(
-  //     new AppError(
-  //       competences_description.message,
-  //       competences_description.code
-  //     )
-  //   );
-  // }
-  // doc.competences = [];
-  // competences_description.data.forEach((competence) => {
-  //   const obj = {};
-  //   obj.code = competence.code;
-  //   obj.description = competence.description;
-  //   doc.competences.push(obj);
-  // });
-  //console.log(faculty.data);
+
   doc.faculty = faculty.data.name;
-  // console.log(doc.faculty);
+
   res.status(200).json({
     status: "success",
 
@@ -95,40 +66,53 @@ exports.getDepartment = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.updateCompetences = catchAsync(async (req, res, next) => {
-//   let query = Department.findById(req.params.id);
-//   const doc = await query;
 
-//   if (!doc) {
-//     return next(new AppError("No document found with that id", 404));
-//   }
-//   if (!req.body.code) {
-//     return next(new AppError("should specify code", 400));
-//   }
-//   if (!req.body.description) {
-//     return next(new AppError("should specify description", 400));
-//   }
-//   competence_id = doc.competences[parseInt(req.body.code[1]) - 1];
-//   //console.log(competence_id);
-//   const competences_description = await axios
-//     .patch(`http://competences:8080/${competence_id}`, {
-//       description: req.body.description,
-//     })
-//     .then((res) => res.data)
-//     .catch((e) => {
-//       return {
-//         status: false,
-//         message: "something went wrong",
-//         code: 500,
-//       };
-//     });
-//   if (competences_description.status === false) {
-//     return next(
-//       new AppError(
-//         competences_description.message,
-//         competences_description.code
-//       )
-//     );
-//   }
-//   next();
-// });
+exports.getDepartmentsByFaculty = catchAsync(async (req, res, next) => {
+  try {
+    const { facultyId } = req.params;
+    const departments = await Department.find({ facultyId: facultyId });
+    if (departments.length === 0) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'No departments found for the given faculty ID.'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: departments
+    });
+  } catch (error) {
+    console.error(error); 
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while fetching departments.'
+    });
+  }
+});
+
+
+exports.searchDepartmentByCode = catchAsync(async (req, res, next) => {
+  try {
+    const { facultyId, code } = req.query;
+    const department = await Department.findOne({ facultyId, code });
+
+    if (!department) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Department not found in the specified faculty for the given code.'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: department
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while searching for the department.'
+    });
+  }
+});
