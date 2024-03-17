@@ -31,7 +31,7 @@ const viewfaculty = ({ cookies }) => {
         },
       });
       const data = await resp.json();
-      console.log(data.data);
+      console.log("data.data::",data.data);
       let arr = data.data;
 
       arr = arr.map((e) => {

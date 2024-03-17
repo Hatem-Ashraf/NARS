@@ -23,6 +23,12 @@ export default function QualityCoordinatorDashboard() {
         navStatus ? ` -translate-x-full` : `translate-x-0 `
       }`}
     >
+      
+      <Link className="link2 focus:text-green-400 " href="/profile">
+        <div className="text-center text-4xl text-indigo-900">
+          NARQA
+        </div>
+      </Link>
       <Link className="link2 focus:text-green-400 " href="/profile">
         <span>
           <CgProfile
@@ -30,6 +36,12 @@ export default function QualityCoordinatorDashboard() {
           />
         </span>
         <span className="ml-2">Profile</span>
+      </Link>
+      <Link className="link2 focus:text-green-400 " href="/qualitycoordinator/ChooseType">
+        <span>
+        <i class="fa-solid fa-clipboard-list text-3xl ml-1"></i>
+        </span>
+        <span className="ml-2">Competencies</span>
       </Link>
       <Link
         className="link2 focus:text-green-400 "
