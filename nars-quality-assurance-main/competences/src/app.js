@@ -5,6 +5,9 @@ const morgan = require("morgan");
 const AppError = require("./shared/utils/appError");
 const cookieParser = require("cookie-parser");
 const competencesRouter = require("./routes/competencesRouts");
+const facultyCompetencesRouter = require("./routes/facultyCompetences");
+const depCompetencesRouter = require("./routes/departmentCompetences");
+
 const globalErrorHandler = require("./shared/controllers/errorController");
 const cors = require("cors");
 
@@ -27,7 +30,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/", competencesRouter);
-
+app.use("/",facultyCompetencesRouter);
+app.use("/",depCompetencesRouter);
 app.all("*", (req, res, next) => {
   // const err = new Error(`can't find ${req.originalUrl} on this server `);
   // err.status = 'fail';

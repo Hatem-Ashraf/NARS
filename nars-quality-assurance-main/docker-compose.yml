@@ -18,6 +18,7 @@ services:
   #     KAFKA_ASSIGN_COURSE_TOPIC: "assign-course-to-instructor:1:1"
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
+  
   user_db:
     container_name: user_db
     image: mohamedsalama118/mongo
@@ -76,27 +77,28 @@ services:
       - JWT_SECRET=MY-JWT_SECRET-for-nodejs-and-express-and-mongodb
     depends_on:
       - user_db
-  # competences:
-  #   container_name: competences
-  #   build: ./competences
-  #   image: mohamedsalama118/competences
-  #   ports:
-  #     - 8085:8080
-  #   volumes:
-  #     - ./competences/src:/competences/src
-  #     - ./shared/utils:/competences/src/shared/utils
-  #     - ./shared/controllers:/competences/src/shared/controllers
-  #   environment:
-  #     - NODE_ENV=development
-  #     - PORT=8080
-  #     - MONGO_URL=mongodb://competences_db:27017/competences
-  #     - EMAIL=nars-qa@outlook.com
-  #     - EMAIL_PASSWORD=NARSsystem
-  #     - EXPIRES_IN=90d
-  #     - JWT_COOKIE_EXPIRES_IN=90
-  #     - JWT_SECRET=MY-JWT_SECRET-for-nodejs-and-express-and-mongodb
-  #   depends_on:
-  #     - faculty_db
+  competences:
+    container_name: competences
+    build: ./competences
+    image: mohamedsalama118/competences
+    ports:
+      - 8085:8080
+    volumes:
+      - ./competences/src:/competences/src
+      - ./shared/utils:/competences/src/shared/utils
+      - ./shared/controllers:/competences/src/shared/controllers
+      
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - MONGO_URL=mongodb+srv://Nars-db:QxUzjVISTJaXI4lG@cluster0.k3j68hz.mongodb.net/Test
+      - EMAIL=nars-qa@outlook.com
+      - EMAIL_PASSWORD=NARSsystem
+      - EXPIRES_IN=90d
+      - JWT_COOKIE_EXPIRES_IN=90
+      - JWT_SECRET=MY-JWT_SECRET-for-nodejs-and-express-and-mongodb
+    depends_on:
+      - faculty_db
 
   programs:
     container_name: programs

@@ -9,13 +9,9 @@ router.route("/").get(departmentController.getAllDepartments).post(
 
   departmentController.createDepartment
 );
+router.route("/getDepartmentsByFaculty/:facultyId").get(protect,departmentController.getDepartmentsByFaculty);
+router.route("/searchDep").get(protect,departmentController.searchDepartmentByCode);
 
-// router.route("/updateCompetences/:id").patch(
-//   protect,
-
-//   departmentController.updateCompetences,
-//   departmentController.getDepartment
-// );
 router
   .route("/:id")
   .get(
