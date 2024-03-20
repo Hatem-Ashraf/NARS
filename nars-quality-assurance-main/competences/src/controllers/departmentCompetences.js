@@ -2,14 +2,17 @@ const DepartmentComp = require("../models/departmentcompetences");
 
 exports.createDepartmentComp = async(req,res)=>{
 try {
-    const {code,description,level} = req.body;
-    const departmentComp  = new DepartmentComp({code,description,level});
-    await departmentComp.save();
-    res.status(201).json({departmentComp});
+    const compData = req.body;
+    const competences = compData.map(compData => ({
+      code: compData.code,
+      description: compData.description,
+      level: compData.level
+    }));
+    const insertedCompetences = await DepartmentComp.insertMany(competences);
+    res.status(201).json({ competences: insertedCompetences });
 } catch (error) {
     res.status(400).json({error:error.message});
 }
-
 }
 
 exports.getAllDepartmentCompetences = async (req, res) => {

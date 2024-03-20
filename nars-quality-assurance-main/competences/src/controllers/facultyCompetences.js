@@ -2,15 +2,19 @@ const FacultyComp = require("../models/facultyCompetences");
 
 exports.createFacultyComp = async(req,res)=>{
 try {
-    const {code,description,level} = req.body;
-    const facultyComp  = new FacultyComp({code,description,level});
-    await facultyComp.save();
-    res.status(201).json({facultyComp});
+    const facultyComp = req.body;
+    const competences = facultyComp.map(facultyComp => ({
+      code: facultyComp.code,
+      description: facultyComp.description,
+      level: facultyComp.level
+    }));
+    const insertedCompetences = await FacultyComp.insertMany(competences);
+    res.status(201).json({ competences: insertedCompetences });
 } catch (error) {
     res.status(400).json({error:error.message});
 }
-
 }
+
 
 exports.getAllFacultyCompetences = async (req, res) => {
     try {

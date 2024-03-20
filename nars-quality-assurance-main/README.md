@@ -3,11 +3,23 @@ faculty competences:
 create competense 
 http://localhost:8085/facultyComp
 methode:post
-{
-  "code": "MC4",
-  "description": "Faculty Competence 4 Description",
-  "level": "A"
-}
+[
+  {
+    "code": "FAC001",
+    "description": "Teaching Techniques",
+    "level": "A"
+  },
+  {
+    "code": "FAC002",
+    "description": "Curriculum Development",
+    "level": "A"
+  },
+  {
+    "code": "FAC003",
+    "description": "Assessment Methods",
+    "level": "A"
+  }
+]
 
 get all competenses
 http://localhost:8085/facultyComp
@@ -51,11 +63,24 @@ department competences:
 create competence,get all competences:
 http://localhost:8085/departmentComp
 json:
-{
-  "code": "COMP002",
-  "description": "Database Management Systems",
-  "level": "B"
-}
+[
+  {
+    "code": "COMPJK",
+    "description": "Software Development Fundamentals",
+    "level": "B"
+  },
+  {
+    "code": "COMPMF",
+    "description": "Database Management Systems",
+    "level": "B"
+  },
+  {
+    "code": "COMPPO",
+    "description": "Network Security",
+    "level": "B"
+  }
+]
+
 
 get comp:
 http://localhost:8085/departmentComp/<id>
