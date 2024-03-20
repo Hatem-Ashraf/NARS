@@ -31,7 +31,7 @@ const MyComponent = () => {
   return (
     <div className='h-screen'>
       <div className="flex justify-center mt-10 w-[90%] mx-auto ">
-        <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelA" text="Faculty Competencies" description="Some description for Faculty Competencies Some description for Faculty Competencies. Some description for Faculty Competencies." icon="fa-solid fa-building-columns" />
+        <ButtonWithHoverEffect goto="/qualitycoordinator/view-all-level-A" text="Faculty Competencies" description="Some description for Faculty Competencies Some description for Faculty Competencies. Some description for Faculty Competencies." icon="fa-solid fa-building-columns" />
         <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelB" text="Department Competencies" description="Some description for Department Competencies." icon="fa-solid fa-layer-group" />
         <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelC" text="Program Competencies" description="Some description for Program Competencies." icon="fa-solid fa-newspaper" />
       </div>
