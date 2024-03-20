@@ -31,9 +31,24 @@ const MyComponent = () => {
   return (
     <div className='h-screen'>
       <div className="flex justify-center mt-10 w-[90%] mx-auto ">
-        <ButtonWithHoverEffect goto="/qualitycoordinator/view-all-level-A" text="Faculty Competencies" description="Some description for Faculty Competencies Some description for Faculty Competencies. Some description for Faculty Competencies." icon="fa-solid fa-building-columns" />
-        <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelB" text="Department Competencies" description="Some description for Department Competencies." icon="fa-solid fa-layer-group" />
-        <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelC" text="Program Competencies" description="Some description for Program Competencies." icon="fa-solid fa-newspaper" />
+        <ButtonWithHoverEffect goto="/qualitycoordinator/view-all-level-A" text="Faculty Competences" 
+        description={`
+        Faculty competences refer to the skills, knowledge, and abilities required for faculty members (teachers, instructors, professors) to effectively perform their roles in educational institutions.
+        These competences may include subject matter expertise, pedagogical skills, research abilities, communication skills, mentoring capabilities, and other attributes necessary for teaching, research, and academic leadership.
+
+        `}
+        icon="fa-solid fa-building-columns" />
+        <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelB" text="Department Competences" 
+        description={`
+        Department competences are the specific skills, knowledge areas, and capabilities required for the effective functioning and performance of a department within an organization or institution.
+        These competences may include technical expertise related to the department's field or discipline, administrative skills, teamwork abilities, project management capabilities, communication skills, and problem-solving skills.
+        `}
+         icon="fa-solid fa-layer-group" />
+        <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelC" text="Program Competences" description={`
+          Program competences refer to the skills, knowledge domains, and proficiencies that students are expected to develop and demonstrate upon completion of an academic program or course of study.
+          These competences are often aligned with the learning outcomes or educational objectives of the program and may encompass subject-specific knowledge, critical thinking skills, practical skills, ethical understanding, and other capabilities relevant to the program's field or discipline.
+        `}
+         icon="fa-solid fa-newspaper" />
       </div>
     </div>
   );
