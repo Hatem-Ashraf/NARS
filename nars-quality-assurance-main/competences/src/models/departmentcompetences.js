@@ -5,6 +5,7 @@ const departmentCompetencesSchema = new mongoose.Schema({
   code: {
     type: String,
     required: [true, "department Competences must have a code"],
+    unique: true
   },
   description: {
     type: String,
