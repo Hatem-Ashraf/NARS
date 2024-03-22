@@ -2,10 +2,17 @@ const ProgramObjective = require("../models/programObjective");
 
 exports.createProgramObjective = async (req, res) => {
   try {
-    const { code, description } = req.body;
-    const programObj = new ProgramObjective({ code, description });
-    await programObj.save();
-    res.status(201).json({ programObj });
+    const objData = req.body;
+    const programObjectives = [];
+
+    for (const obj of objData) {
+      const { code, description } = obj;
+      const programObj = new ProgramObjective({ code, description });
+      await programObj.save();
+      programObjectives.push(programObj);
+    }
+
+    res.status(201).json({ programObjectives });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

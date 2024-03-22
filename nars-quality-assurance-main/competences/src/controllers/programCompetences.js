@@ -2,10 +2,17 @@ const ProgramComp = require("../models/programCompetences");
 
 exports.createProgramComp = async (req, res) => {
   try {
-    const { code, description, level } = req.body;
-    const programComp = new ProgramComp({ code, description, level });
-    await programComp.save();
-    res.status(201).json({ programComp });
+    const compData = req.body;
+    const programComps = [];
+
+    for (const comp of compData) {
+      const { code, description, level } = comp;
+      const programComp = new ProgramComp({ code, description, level });
+      await programComp.save();
+      programComps.push(programComp);
+    }
+
+    res.status(201).json({ programComps });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
