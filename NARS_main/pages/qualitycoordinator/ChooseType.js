@@ -7,7 +7,7 @@ const ButtonWithHoverEffect = ({ text, description, icon, goto }) => {
   return (
     <Link href={goto} className='w-3/5'>
         <button
-          className="relative transition duration-300 transform hover:scale-105 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          className="relative transition h-[250px] w-[100%] duration-300 transform hover:scale-105 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -38,12 +38,14 @@ const MyComponent = () => {
 
         `}
         icon="fa-solid fa-building-columns" />
-        <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelB" text="Department Competences" 
+
+        <ButtonWithHoverEffect goto="/qualitycoordinator/view-all-level-B" text="Department Competences" 
         description={`
         Department competences are the specific skills, knowledge areas, and capabilities required for the effective functioning and performance of a department within an organization or institution.
         These competences may include technical expertise related to the department's field or discipline, administrative skills, teamwork abilities, project management capabilities, communication skills, and problem-solving skills.
         `}
          icon="fa-solid fa-layer-group" />
+
         <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelC" text="Program Competences" description={`
           Program competences refer to the skills, knowledge domains, and proficiencies that students are expected to develop and demonstrate upon completion of an academic program or course of study.
           These competences are often aligned with the learning outcomes or educational objectives of the program and may encompass subject-specific knowledge, critical thinking skills, practical skills, ethical understanding, and other capabilities relevant to the program's field or discipline.

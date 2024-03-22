@@ -21,7 +21,7 @@ const competences = ({ cookies }) => {
 
   const submitHandler = async () => {
     try {
-        const resp = await fetch(`http://localhost:8085/facultyComp`, {
+        const resp = await fetch(`http://localhost:8085/departmentComp`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const competences = ({ cookies }) => {
     const file = new Blob([fileBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    saveAs(file, "Competences-A.xlsx");
+    saveAs(file, "Competences-B.xlsx");
   };
 
   const filtercompetences = (event) => {
@@ -75,7 +75,7 @@ const competences = ({ cookies }) => {
         <div className="mx-auto contentAddUser3 w-full flex flex-col gap-10">
           <div className=" min-h-screen m-auto flex w-full justify-center p-5 "  >
             <div className="w-full p-8 rounded-lg" >
-              <h1 className="text-3xl font-bold text-center mb-6 mt-4 text-indigo-600">Level A Competences</h1>
+              <h1 className="text-3xl font-bold text-center mb-6 mt-4 text-indigo-600">Level B Competences</h1>
               <form onSubmit={submitHandler} className="mb-4">
                 <div className="flex items-center justify-between">
                   <input
@@ -97,11 +97,11 @@ const competences = ({ cookies }) => {
                 <>
                   <h2 className="text-xl font-semibold mb-2">Competence List</h2>
                   <CompetencesList 
-                  competences={filteredcompetences}
-                  setCompetences={setFilteredcompetences}
-                  level="level-A"
-                  delete_url="http://localhost:8085/deleteFacultyComp/"
-                  create_file_name="AddLevelA"
+                  competences={filteredcompetences} 
+                  setCompetences={setFilteredcompetences}  
+                  level="level-B"
+                  delete_url="http://localhost:8085/deleteDepComp/"
+                  create_file_name="AddLevelB"
                   />
                 </>
               ) : (

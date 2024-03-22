@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
-function Competences({ competences, setCompetences, level }) {
+function Competences({ competences, setCompetences, level, delete_url, create_file_name }) {
   const userState = useSelector((s) => s.user);
   const [showModal, setShowModal] = useState(false);
   const [compCode, setCompCode] = useState("");
@@ -25,7 +25,8 @@ function Competences({ competences, setCompetences, level }) {
   const handleConfirmDelete = async (comp_id) => {
     console.log("comp_id", comp_id)
     try {
-      const response = await fetch(`http://localhost:8085/deleteFacultyComp/${competenceIdToDelete}`, {
+      console.log(`${delete_url}${competenceIdToDelete}`)
+      const response = await fetch(`${delete_url}${competenceIdToDelete}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +89,7 @@ function Competences({ competences, setCompetences, level }) {
         </tbody>
       </table>
       <div className="flex justify-center mt-10 ">
-        <Link href="/qualitycoordinator/AddLevelA" className="bg-green-600 p-2 rounded text-white text-xl font-bold">
+        <Link href={`/qualitycoordinator/${create_file_name}`} className="bg-green-600 p-2 rounded text-white text-xl font-bold">
           <span>Add Competences
             <i className="fa-solid fa-plus text-white ml-2"></i>
           </span>

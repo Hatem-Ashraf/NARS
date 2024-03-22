@@ -2,8 +2,17 @@ import { createRef } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
+import { useRouter } from 'next/router';
+
 import React from "react";
+
+
 const addfaculty = ({ cookies }) => {
+
+  const router = useRouter();
+  const { comp_id } = router.query;
+  console.log("Competence_id", comp_id);
+
   const userState = useSelector((s) => s.user);
   if (userState.role != "quality coordinator" || userState.loggedInStatus != "true") {
     return <div className="error">404 could not found</div>;
@@ -12,9 +21,8 @@ const addfaculty = ({ cookies }) => {
   const closeMsg = () => {
     setMsg("");
   };
-  useEffect(() => {
-    // document.querySelector("body").classList.add("scrollbar-none");
-  });
+  const [compCode, setCompCode] = useState("")
+  const [compDescrption, setCompDescrption] = useState("")
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
   const handleAddInput = (e) => {
@@ -50,6 +58,29 @@ const addfaculty = ({ cookies }) => {
   const [err, setErr] = useState("");
   const [itemsArr, setItems] = useState([]);
   const [ID, setID] = useState("")
+
+  useEffect(() => {
+    const fetchCompetence = async () => {
+      try {
+        const response = await fetch(`http://localhost:8085/departmentComp/${comp_id}`);
+        // if (!response.ok) {
+        //   throw new Error('Failed to fetch competence');
+        // }
+        const competenceData = await response.json();
+        console.log("competenceData", competenceData);
+        setCompCode(competenceData.competence.code)
+        setCompDescrption(competenceData.competence.description)
+
+        // setCompetence(competenceData);
+      } catch (error) {
+        console.error('Error fetching competence:', error);
+      }
+    };
+
+    if (comp_id) {
+      fetchCompetence();
+    }
+  }, [comp_id]);
   const handleSelectChange = (year) => {
     itemsArr.push(year.current.value);
     choosen.current.value = itemsArr.map((e) => {
@@ -127,15 +158,18 @@ const addfaculty = ({ cookies }) => {
       return {
         code: a.code,
         description: b.value,
-        level: "B",
+        level: "A",
       };
     });
     console.log("competences::", competences);
     try {
-
-      const r = await fetch(`http://localhost:8085/departmentComp`, {
-        method: "POST",
-        body: JSON.stringify(competences),
+      const r = await fetch(`http://localhost:8085/updateDepComp/${comp_id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          code: compCode,
+          description: compDescrption,
+          level: "A",
+        }),
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -145,7 +179,7 @@ const addfaculty = ({ cookies }) => {
       const resp = await r.json();
       console.log("resp::", resp);
       
-      if (resp.status == "fail" || resp.status == "error"|| resp.competences.length <= 0) {
+      if (resp.status == "fail" || resp.status == "error"|| resp.error) {
         // setErr(resp.error.errors.dean.message);
         console.log(resp, err);
         setMsg(fail);
@@ -193,7 +227,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
       <div class="ml-3 text-lg font-medium">
-        Failed to create Competence
+        Failed to update Competence
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -229,7 +263,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-solid fa-circle-check"></i>
       <div class="ml-3 text-lg font-medium">
-        Competence has been Created successfully
+        Competence has been Updated successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
@@ -265,7 +299,7 @@ const addfaculty = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p className="font-normal text-3xl text-indigo-800">Add Level B Competencies</p>
+            <p className="font-normal text-3xl text-indigo-800">Update Level A Competencies</p>
             {/* <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
                 <div>Faculty Name:</div>
@@ -303,14 +337,14 @@ const addfaculty = ({ cookies }) => {
             <div className="flex gap-20">
               <div className="flex flex-col space-y-1 gap-5 w-full">
                 <p className="text-2xl text-indigo-500">Competences:</p>
-                <div class="flex items-center justify-end mr-6 text-lg text-gray-700 capitalize ">
+                {/* <div class="flex items-center justify-end mr-6 text-lg text-gray-700 capitalize ">
                   <button
                     onClick={handleAddInput}
                     className="bg-blue-500 text-white py-2 px-4 rounded-md"
                   >
                     Add
                   </button>
-                </div>
+                </div> */}
 
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y  divide-gray-200">
@@ -318,12 +352,29 @@ const addfaculty = ({ cookies }) => {
                       <tr>
                         <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
                         <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
-                        <th className="py-2 px-4 text-xl text-left w-[5%]">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {inputs.map((input, index) => (
-                        <tr key={index} className="bg-white dark:bg-gray-700">
+                      <tr>
+                        <td className="py-2 px-4">
+                          <input
+                            type="text"
+                            className="input-form w-full"
+                            value={compCode}
+                            onChange={(e) => setCompCode(e.target.value)}
+                          />
+                          </td>
+                          <td className="py-2 px-4">
+                          <input
+                            type="text"
+                            className="input-form w-full"
+                            value={compDescrption}
+                            onChange={(e) => setCompDescrption(e.target.value)}
+                          />
+                          </td>
+                      </tr>
+                      {/* {inputs.map((input, index) => ( */}
+                        {/* <tr className="bg-white dark:bg-gray-700">
                           <td className="py-2 px-4">
                             <input
                               type="text"
@@ -362,8 +413,8 @@ const addfaculty = ({ cookies }) => {
                               </svg>
                             </button>
                           </td>
-                        </tr>
-                      ))}
+                        </tr> */}
+                      {/* ))} */}
                     </tbody>
                   </table>
                 </div>
@@ -379,7 +430,7 @@ const addfaculty = ({ cookies }) => {
                 type="submit"
                 class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                Create
+                Update
               </button>
             </div>
           </div>
