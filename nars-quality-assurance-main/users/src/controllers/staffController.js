@@ -338,3 +338,19 @@ exports.deleteStaffRole = catchAsync(async (req, res, next) => {
     data: doc,
   });
 });
+
+exports.getAllInstructors = async (req, res, next) => {
+  try {
+    const instructors = await Staff.find({ roles: 'instructor' });
+    res.status(200).json({
+      status: 'success',
+      data: instructors
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while fetching instructors.'
+    });
+  }
+};

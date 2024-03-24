@@ -89,6 +89,7 @@ router
   .patch(authController.protect, staffController.addStaffRole)
   .delete(authController.protect, staffController.deleteStaffRole);
 
+router.route("/getAllInstructors").get(authController.protect,staffController.getAllInstructors);
 router
   .route("/staff/:id")
   .get(authController.protect, staffController.getStaff)

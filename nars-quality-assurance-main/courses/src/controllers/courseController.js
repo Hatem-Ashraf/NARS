@@ -2,6 +2,7 @@ const catchAsync = require("../shared/utils/catchAsync");
 const factory = require("./../shared/controllers/handlerFactory");
 const AppError = require("./../shared/utils/appError");
 const Course = require("../models/courseModel");
+const Newcourse = require("../models/newCourseModel");
 const CourseInstance = require("../models/courseInstanceModel");
 const axios = require("axios");
 const { Kafka } = require("kafkajs");
@@ -19,6 +20,13 @@ exports.updateCourse = factory.updateOne(Course);
 exports.deleteCourse = factory.deleteOne(Course);
 exports.getCourse = factory.getOne(Course);
 exports.getAllCourses = factory.getAll(Course);
+
+
+exports.createNewCourse = factory.createOne(Newcourse);
+exports.updateNewCourse = factory.updateOne(Newcourse);
+exports.deleteNewCourse = factory.deleteOne(Newcourse);
+exports.getNewCourse = factory.getOne(Newcourse);
+exports.getAllNewCourses = factory.getAll(Newcourse);
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -241,9 +249,7 @@ exports.getCourseInstance = factory.getOne(CourseInstance);
 exports.getAllCourseInstances = factory.getAll(CourseInstance);
 
 exports.assignCourseInstructor = catchAsync(async (req, res, next) => {
-  const instructorId = req.body.instructorId;
-  const courseId = req.body.courseId;
-
+  const { instructorId, courseIds } = req.body; 
   let token;
   if (
     req.headers.authorization &&
@@ -253,8 +259,10 @@ exports.assignCourseInstructor = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
-  const staffData = await axios
-    .patch(
+
+  // Iterate over each course ID and update the instructor
+  const staffData = await Promise.all(courseIds.map(async (courseId) => {
+    return axios.patch(
       `http://users:8080/staff/update-staff-courses`,
       {
         courseId,
@@ -263,29 +271,27 @@ exports.assignCourseInstructor = catchAsync(async (req, res, next) => {
       {
         headers: { authorization: `Bearer ${token}` },
       }
-    )
-    .then((res) => res.data)
-    .catch((e) => {
-      console.log("EXCPETIOB IS " + e);
-      return {
-        status: false,
-        message: "something went wrong",
-        code: 500,
-      };
-    });
+    ).then(res => res.data);
+  }));
 
-  if (staffData.status) {
+  
+  const success = staffData.every(data => data.status);
+
+  if (success) {
     res.status(201).json({
       status: "success",
-      staff: staffData.staff,
+      staff: staffData.map(data => data.staff)
     });
   } else {
-    res.status(staffData.code).json({
+    const failedCourses = staffData.filter(data => !data.status).map(data => data.courseId);
+    res.status(500).json({
       status: false,
-      message: staffData.message,
+      message: `Failed to assign instructor to courses: ${failedCourses.join(', ')}`
     });
   }
 });
+
+
 exports.viewComp = catchAsync(async (req, res, next) => {
   let query = Course.findById(req.params.id);
   const doc = await query;
@@ -511,3 +517,30 @@ exports.getSpecsPdf = catchAsync(async (req, res, next) => {
   //   data: exam,
   // });
 });
+
+//NEW CONTROLLERS SECTIONS 
+exports.getCoursesByProgramId = async (req, res) => {
+  try {
+    const { programId } = req.params;
+    
+    const courses = await Newcourse.find({ program: programId });
+
+    if (!courses || courses.length === 0) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'No courses found for the specified program ID.'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: courses
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while fetching courses.'
+    });
+  }
+};

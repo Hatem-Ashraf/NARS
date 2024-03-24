@@ -10,6 +10,9 @@ router.route("/").get(departmentController.getAllDepartments).post(
   departmentController.createDepartment
 );
 router.route("/getDepartmentsByFaculty/:facultyId").get(protect,departmentController.getDepartmentsByFaculty);
+
+router.route("/getDepByFaculties").get(protect,departmentController.getDepartmentsByFaculties);
+
 router.route("/searchDep").get(protect,departmentController.searchDepartmentByCode);
 
 router
