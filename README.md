@@ -104,3 +104,46 @@ deleteProgramObjective:delete http://localhost:8085/deleteProObj/:id
 updateProgramObjective:put http://localhost:8085/updateProObj/:id
 
 getProgramObjectiveById:GET http://localhost:8085/programObj/:id
+
+# staff
+
+newDepartmentAdmin : POST http://localhost:8081/newDepartmentAdmin
+JSON :
+{
+"name":"sayed",
+"email":"said1234@feng.bu.edu.eg",
+"faculty":"65eb1d67d1555f7450c9a027",
+"department":"65eb337db351e20dc76a9134",
+"roles":"department admin"
+}
+
+newProgramAdmin : POST http://localhost:8081/newProgramAdmin
+JSON :
+{
+"name":"sayed",
+"email":"said1@feng.bu.edu.eg",
+"faculty":"65eb1d67d1555f7450c9a027",
+"department":"65eb337db351e20dc76a9134",
+"roles":"program admin",
+"program":"65d7b844a5a017b149d2ed0d"
+}
+
+newInstructor : POST http://localhost:8081/newInstructor
+JSON :
+{
+"name":"sayed",
+"email":"said12@feng.bu.edu.eg",
+"faculty":"65eb1d67d1555f7450c9a027",
+"department":"65eb337db351e20dc76a9134",
+"roles":"instructor",
+"program":"65d7b844a5a017b149d2ed0d"
+}
+
+newQualityCoordinator : POST http://localhost:8081/newQualityCoordinator
+JSON :
+{
+"name":"sayed",
+"email":"said123@feng.bu.edu.eg",
+"faculty":"65eb1d67d1555f7450c9a027",
+"roles":"quality coordinator"
+}
