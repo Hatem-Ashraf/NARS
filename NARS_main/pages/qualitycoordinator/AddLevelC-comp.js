@@ -17,8 +17,6 @@ const addfaculty = ({ cookies }) => {
   });
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
-  const [inputs3, setInputs3] = useState([]);
-  const [inputs4, setInputs4] = useState([]);
   const handleAddInput = (e) => {
     e.preventDefault();
 
@@ -36,23 +34,6 @@ const addfaculty = ({ cookies }) => {
       },
     ]);
   };
-  const handleAddInput2 = (e) => {
-    e.preventDefault();
-
-    setInputs3([
-      ...inputs3,
-      {
-        ref: createRef(),
-      },
-    ]);
-
-    setInputs4([
-      ...inputs4,
-      {
-        ref: createRef(),
-      },
-    ]);
-  };
   const removeLO1 = (e, input2, input) => {
     e.preventDefault();
     setInputs2(
@@ -62,20 +43,6 @@ const addfaculty = ({ cookies }) => {
     );
     setInputs(
       inputs.filter((e) => {
-        return e != input;
-      })
-    );
-  };
-
-  const removeLO2 = (e, input2, input) => {
-    e.preventDefault();
-    setInputs4(
-      inputs4.filter((e) => {
-        return e != input2;
-      })
-    );
-    setInputs3(
-      inputs3.filter((e) => {
         return e != input;
       })
     );
@@ -100,32 +67,32 @@ const addfaculty = ({ cookies }) => {
     console.log(itemsArr);
   };
 
-  const getIdByEmail = async (email) => {
-    try {
-      const r = await fetch(`http://localhost:8081/staff?email=${email.current.value}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Bearer " + userState.token,
-        },
-      });
+  // const getIdByEmail = async (email) => {
+  //   try {
+  //     const r = await fetch(`http://localhost:8081/staff?email=${email.current.value}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: "Bearer " + userState.token,
+  //       },
+  //     });
 
-      const resp = await r.json();
-      console.log(resp);
-      if (resp.status == "fail" || resp.status == "error") {
-        setErr(resp.error.errors.dean.message);
-        console.log(resp, err);
-      }
-      else {
-        setID(resp.data[0]._id);
-        console.log(resp, ID);
-      }
+  //     const resp = await r.json();
+  //     console.log(resp);
+  //     if (resp.status == "fail" || resp.status == "error") {
+  //       setErr(resp.error.errors.dean.message);
+  //       console.log(resp, err);
+  //     }
+  //     else {
+  //       setID(resp.data[0]._id);
+  //       console.log(resp, ID);
+  //     }
 
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 
   const name = useRef();
   const email = useRef();
@@ -155,58 +122,31 @@ const addfaculty = ({ cookies }) => {
         value: input2.ref.current.value,
       };
     });
-
-    const arr3 = inputs3.map((input3) => {
-      return {
-        code: input3.ref.current.value,
-      };
-    });
-    const arr4 = inputs4.map((input4) => {
-      return {
-        value: input4.ref.current.value,
-      };
-    });
     const competences = arr1.map((a, index) => {
       const b = arr2[index];
       return {
         code: a.code,
         description: b.value,
+        level: "C",
       };
     });
-
-    const objectives = arr3.map((a, index) => {
-      const b = arr4[index];
-      return {
-        code: a.code,
-        description: b.value,
-      };
-    });
-    console.log(competences);
-    console.log("objectives:",objectives);
-
+    console.log("competences::", competences);
     try {
-      const r = await fetch(`http://localhost:8083/`, {
-        method: "POST",
 
-        body: JSON.stringify({
-          name: name.current.value,
-          dean: ID,
-          about: about.current.value,
-          competences: competences,
-          academicYears: itemsArr,
-        }),
+      const r = await fetch(`http://localhost:8085/programComp/`, {
+        method: "POST",
+        body: JSON.stringify(competences),
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: "Bearer " + userState.token,
         },
       });
-
       const resp = await r.json();
-      console.log(resp);
-      console.log(itemsArr);
-      if (resp.status == "fail" || resp.status == "error") {
-        setErr(resp.error.errors.dean.message);
+      console.log("resp::", resp);
+      
+      if (resp.error) {
+        // setErr(resp.error.errors.dean.message);
         console.log(resp, err);
         setMsg(fail);
       }
@@ -217,6 +157,32 @@ const addfaculty = ({ cookies }) => {
     } catch (e) {
       console.log(e);
     }
+    try {
+
+      const r = await fetch(`http://localhost:8085/programComp/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + userState.token,
+        },
+      });
+
+      const resp = await r.json();
+      console.log("All competencies::", resp);
+      // console.log(itemsArr);
+      // if (resp.status == "fail" || resp.status == "error") {
+      //   setErr(resp.error.errors.dean.message);
+      //   console.log(resp, err);
+      //   setMsg(fail);
+      // }
+      // else {
+      //   setMsg(success);
+      //   console.log(resp);
+      // }
+    } catch (e) {
+      console.log("error", e);
+    }
   };
 
   let fail = (
@@ -226,7 +192,7 @@ const addfaculty = ({ cookies }) => {
       role="alert"
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
-      <div class="ml-3 text-sm font-medium">
+      <div class="ml-3 text-lg font-medium">
         Failed to create Competence
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
@@ -262,7 +228,7 @@ const addfaculty = ({ cookies }) => {
       role="alert"
     >
       <i class="fa-solid fa-circle-check"></i>
-      <div class="ml-3 text-sm font-medium">
+      <div class="ml-3 text-lg font-medium">
         Competence has been Created successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
@@ -299,7 +265,7 @@ const addfaculty = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p className="font-normal text-3xl text-indigo-800">Add Level C Competencies</p>
+            <p className="font-normal text-3xl text-indigo-800">Add Level C Competences</p>
             {/* <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
                 <div>Faculty Name:</div>
@@ -334,23 +300,22 @@ const addfaculty = ({ cookies }) => {
                 />
               </div>
             </div> */}
-
-            <div className="flex gap-20 mt-10">
+            <div className="flex gap-20">
               <div className="flex flex-col space-y-1 gap-5 w-full">
-                <div class="flex items-center justify-between mr-6 text-lg text-gray-700 capitalize ">
-                    <span className="text-2xl text-indigo-500">Competencies:</span>
-                    <button
-                        onClick={handleAddInput}
-                        className="bg-blue-500 text-white py-2 px-4 rounded-md"
-                    >
-                        Add
-                    </button>
+                <p className="text-2xl text-indigo-500">Competences:</p>
+                <div class="flex items-center justify-end mr-6 text-lg text-gray-700 capitalize ">
+                  <button
+                    onClick={handleAddInput}
+                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                  >
+                    Add
+                  </button>
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="min-w-full">
-                    <thead className="bg-gray-50 dark:bg-gray-800 ">
-                      <tr className="border-indigo-500 border-10">
+                  <table className="min-w-full divide-y  divide-gray-200">
+                    <thead className="bg-gray-50 dark:bg-gray-800">
+                      <tr>
                         <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
                         <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
                         <th className="py-2 px-4 text-xl text-left w-[5%]">Action</th>
@@ -377,76 +342,6 @@ const addfaculty = ({ cookies }) => {
                             <button
                               type="button"
                               onClick={(e) => removeLO1(e, inputs2[index], input)}
-                              className="bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
-                              data-dismiss-target="#alert-border-2 "
-                              aria-label="Close"
-                            >
-                              <span className="sr-only">Dismiss</span>
-                              <svg
-                                aria-hidden="true"
-                                className="w-5 h-5"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                ></path>
-                              </svg>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-            <div className="flex gap-20 mb-10">
-              <div className="flex flex-col space-y-1 gap-5 w-full">
-                <div class="flex items-center justify-between mr-6 text-lg text-gray-700 capitalize ">
-                    <span className="text-2xl text-indigo-500">Objectives:</span>
-                    <button
-                        onClick={handleAddInput2}
-                        className="bg-blue-500 text-white py-2 px-4 rounded-md"
-                    >
-                        Add
-                    </button>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y  divide-gray-200">
-                    <thead className="bg-gray-50 dark:bg-gray-800">
-                      <tr>
-                        <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
-                        <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
-                        <th className="py-2 px-4 text-xl text-left w-[5%]">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {inputs3.map((input, index) => (
-                        <tr key={index} className="bg-white dark:bg-gray-700">
-                          <td className="py-2 px-4">
-                            <input
-                              type="text"
-                              ref={input.ref}
-                              className="input-form w-full"
-                            />
-                          </td>
-                          <td className="py-2 px-4">
-                            <input
-                              type="text"
-                              ref={inputs4[index].ref}
-                              className="input-form w-full"
-                            />
-                          </td>
-                          <td className="py-2 px-4 text-center">
-                            <button
-                              type="button"
-                              onClick={(e) => removeLO2(e, inputs4[index], input)}
                               className="bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
                               data-dismiss-target="#alert-border-2 "
                               aria-label="Close"

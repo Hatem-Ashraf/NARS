@@ -5,7 +5,7 @@ import { useRef, useEffect } from "react";
 import React from "react";
 import Textarea from "@/components/Textarea/TextareaRoles";
 import DropDown from "@/components/form_elements/DropDown"
-const addfaculty = ({ cookies }) => {
+const addDepartment = ({ cookies }) => {
   const userState = useSelector((s) => s.user);
   if (userState.role != "system admin" || userState.loggedInStatus != "true") {
     return <div className="error">404 could not found</div>;
@@ -170,7 +170,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
       <div class="ml-3 text-lg font-medium">
-        Failed to create faculty
+        Failed to create department
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -206,7 +206,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-solid fa-circle-check"></i>
       <div class="ml-3 text-lg font-medium">
-        Faculty has been Created successfully
+        Department has been Created successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
@@ -242,10 +242,10 @@ const addfaculty = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p className="font-normal">Faculty {">"} Add Faculty</p>
+            <p className="font-normal text-4xl">Add Department</p>
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
-                <div className="font-semibold">Faculty Name:</div>
+                <div className="font-semibold">Name :</div>
                 <input
                   required
                   type="text"
@@ -255,27 +255,59 @@ const addfaculty = ({ cookies }) => {
                 />
               </div>
               <div className="flex flex-col gap-5  w-2/5">
-                <div className="font-semibold"> Dean email:</div>
+                <div className="font-semibold">Code :</div>
                 <input
                   required
                   type="email"
                   name="year"
                   className="input-form  w-full"
                   ref={email}
-                  // onBlur={() => getIdByEmail(email)}
                 />
               </div>
             </div>
-
-            
-            <div className="flex gap-20">
-              <div className="flex flex-col gap-5 w-full">
-                <div className="font-semibold">About:</div>
+            <div className="flex justify-between gap-20">
+              <div className="flex flex-col gap-5 w-2/5">
+                <div className="font-semibold">Department Head (Email):</div>
+                <input
+                  required
+                  type="text"
+                  name="name"
+                  className="input-form w-full"
+                  ref={name}
+                />
+              </div>
+            </div>
+            <div className="flex justify-between gap-20">
+              <div className="flex flex-col gap-5 w-2/5">
+                <div className="font-semibold">Vision :</div>
                 <textarea
                   required
                   className="w-full input-form"
                   rows="4"
-                  placeholder="Type here  about the faculty"
+                  placeholder="Type here  about the vision"
+                  ref={about}
+                />
+              </div>
+              <div className="flex flex-col gap-5  w-2/5">
+                <div className="font-semibold">Mission :</div>
+                <textarea
+                  required
+                  className="w-full input-form"
+                  rows="4"
+                  placeholder="Type here  about the mission"
+                  ref={about}
+                />
+              </div>
+            </div>
+            
+            <div className="flex gap-20">
+              <div className="flex flex-col gap-5 w-full">
+                <div className="font-semibold">About :</div>
+                <textarea
+                  required
+                  className="w-full input-form"
+                  rows="4"
+                  placeholder="Type here  about the department"
                   ref={about}
                 />
               </div>
@@ -284,7 +316,7 @@ const addfaculty = ({ cookies }) => {
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-full">
               <h4 className="font-semibold ">
-                  Please mark the competences this faculty aims to achieve:
+                  Please mark the competences this Department aims to achieve:
               </h4>
               <div class="mt-2">
                 {competences.map((el, index) => {
@@ -400,4 +432,4 @@ const addfaculty = ({ cookies }) => {
     </>
   );
 };
-export default addfaculty;
+export default addDepartment;

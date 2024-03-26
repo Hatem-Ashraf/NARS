@@ -8,11 +8,11 @@ const path = require("path");
 
 const multer = require("multer");
 
-exports.addProgram = factory.createOne(Program);
-exports.deleteProgram = factory.deleteOne(Program);
-exports.UpdateProgram = factory.updateOne(Program);
+//exports.addProgram = factory.createOne(Program);
+//exports.deleteProgram = factory.deleteOne(Program);
+//exports.UpdateProgram = factory.updateOne(Program);
 exports.getProgram = factory.getOne(Program);
-exports.getAllPrograms = factory.getAll(Program);
+//exports.getAllPrograms = factory.getAll(Program);
 exports.getProgramSummary = factory.getOne(Program);
 exports.getProgram = catchAsync(async (req, res, next) => {
   let query = Program.findById(req.params.id);
@@ -300,3 +300,117 @@ exports.getProgramDirectAssessment = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.addProgram = async (req, res) => {
+  try {
+    // Extract name and competences from the request body
+    const { name, competences } = req.body;
+
+    // Create a new program instance with only name and competences
+    const newProgram = new Program({
+      name,
+      competences,
+    });
+
+    // Save the program to the database
+    const savedProgram = await newProgram.save();
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        program: savedProgram,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
+exports.getAllPrograms = async (req, res) => {
+  try {
+    // Fetch all programs from the database
+    const allPrograms = await Program.find();
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        programs: allPrograms,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Error retrieving programs from the database",
+    });
+  }
+};
+
+exports.deleteProgram = async (req, res) => {
+  try {
+    const programId = req.params.id;
+
+    // Check if the program exists
+    const existingProgram = await Program.findById(programId);
+    if (!existingProgram) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Program not found",
+      });
+    }
+
+    // Delete the program
+    await Program.findByIdAndDelete(programId);
+
+    res.status(200).json({
+      status: "success",
+      message: "Program deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Error deleting program from the database",
+    });
+  }
+};
+
+exports.updateProgram = async (req, res) => {
+  try {
+    const programId = req.params.id;
+    // Extract program ID, name, and competences from the request body
+    const { name, competences } = req.body;
+
+    // Find the program by ID
+    const existingProgram = await Program.findById(programId);
+
+    if (!existingProgram) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Program not found",
+      });
+    }
+
+    // Update the program with the new name and competences
+    existingProgram.name = name;
+
+    // Replace the entire competences array
+    existingProgram.competences = competences;
+
+    // Save the updated program to the database
+    const updatedProgram = await existingProgram.save();
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        program: updatedProgram,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};

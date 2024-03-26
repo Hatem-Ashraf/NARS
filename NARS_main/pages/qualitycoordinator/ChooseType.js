@@ -46,7 +46,7 @@ const MyComponent = () => {
         `}
          icon="fa-solid fa-layer-group" />
 
-        <ButtonWithHoverEffect goto="/qualitycoordinator/AddLevelC" text="Program Competences" description={`
+        <ButtonWithHoverEffect goto="/qualitycoordinator/view-all-level-C" text="Program Competences" description={`
           Program competences refer to the skills, knowledge domains, and proficiencies that students are expected to develop and demonstrate upon completion of an academic program or course of study.
           These competences are often aligned with the learning outcomes or educational objectives of the program and may encompass subject-specific knowledge, critical thinking skills, practical skills, ethical understanding, and other capabilities relevant to the program's Field or discipline.
         `}

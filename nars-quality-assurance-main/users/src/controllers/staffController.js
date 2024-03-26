@@ -338,3 +338,153 @@ exports.deleteStaffRole = catchAsync(async (req, res, next) => {
     data: doc,
   });
 });
+
+exports.newDepartmentAdmin = async (req, res) => {
+  try {
+    const { name, email, faculty, department, roles } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !department || !roles) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, department, roles, and program.",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+      department,
+      roles,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.newProgramAdmin = async (req, res) => {
+  try {
+    const { name, email, faculty, department, roles, program } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !department || !roles || !program) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, department, roles, and program.",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+      department,
+      roles,
+      program,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.newInstructor = async (req, res) => {
+  try {
+    const { name, email, faculty, department, roles, program } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !department || !roles || !program) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, department, roles, and program.",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+      department,
+      roles,
+      program,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.newQualityCoordinator = async (req, res) => {
+  try {
+    const { name, email, faculty, roles } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !roles) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, department, roles, and program.",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+
+      roles,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
