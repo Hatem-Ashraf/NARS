@@ -13,9 +13,10 @@ function UserList({ users }) {
             <th className="px-4 py-2 font-bold border text-lg">Name</th>
             <th className="px-4 py-2 font-bold border text-lg">Roles</th>
             <th className="px-4 py-2 font-bold border text-lg">Email</th>
-            <th className="px-4 py-2 font-bold border text-lg">Faculty</th>
+            <th className="px-4 py-2 font-bold border text-lg">View</th>
+            {/* <th className="px-4 py-2 font-bold border text-lg">Faculty</th>
             <th className="px-4 py-2 font-bold border text-lg">Department</th>
-            <th className="px-4 py-2 font-bold border text-lg">Program</th>
+            <th className="px-4 py-2 font-bold border text-lg">Program</th> */}
           </tr>
         </thead>
         <tbody>
@@ -28,9 +29,12 @@ function UserList({ users }) {
                   <ShowRolesButton roles={user.roles}/>
                   </td>
                 <td className="border px-4 py-2 text-lg">{user.email}</td>
-                <td className="border px-4 py-2 text-lg">Shoubra</td>
-                <td className="border px-4 py-2 text-lg">Electrical Engineering</td>
-                <td className="border px-4 py-2 text-lg">Computer engineering</td>
+                <td className="border flex justify-center px-4 py-2 text-lg">
+                  <i class="fa-solid fa-eye text-2xl text-indigo-800"></i>
+                </td>
+                {/* <td className="border px-4 py-2 text-lg">{user.faculty}</td>
+                <td className="border px-4 py-2 text-lg">{user.department}</td>
+                <td className="border px-4 py-2 text-lg">{user.program}</td> */}
               </tr>
             );
           })}

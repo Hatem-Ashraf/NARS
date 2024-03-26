@@ -74,6 +74,19 @@ router
   .get(authController.protect, staffController.getAllStaffMembers)
   .post(authController.protect, staffController.createStaff);
 
+router
+  .route("/newDepartmentAdmin")
+  .post(authController.protect, staffController.newDepartmentAdmin);
+router
+  .route("/newProgramAdmin")
+  .post(authController.protect, staffController.newProgramAdmin);
+router
+  .route("/newInstructor")
+  .post(authController.protect, staffController.newInstructor);
+router
+  .route("/newQualityCoordinator")
+  .post(authController.protect, staffController.newQualityCoordinator);
+
 router.route("/addSystemAdmin").post(staffController.createStaff);
 
 router

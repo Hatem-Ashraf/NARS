@@ -2,67 +2,27 @@ import { createRef } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
+import { useRouter } from 'next/router';
+
 import React from "react";
-import Textarea from "@/components/Textarea/TextareaRoles";
-import DropDown from "@/components/form_elements/DropDown"
+
+
 const addfaculty = ({ cookies }) => {
+
+  const router = useRouter();
+  const { comp_id } = router.query;
+  console.log("Competence_id", comp_id);
+
   const userState = useSelector((s) => s.user);
-  if (userState.role != "system admin" || userState.loggedInStatus != "true") {
+  if (userState.role != "quality coordinator" || userState.loggedInStatus != "true") {
     return <div className="error">404 could not found</div>;
   }
-
-  const role = useRef();
-  const [competencesChecked, setCompetencesChecked] = useState([]);
   const [msg, setMsg] = useState("");
-  const [competences, setcompetences] = useState([]);
-  const [checkedItems, setCheckedItems] = useState({});
-
-
-  const handleCheckboxChange = (event) => {
-    const updatedList = [...competencesChecked]; // Create a copy of the existing competencesChecked array
-    const checkboxValue = event.target.value; // Get the value of the checkbox
-
-    if (event.target.checked) {
-      updatedList.push(checkboxValue); // Add the checkbox value to the updatedList array
-    } else {
-      const indexToRemove = updatedList.indexOf(checkboxValue);
-      updatedList.splice(indexToRemove, 1); // Remove the checkbox value from the updatedList array
-    }
-
-    setCompetencesChecked(updatedList); // Update the competencesChecked state with the updatedList array
-    console.log("miniinin1", updatedList);
-  };
-
   const closeMsg = () => {
     setMsg("");
   };
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const resp = await fetch(`http://localhost:8085/facultyComp`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                  Authorization: "Bearer " + userState.token,
-                },
-            });
-          const data = await resp.json();
-          console.log("data.competences", data.competences);
-          setcompetences(data.competences);
-          // setFilteredcompetences(data.competences);
-        } catch (e) {
-          console.log(e);
-        }
-    };
-
-    fetchData();
-
-    // Clean-up function if needed
-    return () => {
-      // Any clean-up code if required
-    };
-  }, []); // Empty dependency array ensures effect runs only once on mount
+  const [compCode, setCompCode] = useState("")
+  const [compDescrption, setCompDescrption] = useState("")
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
   const handleAddInput = (e) => {
@@ -98,6 +58,29 @@ const addfaculty = ({ cookies }) => {
   const [err, setErr] = useState("");
   const [itemsArr, setItems] = useState([]);
   const [ID, setID] = useState("")
+
+  useEffect(() => {
+    const fetchCompetence = async () => {
+      try {
+        const response = await fetch(`http://localhost:8085/programComp/${comp_id}`);
+        // if (!response.ok) {
+        //   throw new Error('Failed to fetch competence');
+        // }
+        const competenceData = await response.json();
+        console.log("competenceData", competenceData);
+        setCompCode(competenceData.competence.code)
+        setCompDescrption(competenceData.competence.description)
+
+        // setCompetence(competenceData);
+      } catch (error) {
+        console.error('Error fetching competence:', error);
+      }
+    };
+
+    if (comp_id) {
+      fetchCompetence();
+    }
+  }, [comp_id]);
   const handleSelectChange = (year) => {
     itemsArr.push(year.current.value);
     choosen.current.value = itemsArr.map((e) => {
@@ -115,28 +98,77 @@ const addfaculty = ({ cookies }) => {
     console.log(itemsArr);
   };
 
+  // const getIdByEmail = async (email) => {
+  //   try {
+  //     const r = await fetch(`http://localhost:8081/staff?email=${email.current.value}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: "Bearer " + userState.token,
+  //       },
+  //     });
+
+  //     const resp = await r.json();
+  //     console.log(resp);
+  //     if (resp.status == "fail" || resp.status == "error") {
+  //       setErr(resp.error.errors.dean.message);
+  //       console.log(resp, err);
+  //     }
+  //     else {
+  //       setID(resp.data[0]._id);
+  //       console.log(resp, ID);
+  //     }
+
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
+
   const name = useRef();
   const email = useRef();
   const about = useRef();
+  const choosen = useRef();
   const year = useRef();
+
+  const items = [
+    "prep",
+    "first",
+    "second",
+    "third",
+    "fourth",
+    "fifth",
+    "sixth",
+  ];
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log({
-      name: name.current.value,
-      dean: email.current.value,
-      about: about.current.value,
-      competences: competencesChecked,
-    })
+    const arr1 = inputs.map((input1) => {
+      return {
+        code: input1.ref.current.value,
+      };
+    });
+    const arr2 = inputs2.map((input2) => {
+      return {
+        value: input2.ref.current.value,
+      };
+    });
+    const competences = arr1.map((a, index) => {
+      const b = arr2[index];
+      return {
+        code: a.code,
+        description: b.value,
+        level: "C",
+      };
+    });
+    console.log("competences::", competences);
     try {
-      const r = await fetch(`http://localhost:8083/`, {
-        method: "POST",
-
+      const r = await fetch(`http://localhost:8085/updateProComp/${comp_id}`, {
+        method: "PUT",
         body: JSON.stringify({
-          name: name.current.value,
-          dean: email.current.value,
-          about: about.current.value,
-          competences: competencesChecked,
+          code: compCode,
+          description: compDescrption,
+          level: "A",
         }),
         headers: {
           "Content-Type": "application/json",
@@ -144,12 +176,11 @@ const addfaculty = ({ cookies }) => {
           Authorization: "Bearer " + userState.token,
         },
       });
-
       const resp = await r.json();
-      console.log(resp);
-      console.log(itemsArr);
-      if (resp.status == "fail" || resp.status == "error") {
-        setErr(resp.error.errors.dean.message);
+      console.log("resp::", resp);
+      
+      if (resp.status == "fail" || resp.status == "error"|| resp.error) {
+        // setErr(resp.error.errors.dean.message);
         console.log(resp, err);
         setMsg(fail);
       }
@@ -159,6 +190,32 @@ const addfaculty = ({ cookies }) => {
       }
     } catch (e) {
       console.log(e);
+    }
+    try {
+
+      const r = await fetch(`http://localhost:8085/departmentComp`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + userState.token,
+        },
+      });
+
+      const resp = await r.json();
+      console.log("All competencies::", resp);
+      // console.log(itemsArr);
+      // if (resp.status == "fail" || resp.status == "error") {
+      //   setErr(resp.error.errors.dean.message);
+      //   console.log(resp, err);
+      //   setMsg(fail);
+      // }
+      // else {
+      //   setMsg(success);
+      //   console.log(resp);
+      // }
+    } catch (e) {
+      console.log("error", e);
     }
   };
 
@@ -170,7 +227,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
       <div class="ml-3 text-lg font-medium">
-        Failed to create faculty
+        Failed to update Competence
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -206,7 +263,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-solid fa-circle-check"></i>
       <div class="ml-3 text-lg font-medium">
-        Faculty has been Created successfully
+        Competence has been Updated successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
@@ -242,12 +299,11 @@ const addfaculty = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p className="font-normal">Faculty {">"} Add Faculty</p>
-            <div className="flex justify-between gap-20">
+            <p className="font-normal text-3xl text-indigo-800">Update Level C Competencies</p>
+            {/* <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
-                <div className="font-semibold">Faculty Name:</div>
+                <div>Faculty Name:</div>
                 <input
-                  required
                   type="text"
                   name="name"
                   className="input-form w-full"
@@ -255,66 +311,32 @@ const addfaculty = ({ cookies }) => {
                 />
               </div>
               <div className="flex flex-col gap-5  w-2/5">
-                <div className="font-semibold"> Dean email:</div>
+                <div> Dean email:</div>
                 <input
-                  required
                   type="email"
                   name="year"
                   className="input-form  w-full"
                   ref={email}
-                  // onBlur={() => getIdByEmail(email)}
+                  onBlur={() => getIdByEmail(email)}
                 />
               </div>
             </div>
 
-            
+
             <div className="flex gap-20">
               <div className="flex flex-col gap-5 w-full">
-                <div className="font-semibold">About:</div>
+                <div>About:</div>
                 <textarea
-                  required
                   className="w-full input-form"
                   rows="4"
                   placeholder="Type here  about the faculty"
                   ref={about}
                 />
               </div>
-            </div>
-
-            <div className="flex justify-between gap-20">
-              <div className="flex flex-col gap-5 w-full">
-              <h4 className="font-semibold ">
-                  Please mark the competences this faculty aims to achieve:
-              </h4>
-              <div class="mt-2">
-                {competences.map((el, index) => {
-                    return (
-                      <div
-                        className="flex flex-row m-4 abet-criteria"
-                        key={index + 1}
-                      >
-                        <div>
-                          <input
-                            className="mr-2 w-8 h-8 rounded-lg"
-                            type="checkbox"
-                            value={el._id}
-                            data-id={index}
-                            onChange={handleCheckboxChange}
-                          />
-                        </div>
-                        <p> {el.code} - {el.description}</p>
-                      </div>
-                    );
-                  })}
-              </div>
-              </div>
-            </div>
-              
+            </div> */}
             <div className="flex gap-20">
               <div className="flex flex-col space-y-1 gap-5 w-full">
-                {/* <p className=" mb-0 ">Competences:</p> */}
-                {/* <DropDown items={["item1", "item2", "item3"]} /> */}
-                
+                <p className="text-2xl text-indigo-500">Competences:</p>
                 {/* <div class="flex items-center justify-end mr-6 text-lg text-gray-700 capitalize ">
                   <button
                     onClick={handleAddInput}
@@ -324,18 +346,35 @@ const addfaculty = ({ cookies }) => {
                   </button>
                 </div> */}
 
-                {/* <div className="overflow-x-auto">
+                <div className="overflow-x-auto">
                   <table className="min-w-full divide-y  divide-gray-200">
                     <thead className="bg-gray-50 dark:bg-gray-800">
                       <tr>
-                        <th className="py-2 px-4 text-xl text-left w-[10%]">Code</th>
+                        <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
                         <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
-                        <th className="py-2 px-4 text-xl text-left w-[10%]">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {inputs.map((input, index) => (
-                        <tr key={index} className="bg-white dark:bg-gray-700">
+                      <tr>
+                        <td className="py-2 px-4">
+                          <input
+                            type="text"
+                            className="input-form w-full"
+                            value={compCode}
+                            onChange={(e) => setCompCode(e.target.value)}
+                          />
+                          </td>
+                          <td className="py-2 px-4">
+                          <input
+                            type="text"
+                            className="input-form w-full"
+                            value={compDescrption}
+                            onChange={(e) => setCompDescrption(e.target.value)}
+                          />
+                          </td>
+                      </tr>
+                      {/* {inputs.map((input, index) => ( */}
+                        {/* <tr className="bg-white dark:bg-gray-700">
                           <td className="py-2 px-4">
                             <input
                               type="text"
@@ -350,7 +389,7 @@ const addfaculty = ({ cookies }) => {
                               className="input-form w-full"
                             />
                           </td>
-                          <td className="py-2 px-4">
+                          <td className="py-2 px-4 text-center">
                             <button
                               type="button"
                               onClick={(e) => removeLO1(e, inputs2[index], input)}
@@ -374,11 +413,11 @@ const addfaculty = ({ cookies }) => {
                               </svg>
                             </button>
                           </td>
-                        </tr>
-                      ))}
+                        </tr> */}
+                      {/* ))} */}
                     </tbody>
                   </table>
-                </div> */}
+                </div>
 
               </div>
             </div>
@@ -391,7 +430,7 @@ const addfaculty = ({ cookies }) => {
                 type="submit"
                 class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                Create
+                Update
               </button>
             </div>
           </div>

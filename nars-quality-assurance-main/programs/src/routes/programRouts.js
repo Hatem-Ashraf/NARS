@@ -19,7 +19,7 @@ router
 router
   .route("/:id")
   .get(protect, programController.getProgram)
-  .patch(protect, programController.UpdateProgram)
+  .patch(protect, programController.updateProgram)
   .delete(protect, programController.deleteProgram);
 
 router
