@@ -503,7 +503,7 @@ setMsg(failImport);
   return (
     <>
       {exportModalIsOpen ? (
-        <div className="fixed inset-0 flex justify-center items-center z-20 h-screen" >
+        <div className="fixed  inset-0 flex justify-center items-center z-20 h-screen" >
           <div className=" container relative  rounded-lg p-6 w-[40rem] bg-white text-black border-2 shadow-xl border-black  ">
             <button
               onClick={exportCancel}
@@ -555,7 +555,7 @@ setMsg(failImport);
         <form
          
           onSubmit={submitHandler}
-          className=" h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" h-screen w-screen my-5 flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
             <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Instructor</p>
