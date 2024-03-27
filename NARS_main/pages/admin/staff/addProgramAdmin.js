@@ -550,12 +550,12 @@ setMsg(failImport);
         </div>
       ) : null}
       <div
-        className={`flex flex-row h-screen `}
+        className={`flex flex-row min-h-screen my-5`}
       >
         <form
          
           onSubmit={submitHandler}
-          className=" h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" min-h-screen w-screen  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
             <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Program Admin</p>
