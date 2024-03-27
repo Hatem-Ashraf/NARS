@@ -8,6 +8,8 @@ import { header } from "./header";
 import { useEffect, useState, useRef } from "react";
 import { CgProfile } from "react-icons/cg";
 import { CgLogOut } from "react-icons/cg";
+import { GiTeacher } from "react-icons/gi";
+import { GrAddCircle, GrOrderedList } from "react-icons/gr";
 import { BsBook } from "react-icons/bs";
 import { RiFileList2Line } from "react-icons/ri";
 
@@ -108,15 +110,36 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
             style={{
               fontSize: 30,
               display: "inline",
-              marginBottom: 0,
+              marginBottom: 4,
               marginRight: 9,
             }}
           />
           courses
         </span>,
         [
-          Array(
-            c.map((original) => {
+            <Link
+              className={
+                router.pathname === "/ProgramCoo/create"
+                  ? "activeLinkDashboard2"
+                  : "normalLinkDashboard2"
+              }
+              href="/ProgramCoo/create"
+            >
+              Create Course
+            </Link>,
+            <Link
+            className={
+              router.pathname === "/ProgramCoo/Assign"
+                ? "activeLinkDashboard2"
+                : "normalLinkDashboard2"
+            }
+            href="/ProgramCoo/Assign"
+          >
+            Assign Instructor
+          </Link>
+  
+          ,Array(
+            c && Array.isArray(c) && c.map((original) => {
               return (
                 <div key={original._id} className=" mb-5 -mx-4  px-0 ">
                   <HeaderElementProgramCoordinator
@@ -140,7 +163,7 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
             style={{
               fontSize: 30,
               display: "inline",
-              marginBottom: 0,
+              marginBottom: 4,
               marginRight: 9,
             }}
           />
@@ -197,6 +220,13 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
           </Link>,
         ]
       )}
+{header(
+<Link className="link2  font-semibold" href="/ProgramCoo/Competence/view-all-level-C">
+                <div className="flex items-center mt-4">
+                <GiTeacher style={{ fontSize: 30, marginBottom: 5 }} />
+                <span className="ml-2 text-lg">Program Competence</span>
+                </div>
+            </Link>)}
 
       <button
         className="link2 focus:text-green-400 text-left"

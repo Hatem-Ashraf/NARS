@@ -5,9 +5,9 @@ import { useRef, useEffect } from "react";
 import React from "react";
 const addfaculty = ({ cookies }) => {
   const userState = useSelector((s) => s.user);
-  if (userState.role != "quality coordinator" || userState.loggedInStatus != "true") {
-    return <div className="error">404 could not found</div>;
-  }
+  // if (userState.role != "quality coordinator" || userState.loggedInStatus != "true") {
+  //   return <div className="error">404 could not found</div>;
+  // }
   const [msg, setMsg] = useState("");
   const closeMsg = () => {
     setMsg("");

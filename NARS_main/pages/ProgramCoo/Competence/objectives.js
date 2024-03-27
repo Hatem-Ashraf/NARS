@@ -56,13 +56,12 @@ function Competences({ competences, setCompetences, level, delete_url, create_fi
   
 
   return (
-    <div className="container my-4 ">
+    <div className="container mt-10 ">
       <table className="w-full text-left border rounded">
         <thead className="bg-sky-100">
           <tr className="text-xl">
             <th className="px-4 text-xl py-2 font-bold border">Code</th>
             <th className="px-4 text-xl py-2 font-bold border">Description</th>
-            <th className="px-4 text-xl py-2 font-bold border">Level</th>
             <th className="px-4 text-xl py-2 font-bold border text-center">Action</th>
           </tr>
         </thead>
@@ -72,7 +71,6 @@ function Competences({ competences, setCompetences, level, delete_url, create_fi
               <tr key={comp.code}>
                 <td className="border text-xl px-4 py-2 bg-white">{comp.code}</td>
                 <td className="border text-xl px-4 py-2 bg-white">{comp.description}</td>
-                <td className="border text-xl px-4 py-2 bg-white">{comp.level}</td>
                 <td className="border text-lg px-4 py-2 bg-white">
                   <div className="flex justify-around">
                     <Link href={`/qualitycoordinator/${level}/${comp._id}`}>
@@ -88,9 +86,9 @@ function Competences({ competences, setCompetences, level, delete_url, create_fi
           })}
         </tbody>
       </table>
-      <div className="flex justify-center mt-10 ">
-        <Link href={`/qualitycoordinator/AddLevelC-comp`} className="bg-green-600 p-2 rounded text-white text-xl font-bold">
-          <span>Add Competences
+      <div className="flex justify-center mt-5 ">
+        <Link href={`/qualitycoordinator/${create_file_name}`} className="bg-green-600 p-2 rounded text-white text-xl font-bold">
+          <span>Add Objectives
             <i className="fa-solid fa-plus text-white ml-2"></i>
           </span>
         </Link>
