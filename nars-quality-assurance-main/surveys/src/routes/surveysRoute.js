@@ -6,26 +6,25 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(protect, surveyController.getAllSurveys)
-  .post(protect, surveyController.addSurvey);
+  .get(surveyController.getAllSurveys)
+  .post(surveyController.addSurvey);
+
+router
+  .route("/:id")
+  .get(surveyController.getSurveyById)
+  .delete(surveyController.deleteSurvey);
+
+router
+  .route("/submissions")
+  .post(surveyController.addSubmission);
 
 router
   .route("/submissions/:id")
-  .get(protect, surveyController.getSurveySubmissions);
-router.route("/submissions").post(protect, surveyController.addSumbission);
+  .get(surveyController.getSurveySubmissions)
+  .delete(surveyController.deleteSubmission);
 
 router
   .route("/student-submissions")
-  .get(protect, surveyController.getStudentSubmissions);
-
-  router
-  .route("/:id")
-  .get(protect, surveyController.getSurveyById)
-  .delete(protect, surveyController.deleteSurvey);
-  
-router
-  .route("/submissions/:id")
-  .get(protect, surveyController.getSubmission)
-  .delete(protect, surveyController.deleteSubmission);
+  .get(surveyController.getStudentSubmissions);
 
 module.exports = router;
