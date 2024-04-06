@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import UserCard from "@/components/user/UserCard";
 import ObjectivesList from "./objectives";
-import CompetencesList from "@/components/quality/competences";
+import CompetencesList from "./competences";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
