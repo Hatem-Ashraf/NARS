@@ -223,7 +223,7 @@ getProgramObjectiveById:GET http://localhost:8085/programObj/:id
 
 # staff
 
-* get staff by id: GET http://localhost:8081/staff/id
+* get staff by   id: GET http://localhost:8081/staff/id
 
 newDepartmentAdmin : POST http://localhost:8081/newDepartmentAdmin
 JSON :
