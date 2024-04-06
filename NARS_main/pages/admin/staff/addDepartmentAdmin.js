@@ -324,7 +324,7 @@ setMsg(failImport);
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          department: department.current.value,
+          // department: department.current.value,
       })
       const resp = await fetch('http://localhost:8081/newDepartmentAdmin', {
         method: "POST",
@@ -337,7 +337,7 @@ setMsg(failImport);
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          department: department.current.value,
+          // department: department.current.value,
         }),
       });
       const data = await resp.json();
@@ -595,7 +595,7 @@ setMsg(failImport);
                   })}{" "}
                 </select>
               </div>
-              <div className="flex flex-col gap-5  w-1/2">
+              {/* <div className="flex flex-col gap-5  w-1/2">
                 <div>Department</div>
                 <select
                   id="department"
@@ -615,7 +615,7 @@ setMsg(failImport);
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex gap-10 w-full">

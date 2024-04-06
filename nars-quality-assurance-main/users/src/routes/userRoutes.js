@@ -74,6 +74,11 @@ router
   .get(authController.protect, staffController.getAllStaffMembers)
   .post(authController.protect, staffController.createStaff);
 
+//Get a staff by id
+// router
+//   .route("/staff/:id")
+//   .get(authController.protect, staffController.getStaffMemberById)
+
 router
   .route("/newDepartmentAdmin")
   .post(authController.protect, staffController.newDepartmentAdmin);
@@ -104,7 +109,7 @@ router
 
 router
   .route("/staff/:id")
-  .get(authController.protect, staffController.getStaff)
+  .get(authController.protect, staffController.getStaffMemberById)
   .patch(authController.protect, staffController.updateStaff)
   .delete(
     authController.protect,
