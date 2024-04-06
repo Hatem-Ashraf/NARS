@@ -15,13 +15,12 @@ const surveySchema = new mongoose.Schema({
     type: Date,
     required: [true, "Survey must have a due-to date"],
   },
-  courseInstance: {
+  courseId: {
     type: mongoose.Schema.ObjectId,
-    required: [true, "Survey must belong to course instance"],
+    required: [true, "Survey must belong to a course"],
   },
-  programId: mongoose.Schema.ObjectId,
 });
 
-const Survey = new mongoose.model("Survey", surveySchema);
+const Survey = mongoose.model("Survey", surveySchema);
 
 module.exports = Survey;
