@@ -325,7 +325,7 @@ setMsg(failImport);
           email: email.current.value,
           faculty: faculty.current.value,
           department: department.current.value,
-          program: program.current.value,
+          // program: program.current.value,
       })
       const resp = await fetch('http://localhost:8081/newProgramAdmin', {
         method: "POST",
@@ -338,8 +338,7 @@ setMsg(failImport);
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          department: department.current.value,
-          program: program.current.value,
+          department: department.current.value
         }),
       });
       const data = await resp.json();
@@ -619,7 +618,7 @@ setMsg(failImport);
                 </select>
               </div>
             </div>
-            <div className="flex gap-10 ">
+            {/* <div className="flex gap-10 ">
               <div className="flex flex-col gap-5  w-1/2">
                 <div>Program</div>
                 <select
@@ -639,7 +638,7 @@ setMsg(failImport);
                   ))}
                 </select>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex gap-10 w-full">
               <div className="flex justify-between items-center w-full">
