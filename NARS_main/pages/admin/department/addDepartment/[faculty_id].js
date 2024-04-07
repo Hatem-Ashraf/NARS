@@ -191,7 +191,7 @@ const addfaculty = ({ cookies }) => {
     // });
     console.log({
       name: name.current.value,
-      departmentHead: email.current.value,
+      // departmentHead: email.current.value,
       about: about.current.value,
       competences: competencesChecked,
       code: code.current.value,
@@ -205,7 +205,7 @@ const addfaculty = ({ cookies }) => {
         method: "POST",
         body: JSON.stringify({
           name: name.current.value,
-          departmentHead: email.current.value,
+          // departmentHead: email.current.value,
           about: about.current.value,
           competences: competencesChecked,
           code: code.current.value,
@@ -320,7 +320,7 @@ const addfaculty = ({ cookies }) => {
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
             <p className="font-normal text-4xl">Add Department</p>
             <div className="flex justify-between gap-20">
-              <div className="flex flex-col gap-5 w-2/6">
+              <div className="flex flex-col gap-5 w-3/6">
                 <div className="font-semibold">Name :</div>
                 <input
                   required
@@ -332,7 +332,7 @@ const addfaculty = ({ cookies }) => {
                   ref={name}
                 />
               </div>
-              <div className="flex flex-col gap-5 w-2/6">
+              {/* <div className="flex flex-col gap-5 w-2/6">
                 <div className="font-semibold">Department Head (Email):</div>
                 <input
                   required
@@ -343,8 +343,8 @@ const addfaculty = ({ cookies }) => {
 
                   ref={email}
                 />
-              </div>
-              <div className="flex flex-col gap-5  w-1/6">
+              </div> */}
+              <div className="flex flex-col gap-5  w-3/6">
                 <div className="font-semibold">Code :</div>
                 <input
                   required

@@ -63,21 +63,19 @@ router
     staffController.uploadUserPhoto,
     staffController.updateMe
   );
+
 router
   .route("/staff/updatePassword/:id")
   .patch(authController.protect, staffController.updatePassword);
+
 router
   .route("/staff/getPhoto/:id")
   .get(authController.protect, staffController.getStaffPhoto);
+
 router
   .route("/staff")
   .get(authController.protect, staffController.getAllStaffMembers)
   .post(authController.protect, staffController.createStaff);
-
-//Get a staff by id
-// router
-//   .route("/staff/:id")
-//   .get(authController.protect, staffController.getStaffMemberById)
 
 router
   .route("/newDepartmentAdmin")
@@ -91,6 +89,20 @@ router
 router
   .route("/newQualityCoordinator")
   .post(authController.protect, staffController.newQualityCoordinator);
+
+router
+  .route("/Deans")
+  // .get(authController.protect, staffController.getAllDean)
+  .post(authController.protect, staffController.newDean);
+
+router
+  .route("/depAdmins")
+  .get(authController.protect, staffController.getAllDepartmentAdmins)
+
+  router
+  .route("/progAdmins")
+  .get(authController.protect, staffController.getAllProgramAdmins)
+
 
 router.route("/addSystemAdmin").post(staffController.createStaff);
 

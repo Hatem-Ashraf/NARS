@@ -15,7 +15,7 @@ const kafka = new Kafka({
 });
 const consumer = kafka.consumer({ groupId: "group-1" });
 
-exports.getAllStaffMembers = factory.getAll(Staff);
+// exports.getAllStaffMembers = factory.getAll(Staff);
 exports.deleteStaff = factory.deleteOne(Staff);
 exports.updateStaff = factory.updateOne(Staff);
 exports.getStaff = factory.getOne(Staff);
@@ -352,14 +352,14 @@ exports.getStaffMemberById = catchAsync(async (req, res, next) => {
 
 exports.newDepartmentAdmin = async (req, res) => {
   try {
-    const { name, email, faculty, roles } = req.body;
+    const { name, email, faculty, department, roles } = req.body;
 
     // Check if the required fields are provided
-    if (!name || !email || !faculty  || !roles) {
+    if (!name || !email || !faculty || !department || !roles) {
       return res.status(400).json({
         status: "fail",
         message:
-          "Please provide name, email, faculty, department, roles, and program.",
+          "Please provide name, email, faculty, roles",
       });
     }
 
@@ -368,6 +368,7 @@ exports.newDepartmentAdmin = async (req, res) => {
       name,
       email,
       faculty,
+      department,
       roles,
     });
 
@@ -388,14 +389,14 @@ exports.newDepartmentAdmin = async (req, res) => {
 
 exports.newProgramAdmin = async (req, res) => {
   try {
-    const { name, email, faculty, department, roles } = req.body;
+    const { name, email, faculty, department, program, roles } = req.body;
 
     // Check if the required fields are provided
-    if (!name || !email || !faculty || !department || !roles ) {
+    if (!name || !email || !faculty || !department || !program || !roles ) {
       return res.status(400).json({
         status: "fail",
         message:
-          "Please provide name, email, faculty, department, roles, and program.",
+          "Please provide name, email, faculty, department, roles",
       });
     }
 
@@ -405,6 +406,7 @@ exports.newProgramAdmin = async (req, res) => {
       email,
       faculty,
       department,
+      program,
       roles,
     });
 
@@ -497,3 +499,55 @@ exports.newQualityCoordinator = async (req, res) => {
     });
   }
 };
+
+//Create new dean
+exports.newDean = catchAsync(async (req, res) => {
+  const { name, email, faculty, roles } = req.body;
+  const newStaff = await Staff.create({
+    name,
+    email,
+    faculty,
+    roles,
+  });
+  res.status(201).json({
+    status: "success",
+    data: {
+      staff: newStaff,
+    },
+  });
+})
+
+exports.getAllDepartmentAdmins = catchAsync(async (req, res, next) => {
+  const {facultyId} = req.body;
+  const staff = await Staff.find({ roles: "department admin", faculty: facultyId });
+  res.status(200).json({
+    status: "success",
+    results: staff.length,
+    data: {
+      staff,
+    },
+  });
+})
+
+exports.getAllProgramAdmins = catchAsync(async (req, res, next) => {
+  const {facultyId, departmentId} = req.body;
+  const staff = await Staff.find({ roles: "program admin", department: departmentId });
+  res.status(200).json({
+    status: "success",
+    results: staff.length,
+    data: {
+      staff,
+    },
+  });
+})
+
+exports.getAllStaffMembers = catchAsync(async (req, res, next) => {
+  const staff = await Staff.find();
+  res.status(200).json({
+    status: "success",
+    results: staff.length,
+    data: {
+      staff,
+    },
+  });
+})

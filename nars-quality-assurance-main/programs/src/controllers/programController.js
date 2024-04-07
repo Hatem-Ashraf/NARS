@@ -306,9 +306,22 @@ exports.addProgram = async (req, res) => {
     // Extract name and competences from the request body
     const { name, competences } = req.body;
 
+    const facultyId = req.params.facultyId;
+    const departmentId = req.params.departmentId;
+
+    if (!facultyId || !departmentId || !name) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Program must have a name, facultyId, departmentId",
+      });
+    }
+
+
     // Create a new program instance with only name and competences
     const newProgram = new Program({
       name,
+      faculty: facultyId,
+      department: departmentId,
       competences,
     });
 
@@ -331,8 +344,18 @@ exports.addProgram = async (req, res) => {
 
 exports.getAllPrograms = async (req, res) => {
   try {
-    // Fetch all programs from the database
-    const allPrograms = await Program.find();
+    const facultyId = req.params.facultyId;
+    const departmentId = req.params.departmentId;
+
+    if (!facultyId || !departmentId) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Program must have a name, facultyId, departmentId",
+      });
+    }
+
+    // Fetch all programs from the database in a specific faculty and department
+      const allPrograms = await Program.find({faculty: facultyId, department: departmentId});
 
     res.status(200).json({
       status: "success",

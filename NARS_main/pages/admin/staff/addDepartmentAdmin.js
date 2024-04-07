@@ -318,13 +318,14 @@ setMsg(failImport);
   };
   const submitHandler = async (e) => {
     e.preventDefault();
+    const depId  = department.current.value;
     try {
       console.log({
           roles: "department admin",
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          // department: department.current.value,
+          department: department.current.value,
       })
       const resp = await fetch('http://localhost:8081/newDepartmentAdmin', {
         method: "POST",
@@ -337,16 +338,36 @@ setMsg(failImport);
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          // department: department.current.value,
+          department: department.current.value,
         }),
       });
       const data = await resp.json();
       console.log("submit Response:",data);
       if (data.status == "success") {
+        
+        const resp2 = await fetch(`http://localhost:8084/${depId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          departmentHead: email.current.value,
+        }),
+      });
+      const data2 = await resp2.json();
+      console.log("submit Response:",data2);
+      if (data2.status == "success") {
         setMsg(success);
       } else {
         setMsg(fail);
       }
+
+      } else {
+        setMsg(fail);
+      }
+
+      
     } catch (e) {
       console.log(e);
     }
@@ -548,12 +569,12 @@ setMsg(failImport);
         </div>
       ) : null}
       <div
-        className={`flex flex-row h-screen `}
+        className={`flex flex-row min-h-screen `}
       >
         <form
          
           onSubmit={submitHandler}
-          className=" h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" min-h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
             <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Department Admin</p>
@@ -595,7 +616,7 @@ setMsg(failImport);
                   })}{" "}
                 </select>
               </div>
-              {/* <div className="flex flex-col gap-5  w-1/2">
+              <div className="flex flex-col gap-5  w-1/2">
                 <div>Department</div>
                 <select
                   id="department"
@@ -615,7 +636,7 @@ setMsg(failImport);
                     </option>
                   ))}
                 </select>
-              </div> */}
+              </div>
             </div>
 
             <div className="flex gap-10 w-full">

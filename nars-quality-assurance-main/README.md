@@ -1,6 +1,6 @@
 # How to deal with apis
 
-faculty competences:
+## faculty competences:
 create competense
 http://localhost:8085/facultyComp
 methode:post
@@ -40,7 +40,7 @@ getCompetence by id
 http://localhost:8085/facultyComp/<id>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-faculty:
+## faculty:
 
 add faculty,get all faculties:
 http://localhost:8083
@@ -87,7 +87,7 @@ delete
 http://localhost:8085/deleteDepComp/<id>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-department:
+## department:
 
 add department,get all department
 http://localhost:8084
@@ -224,6 +224,11 @@ getProgramObjectiveById:GET http://localhost:8085/programObj/:id
 # staff
 
 * get staff by id: GET http://localhost:8081/staff/id
+* get all department admins by facultyId: GET http://localhost:8081/depAdmins
+{
+  "facultyId": "65eb1d67d1555f7450c9a027"
+}
+
 
 newDepartmentAdmin : POST http://localhost:8081/newDepartmentAdmin
 JSON :
