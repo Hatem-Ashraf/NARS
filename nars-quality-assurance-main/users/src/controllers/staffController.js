@@ -519,6 +519,9 @@ exports.newDean = catchAsync(async (req, res) => {
 
 exports.getAllDepartmentAdmins = catchAsync(async (req, res, next) => {
   const {facultyId} = req.body;
+
+  if (!facultyId ) return next(new AppError("Please provide a valid faculty id", 400));
+
   const staff = await Staff.find({ roles: "department admin", faculty: facultyId });
   res.status(200).json({
     status: "success",
@@ -531,6 +534,7 @@ exports.getAllDepartmentAdmins = catchAsync(async (req, res, next) => {
 
 exports.getAllProgramAdmins = catchAsync(async (req, res, next) => {
   const {facultyId, departmentId} = req.body;
+  if (!facultyId || !departmentId ) return next(new AppError("Please provide a valid faculty id and department id", 400));
   const staff = await Staff.find({ roles: "program admin", department: departmentId });
   res.status(200).json({
     status: "success",

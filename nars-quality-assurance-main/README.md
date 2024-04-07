@@ -1,4 +1,6 @@
+# NARS
 # How to deal with apis
+
 
 ## faculty competences:
 create competense
@@ -114,9 +116,8 @@ http://localhost:8084/getDepartmentsByFaculty/65f60110f95cd7a5e3c17e56
 
 /////////////////////////////
 
-# NARS
 
-# department coordinator
+## department coordinator
 
 addProgram : POST http://localhost:8086/  
 json : {
@@ -269,4 +270,15 @@ JSON :
 "email":"said123@feng.bu.edu.eg",
 "faculty":"65eb1d67d1555f7450c9a027",
 "roles":"quality coordinator"
+}
+
+
+
+## Prgoram
+* get all programs: GET http://localhost:8086/:facultyId/department/:departmentId
+
+* create new program: POST http://localhost:8086/:facultyId/department/:departmentId
+{
+"name": "Computer Engineering 4",
+"competences": []
 }
