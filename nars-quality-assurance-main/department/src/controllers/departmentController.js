@@ -7,7 +7,7 @@ const axios = require("axios");
 exports.getAllDepartments = factory.getAll(Department);
 exports.deleteDepartment = factory.deleteOne(Department);
 exports.getDepartmentSummary = factory.getOne(Department);
-exports.updateDepartment = factory.updateOne(Department);
+// exports.updateDepartment = factory.updateOne(Department);
 
 exports.createDepartment = catchAsync(async (req, res, next) => {
   try {
@@ -116,3 +116,22 @@ exports.searchDepartmentByCode = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+
+exports.updateDepartment = catchAsync(async (req, res, next) => {
+  const { name, code, about, departmentHead, competences, facultyId, vision, mission } = req.body;
+  const department = await Department.findByIdAndUpdate(req.params.id, {
+    name,
+    code,
+    about,
+    departmentHead,
+    competences,
+    facultyId,
+    vision,
+    mission
+  });
+  res.status(200).json({
+    status: "success",
+    data: department,
+  });
+})

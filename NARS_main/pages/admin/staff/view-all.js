@@ -55,7 +55,7 @@ const viewAll = ({ cookies }) => {
       });
       const data = await resp.json();
       console.log("data.data:", data.data);
-      let arr = data.data;
+      let arr = data.data.staff;
 
       arr = arr.map((e) => {
         return { email: e.email, name: e.name, roles: e.roles ,faculty:e.faculty,department:e.department,program:e.program, id: e._id};

@@ -167,16 +167,16 @@ const addStaff = ({ cookies }) => {
   };
   const handleDepartmentChange = async () => {
     const selectedDepartment = department.current.value;
+    const selectedfaculty = faculty.current.value;
+
     const selectedOption =
       department.current.options[department.current.selectedIndex];
     const selectedOptionName = selectedOption.text;
     const depID = department.current.value;
-    console.log(depID);
-    console.log(depID);
-    console.log(depID);
-    console.log(depID);
+
+    console.log(`http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`)
     const resp = await fetch(
-      `http://localhost:8086/`,
+      `http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -550,12 +550,12 @@ setMsg(failImport);
         </div>
       ) : null}
       <div
-        className={`flex flex-row h-screen `}
+        className={`flex flex-row min-h-screen `}
       >
         <form
          
           onSubmit={submitHandler}
-          className=" h-screen w-screen my-5 flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" min-h-screen w-screen my-5 flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
             <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Instructor</p>

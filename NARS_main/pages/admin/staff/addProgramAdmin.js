@@ -167,16 +167,14 @@ const addStaff = ({ cookies }) => {
   };
   const handleDepartmentChange = async () => {
     const selectedDepartment = department.current.value;
+    const selectedfaculty = faculty.current.value;
     const selectedOption =
       department.current.options[department.current.selectedIndex];
     const selectedOptionName = selectedOption.text;
     const depID = department.current.value;
-    console.log(depID);
-    console.log(depID);
-    console.log(depID);
-    console.log(depID);
+    console.log(`http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`)
     const resp = await fetch(
-      `http://localhost:8086/`,
+      `http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -325,7 +323,7 @@ setMsg(failImport);
           email: email.current.value,
           faculty: faculty.current.value,
           department: department.current.value,
-          // program: program.current.value,
+          program: program.current.value,
       })
       const resp = await fetch('http://localhost:8081/newProgramAdmin', {
         method: "POST",
@@ -338,7 +336,8 @@ setMsg(failImport);
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          department: department.current.value
+          department: department.current.value,
+          program: program.current.value,
         }),
       });
       const data = await resp.json();
@@ -618,7 +617,7 @@ setMsg(failImport);
                 </select>
               </div>
             </div>
-            {/* <div className="flex gap-10 ">
+            <div className="flex gap-10 ">
               <div className="flex flex-col gap-5  w-1/2">
                 <div>Program</div>
                 <select
@@ -638,7 +637,7 @@ setMsg(failImport);
                   ))}
                 </select>
               </div>
-            </div> */}
+            </div>
 
             <div className="flex gap-10 w-full">
               <div className="flex justify-between items-center w-full">

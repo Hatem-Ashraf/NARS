@@ -22,6 +22,11 @@ const programSchema = new mongoose.Schema({
     required: [true, "Competences must have a description"],
   },
 
+  faculty: {
+    type: String,
+    required: [true, "program must have a faculty"],
+  },
+
   department: {
     type: String,
     required: [true, "program must have a department"],

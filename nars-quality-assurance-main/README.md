@@ -1,6 +1,8 @@
+# NARS
 # How to deal with apis
 
-faculty competences:
+
+## faculty competences:
 create competense
 http://localhost:8085/facultyComp
 methode:post
@@ -40,7 +42,7 @@ getCompetence by id
 http://localhost:8085/facultyComp/<id>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-faculty:
+## faculty:
 
 add faculty,get all faculties:
 http://localhost:8083
@@ -87,7 +89,7 @@ delete
 http://localhost:8085/deleteDepComp/<id>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-department:
+## department:
 
 add department,get all department
 http://localhost:8084
@@ -114,9 +116,8 @@ http://localhost:8084/getDepartmentsByFaculty/65f60110f95cd7a5e3c17e56
 
 /////////////////////////////
 
-# NARS
 
-# department coordinator
+## department coordinator
 
 addProgram : POST http://localhost:8086/  
 json : {
@@ -224,6 +225,11 @@ getProgramObjectiveById:GET http://localhost:8085/programObj/:id
 # staff
 
 * get staff by id: GET http://localhost:8081/staff/id
+* get all department admins by facultyId: GET http://localhost:8081/depAdmins
+{
+  "facultyId": "65eb1d67d1555f7450c9a027"
+}
+
 
 newDepartmentAdmin : POST http://localhost:8081/newDepartmentAdmin
 JSON :
@@ -264,4 +270,15 @@ JSON :
 "email":"said123@feng.bu.edu.eg",
 "faculty":"65eb1d67d1555f7450c9a027",
 "roles":"quality coordinator"
+}
+
+
+
+## Prgoram
+* get all programs: GET http://localhost:8086/:facultyId/department/:departmentId
+
+* create new program: POST http://localhost:8086/:facultyId/department/:departmentId
+{
+"name": "Computer Engineering 4",
+"competences": []
 }

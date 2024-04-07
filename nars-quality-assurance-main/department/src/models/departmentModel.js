@@ -16,7 +16,7 @@ const departmentSchema = new mongoose.Schema({
   },
   departmentHead: {
     type: String,
-    required: [true, "Department must have a department head"],
+    // required: [true, "Department must have a department head"],
   },
   competences: [{
     type: mongoose.Schema.Types.ObjectId,

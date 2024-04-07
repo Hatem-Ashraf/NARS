@@ -88,7 +88,7 @@ function departmentList({ departments, setDepartments, delete_url, create_file_n
                             <tr key={dep.code}>
                                 <td className="border text-xl px-4 py-2 bg-white">{dep.name}</td>
                                 <td className="border text-xl px-4 py-2 bg-white">{dep.code}</td>
-                                <td className="border text-xl px-4 py-2 bg-white">{dep.departmentHead}</td>
+                                <td className="border text-xl px-4 py-2 bg-white">{dep.departmentHead || "No Department Admin yet"}</td>
                                 <td className="border text-xl px-4 py-2 bg-white">{dep.vision}</td>
                                 <td className="border text-xl px-4 py-2 bg-white">{dep.mission}</td>
                                 <td className="border text-lg py-5 bg-white">
