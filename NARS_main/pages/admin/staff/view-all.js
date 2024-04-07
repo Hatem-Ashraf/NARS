@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import UserList from "@/components/user/UserList2";
+import OneUser from "./OneUser";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
@@ -11,9 +12,12 @@ const viewAll = ({ cookies }) => {
   if (userState.role != "system admin" || userState.loggedInStatus != "true") {
     return <div className="error">404 could not found</div>;
   }
-  useEffect(() => {
-    // document.querySelector("body").classList.add("scrollbar-none");
-  });
+ 
+  const [view, setView] = useState(false);
+  const [onestaff, setOnestaff] = useState({});
+
+  console.log("onestaff", onestaff)
+
   const handleClick = () => {
     const header = ["name", "roles", "email","faculty","department","program"];
     const rows = staff.map((item) => [item.name, item.roles.join(", "), item.email,"Shoubra","Electrical Engineering","Computer engineering"]);
@@ -54,7 +58,7 @@ const viewAll = ({ cookies }) => {
       let arr = data.data;
 
       arr = arr.map((e) => {
-        return { email: e.email, name: e.name, roles: e.roles ,faculty:e.faculty,department:e.department,program:e.program};
+        return { email: e.email, name: e.name, roles: e.roles ,faculty:e.faculty,department:e.department,program:e.program, id: e._id};
       });
       setStaff(arr);
     } catch (e) {
@@ -79,29 +83,12 @@ const viewAll = ({ cookies }) => {
                 Download Excel
               </button>
             </div>
-            {
-              // students.map((s) => {
-              //   return (
-              //     <div className=" w-full flex justify-between bg-sky-500 items-center shadow-md rounded-xl px-[2rem] text-white">
-              //       {/* <img
-              //         className="h-48 w-48 object-cover rounded-full mx-auto bg-gray-300"
-              //         src="https://via.placeholder.com/400x400"
-              //         alt="Default Image"
-              //       /> */}
-              //       <div className="">
-              //         <i class="fa-solid fa-user fa-lg "></i>{' '}
-              //       </div>
-              //       <div className="flex flex-col">
-              //         <div>Name : {s.name}</div>
-              //         <div>Code : {s.code}</div>
-              //         <div>Email : {s.email}</div>
-              //       </div>
-              //     </div>
-              //   );
-              // })
+            {view ? 
+              <OneUser user={onestaff} setView={setView} setOnestaff={setOnestaff}/>
+            // <p>One</p>
+              :
+              <UserList users={staff} setView={setView} setOnestaff={setOnestaff}/>
             }
-
-            <UserList users={staff} />
           </div>
         </form>
       </div>

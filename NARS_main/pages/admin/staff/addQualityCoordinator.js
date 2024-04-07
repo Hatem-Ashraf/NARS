@@ -97,28 +97,33 @@ const addStaff = ({ cookies }) => {
       "name",
       "role",
       "email",
+      "faculty"
     ];
     let staff = [
       {
-        name: "staff20",
+        name: "Hatem Ashraf",
         role: "quality coordinator",
-        email: "staff20@admin.com",
+        email: "hatem12@ds.com",
+        faculty: "Faculty of Science"
       },
       {
-        name: "staff21",
+        name: "Sayed Ibrahim",
         role: "quality coordinator",
-        email: "staff21@admin.com",
+        email: "sayed166@ds.com",
+        faculty: "Faculty of Science"
       },
       {
-        name: "staff22",
+        name: "Rana Tarek",
         role: "quality coordinator",
-        email: "staff23@admin.com",
+        email: "rana133@ds.com",
+        faculty: "Faculty of Science"
       },
     ];
     const rows = staff.map((item) => [
       item.name,
       item.role,
       item.email,
+      item.faculty
     ]);
 
     const worksheet = XLSX.utils.aoa_to_sheet([header, ...rows]);
@@ -479,12 +484,12 @@ setMsg(failImport);
         <form
          
           onSubmit={submitHandler}
-          className=" h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" h-screen w-screen flex m-auto flex-col justify-center items-center text-black rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
             <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Quality Coordinator</p>
-            <div className="flex gap-10 ">
-              <div className="flex flex-col gap-5  w-1/4">
+            <div className="flex gap-10 w-full ">
+              <div className="flex flex-col gap-5  w-2/6">
                 <div> Name</div>
                 <input
                   ref={name}
@@ -493,7 +498,7 @@ setMsg(failImport);
                   placeholder={`Staff name`}
                 />
               </div>
-              <div className="flex flex-col gap-5  w-1/2 ">
+              <div className="flex flex-col gap-5  w-3/6 ">
                 <div> Email </div>
                 <input
                   ref={email}
@@ -505,7 +510,7 @@ setMsg(failImport);
             </div>
 
             <div className="flex gap-10 ">
-              <div className="flex flex-col gap-5 w-1/4  ">
+              <div className="flex flex-col gap-5 w-3/5  ">
                 <div> Faculty</div>
                 <select
                   ref={faculty}
@@ -524,9 +529,9 @@ setMsg(failImport);
             </div>
 
             <div className="flex gap-10 w-full">
-              <div className="flex justify-between items-center w-full">
+              <div className="flex flex-col justify-between items-center w-full">
                 <div className="w-1/2">{msg}</div>
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 justify-center">
                   <button
                     type="button"
                     class="my-6 px-10 py-1 duration-200 text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg md:text-lg text-sm  mx-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800 whitespace-no-wrap"

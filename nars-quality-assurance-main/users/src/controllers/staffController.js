@@ -339,12 +339,23 @@ exports.deleteStaffRole = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getStaffMemberById = catchAsync(async (req, res, next) => {
+  const doc = await Staff.findById(req.params.id);
+  if (!doc) {
+    return next(new AppError("No document found with that id", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: doc,
+  });
+});
+
 exports.newDepartmentAdmin = async (req, res) => {
   try {
-    const { name, email, faculty, department, roles } = req.body;
+    const { name, email, faculty, roles } = req.body;
 
     // Check if the required fields are provided
-    if (!name || !email || !faculty || !department || !roles) {
+    if (!name || !email || !faculty  || !roles) {
       return res.status(400).json({
         status: "fail",
         message:
@@ -357,7 +368,6 @@ exports.newDepartmentAdmin = async (req, res) => {
       name,
       email,
       faculty,
-      department,
       roles,
     });
 
@@ -378,10 +388,10 @@ exports.newDepartmentAdmin = async (req, res) => {
 
 exports.newProgramAdmin = async (req, res) => {
   try {
-    const { name, email, faculty, department, roles, program } = req.body;
+    const { name, email, faculty, department, roles } = req.body;
 
     // Check if the required fields are provided
-    if (!name || !email || !faculty || !department || !roles || !program) {
+    if (!name || !email || !faculty || !department || !roles ) {
       return res.status(400).json({
         status: "fail",
         message:
@@ -396,7 +406,6 @@ exports.newProgramAdmin = async (req, res) => {
       faculty,
       department,
       roles,
-      program,
     });
 
     res.status(201).json({

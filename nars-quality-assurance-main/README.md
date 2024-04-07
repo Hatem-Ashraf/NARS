@@ -60,7 +60,7 @@ department competences:
 create competence,get all competences:
 http://localhost:8085/departmentComp
 json:
-[
+[6+3
 {
 "code": "COMPJK",
 "description": "Software Development Fundamentals",
@@ -222,6 +222,8 @@ updateProgramObjective:put http://localhost:8085/updateProObj/:id
 getProgramObjectiveById:GET http://localhost:8085/programObj/:id
 
 # staff
+
+* get staff by id: GET http://localhost:8081/staff/id
 
 newDepartmentAdmin : POST http://localhost:8081/newDepartmentAdmin
 JSON :

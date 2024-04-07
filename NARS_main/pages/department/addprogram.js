@@ -3,18 +3,66 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
 import React from "react";
-const addprogram = ({ cookies }) => {
+import Textarea from "@/components/Textarea/TextareaRoles";
+import DropDown from "@/components/form_elements/DropDown"
+const addfaculty = ({ cookies }) => {
   const userState = useSelector((s) => s.user);
   if (userState.role != "department admin" || userState.loggedInStatus != "true") {
     return <div className="error">404 could not found</div>;
   }
+
+  const role = useRef();
+  const [competencesChecked, setCompetencesChecked] = useState([]);
   const [msg, setMsg] = useState("");
+  const [competences, setcompetences] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
+
+
+  const handleCheckboxChange = (event) => {
+    const updatedList = [...competencesChecked]; // Create a copy of the existing competencesChecked array
+    const checkboxValue = event.target.value; // Get the value of the checkbox
+
+    if (event.target.checked) {
+      updatedList.push(checkboxValue); // Add the checkbox value to the updatedList array
+    } else {
+      const indexToRemove = updatedList.indexOf(checkboxValue);
+      updatedList.splice(indexToRemove, 1); // Remove the checkbox value from the updatedList array
+    }
+
+    setCompetencesChecked(updatedList); // Update the competencesChecked state with the updatedList array
+    console.log("miniinin1", updatedList);
+  };
+
   const closeMsg = () => {
     setMsg("");
   };
   useEffect(() => {
-    // document.querySelector("body").classList.add("scrollbar-none");
-  });
+    const fetchData = async () => {
+        try {
+            const resp = await fetch(`http://localhost:8085/programComp/`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                  Authorization: "Bearer " + userState.token,
+                },
+            });
+          const data = await resp.json();
+          console.log("data.competences", data.competences);
+          setcompetences(data.competences);
+          // setFilteredcompetences(data.competences);
+        } catch (e) {
+          console.log(e);
+        }
+    };
+
+    fetchData();
+
+    // Clean-up function if needed
+    return () => {
+      // Any clean-up code if required
+    };
+  }, []); // Empty dependency array ensures effect runs only once on mount
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
   const handleAddInput = (e) => {
@@ -67,79 +115,28 @@ const addprogram = ({ cookies }) => {
     console.log(itemsArr);
   };
 
-  const getIdByEmail = async (email) => {
-    try {
-      const r = await fetch(`http://localhost:8081/staff?email=${email.current.value}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Bearer " + userState.token,
-        },
-      });
-
-      const resp = await r.json();
-      console.log(resp);
-      if (resp.status == "fail" || resp.status == "error") {
-        setErr(resp.error.errors.dean.message);
-        console.log(resp, err);
-      }
-      else {
-        setID(resp.data[0]._id);
-        console.log(resp, ID);
-      }
-
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   const name = useRef();
   const email = useRef();
   const about = useRef();
-  const choosen = useRef();
   const year = useRef();
-
-  const items = [
-    "prep",
-    "first",
-    "second",
-    "third",
-    "fourth",
-    "fifth",
-    "sixth",
-  ];
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const arr1 = inputs.map((input1) => {
-      return {
-        code: input1.ref.current.value,
-      };
-    });
-    const arr2 = inputs2.map((input2) => {
-      return {
-        value: input2.ref.current.value,
-      };
-    });
-    const competences = arr1.map((a, index) => {
-      const b = arr2[index];
-      return {
-        code: a.code,
-        description: b.value,
-      };
-    });
-
+    console.log({
+      name: name.current.value,
+      // dean: email.current.value,
+      // about: about.current.value,
+      competences: competencesChecked,
+    })
     try {
-      const r = await fetch(`http://localhost:8083/`, {
+      const r = await fetch(`http://localhost:8086/`, {
         method: "POST",
 
         body: JSON.stringify({
           name: name.current.value,
-          dean: ID,
-          about: about.current.value,
-          competences: competences,
-          academicYears: itemsArr,
+          // dean: email.current.value,
+          // about: about.current.value,
+          competences: competencesChecked,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -172,8 +169,8 @@ const addprogram = ({ cookies }) => {
       role="alert"
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
-      <div class="ml-3 text-sm font-medium">
-        Failed to create  program
+      <div class="ml-3 text-lg font-medium">
+        Failed to create faculty
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -208,8 +205,8 @@ const addprogram = ({ cookies }) => {
       role="alert"
     >
       <i class="fa-solid fa-circle-check"></i>
-      <div class="ml-3 text-sm font-medium">
-         Program has been Created successfully
+      <div class="ml-3 text-lg font-medium">
+        Faculty has been Created successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
@@ -245,54 +242,102 @@ const addprogram = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p className="font-normal">Department {">"} Add Program</p>
+            <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Program</p>
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
-                <div> Program Name:</div>
+                <div className="font-semibold">Program Name:</div>
                 <input
+                  required
                   type="text"
                   name="name"
                   className="input-form w-full"
+                  placeholder="Program name"
                   ref={name}
                 />
               </div>
-              <div className="flex flex-col gap-5  w-2/5">
-                <div> Program Coordinator (Email):</div>
+              {/* <div className="flex flex-col gap-5  w-2/5">
+                <div className="font-semibold"> Dean email:</div>
                 <input
+                  required
                   type="email"
                   name="year"
                   className="input-form  w-full"
+                  placeholder="Faculty dean email"
                   ref={email}
-                  onBlur={() => getIdByEmail(email)}
+                  // onBlur={() => getIdByEmail(email)}
                 />
-              </div>
+              </div> */}
             </div>
 
-
-            <div className="flex gap-20">
+            
+            {/* <div className="flex gap-20">
               <div className="flex flex-col gap-5 w-full">
-                <div>About:</div>
+                <div className="font-semibold">About:</div>
                 <textarea
+                  required
                   className="w-full input-form"
                   rows="4"
-                  placeholder="Type here  about the  program"
+                  placeholder="Type here  about the faculty"
                   ref={about}
                 />
               </div>
+            </div> */}
+
+            <div className="flex justify-between gap-20">
+              <div className="flex flex-col gap-5 w-full">
+              <h4 className="font-semibold ">
+                  Please mark the competences this Program aims to achieve:
+              </h4>
+              <fieldset>
+                <legend className="sr-only">Checkboxes</legend>
+
+                <div className="space-y-2">
+                {competences.map((el, index) => {
+                    return (
+                  <label
+                    key={index + 1}
+                    htmlFor={index}
+                    className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
+                  >
+                    <div className="flex items-center">
+                      &#8203;
+                      <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
+                      value={el._id}
+                      data-id={index}
+                      onChange={handleCheckboxChange}
+                      />
+                    </div>
+
+                    <div>
+                      <strong className="font-medium text-gray-900"> {el.code} </strong>
+
+                      <p className="mt-1 text-pretty text-medium text-gray-500">
+                      {el.description}.
+                      </p>
+                    </div>
+                  </label>
+                    )
+                  })}
+                </div>
+              </fieldset>
+              </div>
             </div>
+              
             <div className="flex gap-20">
               <div className="flex flex-col space-y-1 gap-5 w-full">
-                <p className=" mb-0 ">Competences:</p>
-                <div class="flex items-center justify-end mr-6 text-lg text-gray-700 capitalize ">
+                {/* <p className=" mb-0 ">Competences:</p> */}
+                {/* <DropDown items={["item1", "item2", "item3"]} /> */}
+                
+                {/* <div class="flex items-center justify-end mr-6 text-lg text-gray-700 capitalize ">
                   <button
                     onClick={handleAddInput}
                     className="bg-blue-500 text-white py-2 px-4 rounded-md"
                   >
                     Add
                   </button>
-                </div>
+                </div> */}
 
-                <div className="overflow-x-auto">
+                {/* <div className="overflow-x-auto">
                   <table className="min-w-full divide-y  divide-gray-200">
                     <thead className="bg-gray-50 dark:bg-gray-800">
                       <tr>
@@ -346,7 +391,7 @@ const addprogram = ({ cookies }) => {
                       ))}
                     </tbody>
                   </table>
-                </div>
+                </div> */}
 
               </div>
             </div>
@@ -368,4 +413,4 @@ const addprogram = ({ cookies }) => {
     </>
   );
 };
-export default addprogram;
+export default addfaculty;

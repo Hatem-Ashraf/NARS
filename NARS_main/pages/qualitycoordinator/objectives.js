@@ -73,7 +73,7 @@ function Competences({ competences, setCompetences, level, delete_url, create_fi
                 <td className="border text-xl px-4 py-2 bg-white">{comp.description}</td>
                 <td className="border text-lg px-4 py-2 bg-white">
                   <div className="flex justify-around">
-                    <Link href={`/qualitycoordinator/${level}/${comp._id}`}>
+                    <Link href={`/qualitycoordinator/${level}/${comp._id}`} className="mr-5">
                       <i className="fa-solid fa-pen text-indigo-700"></i>
                     </Link>
                     <button onClick={() => handleDelete(comp._id, comp.code)}>

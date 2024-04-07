@@ -325,7 +325,7 @@ setMsg(failImport);
           email: email.current.value,
           faculty: faculty.current.value,
           department: department.current.value,
-          program: program.current.value,
+          // program: program.current.value,
       })
       const resp = await fetch('http://localhost:8081/newProgramAdmin', {
         method: "POST",
@@ -338,8 +338,7 @@ setMsg(failImport);
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          department: department.current.value,
-          program: program.current.value,
+          department: department.current.value
         }),
       });
       const data = await resp.json();
@@ -550,12 +549,12 @@ setMsg(failImport);
         </div>
       ) : null}
       <div
-        className={`flex flex-row h-screen `}
+        className={`flex flex-row min-h-screen my-5`}
       >
         <form
          
           onSubmit={submitHandler}
-          className=" h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" min-h-screen w-screen  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
             <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Program Admin</p>
@@ -619,7 +618,7 @@ setMsg(failImport);
                 </select>
               </div>
             </div>
-            <div className="flex gap-10 ">
+            {/* <div className="flex gap-10 ">
               <div className="flex flex-col gap-5  w-1/2">
                 <div>Program</div>
                 <select
@@ -639,7 +638,7 @@ setMsg(failImport);
                   ))}
                 </select>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex gap-10 w-full">
               <div className="flex justify-between items-center w-full">

@@ -325,7 +325,7 @@ const addfaculty = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p className="font-normal">Faculty {">"} Update Faculty</p>
+            <p lassName="text-3xl font-bold text-blue-800 mb-6 mt-4">Update Faculty</p>
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
                 <div>Faculty Name:</div>
@@ -366,28 +366,41 @@ const addfaculty = ({ cookies }) => {
 
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-full">
-              <label for="country" class="block text-xl font-medium leading-6 text-gray-900">Competences</label>
-              <div class="mt-2">
+              <h4 className="font-semibold ">
+                  Please mark the competences this faculty aims to achieve:
+              </h4>
+              <fieldset>
+                <legend className="sr-only">Checkboxes</legend>
+
+                <div className="space-y-2">
                 {competences.map((el, index) => {
                     return (
-                      <div
-                        className="flex flex-row m-4 abet-criteria"
-                        key={index + 1}
-                      >
-                        <div>
-                          <input
-                            className="mr-2 w-8 h-8 rounded-lg"
-                            type="checkbox"
-                            value={el._id}
-                            data-id={index}
-                            onChange={handleCheckboxChange}
-                          />
-                        </div>
-                        <p> {el.code} - {el.description}</p>
-                      </div>
-                    );
+                  <label
+                    key={index + 1}
+                    htmlFor={index}
+                    className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
+                  >
+                    <div className="flex items-center">
+                      &#8203;
+                      <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
+                      value={el._id}
+                      data-id={index}
+                      onChange={handleCheckboxChange}
+                      />
+                    </div>
+
+                    <div>
+                      <strong className="font-medium text-gray-900"> {el.code} </strong>
+
+                      <p className="mt-1 text-pretty text-medium text-gray-500">
+                      {el.description}.
+                      </p>
+                    </div>
+                  </label>
+                    )
                   })}
-              </div>
+                </div>
+              </fieldset>
               </div>
             </div>
               
