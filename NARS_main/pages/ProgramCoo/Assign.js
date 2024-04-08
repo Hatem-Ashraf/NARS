@@ -55,7 +55,7 @@ const assignInstructor = ({ cookies }) => {
 
       // Map the data to the required format
       arr = arr.map((e) => {
-        return { email: e.email, name: e.name, roles: e.roles, faculty: e.faculty, department: e.department, program: e.program };
+        return { email: e.email, name: e.name, roles: e.roles, faculty: e.faculty, department: e.department, program: e.program, id: e._id };
       });
       setStaff(arr);
     } catch (e) {

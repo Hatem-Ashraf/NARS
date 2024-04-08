@@ -37,7 +37,7 @@ function UserList({ users, handleAssignInstructor }) {
                 <td className="border px-4 py-2 text-lg">Electrical Engineering</td>
                 <td className="border px-4 py-2 text-lg">Computer engineering</td>
                 <td className="border px-4 py-2">
-                <Link href="/ProgramCoo/AddCourse">
+                <Link href={`/ProgramCoo/updateinstructor/${user.id}`}>
                 <button 
                       onClick={() => handleAssign(user)} 
                       className="flex justify-between min-w-[10rem] text-white duration-200 transition-all bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg py-1 px-4 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
