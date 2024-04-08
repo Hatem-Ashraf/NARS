@@ -65,6 +65,7 @@ json:
 }
 
 addStudentMarks: POST http://localhost:8087/:studentId
+
 json:
 {
   "courseId": "65f8b2371c297968e2db0f5a", 
@@ -83,6 +84,7 @@ getAllMarks: GET http://localhost:8087/
 getStudentMarks GET http://localhost:8087/:studentId
 
 updateStudentMarks: patch http://localhost:8087/:studentId
+
 json:
 {
   "studentId": "65c7bcd4eaa938686e9a1cc6", 
@@ -98,6 +100,7 @@ json:
 getAllSurveys: get http://localhost:8082/
 
 addSurvey: POST http://localhost:8082/
+
 json:
 {
   "name": "Sample Survey",
