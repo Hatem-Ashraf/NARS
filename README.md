@@ -1,5 +1,6 @@
 # TOPICS
 createTopic: POST http://localhost:8087/
+
 json:
 {
   "courseCode": "ENG101",
@@ -13,10 +14,15 @@ json:
     { "code": "LO3", "name": "Communicate ideas and arguments clearly in written form." }
   ]
 }
+
 getAllTopics: GET http://localhost:8087/
+
 getTopic: GET http://localhost:8087/:topicId
+
 deleteTopic: delete http://localhost:8087/:topicId
+
 updateTopic : patch http://localhost:8087/:topicId
+
 json:
 {
   "courseCode": "MATH101",
@@ -32,6 +38,7 @@ json:
 
 # MARKS
 addAllStudentMarks: POST http://localhost:8087/
+
 json:
 {
   "courseId": "65f8b2371c297968e2db0f5a", 
@@ -56,6 +63,7 @@ json:
     }
   ]
 }
+
 addStudentMarks: POST http://localhost:8087/:studentId
 json:
 {
@@ -71,7 +79,9 @@ json:
       }
     }
 getAllMarks: GET http://localhost:8087/
+
 getStudentMarks GET http://localhost:8087/:studentId
+
 updateStudentMarks: patch http://localhost:8087/:studentId
 json:
 {
@@ -86,6 +96,7 @@ json:
 
 # SURVAYS
 getAllSurveys: get http://localhost:8082/
+
 addSurvey: POST http://localhost:8082/
 json:
 {
