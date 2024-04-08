@@ -279,6 +279,10 @@ JSON :
 
 * create new program: POST http://localhost:8086/:facultyId/department/:departmentId
 {
-"name": "Computer Engineering 4",
-"competences": []
+"name": "Test program 111",
+"competences": ["660393995a91f5aa4add3888", "660393995a91f5aa4add388a"]
 }
+
+* Update a program : PATCH http://localhost:8086/:facultyId/department/:departmentId/program/programId
+* Delete a program : DELETE http://localhost:8086/:facultyId/department/:departmentId/program/programId
+* Get a program : GET http://localhost:8086/:facultyId/department/:departmentId/program/programId

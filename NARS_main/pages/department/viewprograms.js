@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
-import DepartmentList from "@/components/department/departmentList";
+import ProgramList from "@/components/program/programList";
 import { useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -28,7 +28,7 @@ const viewfaculty = ({ cookies }) => {
       e.preventDefault();
     }
     try {
-      const resp = await fetch(`http://localhost:8086/`, {
+      const resp = await fetch(`http://localhost:8086/${userState.faculty}/department/${userState.department}`, {
         headers: {
           Authorization: "Bearer " + userState.token,
         },
@@ -110,10 +110,10 @@ const viewfaculty = ({ cookies }) => {
               </form>
               {/* {filteredcompetences.length > 0 ? ( */}
                 <>
-                  <DepartmentList
+                  <ProgramList
                     faculties={faculty} 
                     setFaculties={setFaculty}
-                    delete_url="http://localhost:8085/deleteProComp/"
+                    delete_url={`http://localhost:8086/${userState.faculty}/department/${userState.department}/program/`}
                     />
                 </>
               {/* <FacultyList faculties={faculty} setFaculties={setFaculty}/> */}

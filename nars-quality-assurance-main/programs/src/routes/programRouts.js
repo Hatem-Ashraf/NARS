@@ -21,6 +21,11 @@ router
   .post(protect, programController.addProgram)
   .get(protect, programController.getAllPrograms);
 
+  router
+  .route("/:facultyId/department/:departmentId/program/:programId")
+  .patch(protect, programController.updateProgram)
+  .delete(protect, programController.deleteProgram)
+  .get(protect, programController.getProgramById);
 
 // router
 //   .route("/:id")

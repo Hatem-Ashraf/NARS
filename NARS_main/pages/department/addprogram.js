@@ -5,7 +5,7 @@ import { useRef, useEffect } from "react";
 import React from "react";
 import Textarea from "@/components/Textarea/TextareaRoles";
 import DropDown from "@/components/form_elements/DropDown"
-const addfaculty = ({ cookies }) => {
+const addDepartment = ({ cookies }) => {
   const userState = useSelector((s) => s.user);
   if (userState.role != "department admin" || userState.loggedInStatus != "true") {
     return <div className="error">404 could not found</div>;
@@ -129,9 +129,14 @@ const addfaculty = ({ cookies }) => {
       competences: competencesChecked,
     })
     try {
-      const r = await fetch(`http://localhost:8086/`, {
+      console.log({
+        name: name.current.value,
+        // dean: email.current.value,
+        // about: about.current.value,
+        competences: competencesChecked,
+      })
+      const r = await fetch(`http://localhost:8086/${userState.faculty}/department/${userState.department}`, {
         method: "POST",
-
         body: JSON.stringify({
           name: name.current.value,
           // dean: email.current.value,
@@ -170,7 +175,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
       <div class="ml-3 text-lg font-medium">
-        Failed to create faculty
+        Failed to create Program
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -206,7 +211,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-solid fa-circle-check"></i>
       <div class="ml-3 text-lg font-medium">
-        Faculty has been Created successfully
+        Program has been Created successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
@@ -413,4 +418,4 @@ const addfaculty = ({ cookies }) => {
     </>
   );
 };
-export default addfaculty;
+export default addDepartment;

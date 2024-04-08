@@ -9,17 +9,14 @@ const programSchema = new mongoose.Schema({
   competences: {
     type: [
       {
-        code: {
-          type: String,
-          required: [true, "program must have a code"],
-        },
-        description: {
-          type: String,
-          required: [true, "program must have a description"],
-        },
+        type: String
       },
     ],
-    required: [true, "Competences must have a description"],
+    required: [true, "Program must have competences"],
+  },
+  programHead: {
+    type: String,
+    // required: [true, "program must have a program head"],
   },
 
   faculty: {
