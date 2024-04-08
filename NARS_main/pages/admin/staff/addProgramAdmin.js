@@ -315,7 +315,11 @@ setMsg(failImport);
     setMsg("");
   };
   const submitHandler = async (e) => {
+
     e.preventDefault();
+    const facultyId = faculty.current.value;
+    const depId = department.current.value;
+    const programId = program.current.value;
     try {
       console.log({
           roles: "program admin",
@@ -343,7 +347,23 @@ setMsg(failImport);
       const data = await resp.json();
       console.log(data);
       if (data.status == "success") {
-        setMsg(success);
+          const resp2 = await fetch(`http://localhost:8086/${facultyId}/department/${depId}/program/${programId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            programHead: email.current.value,
+          }),
+        });
+        const data2 = await resp2.json();
+        console.log("submit Response:",data2);
+        if (data2.status == "success") {
+          setMsg(success);
+        } else {
+          setMsg(fail);
+        }
       } else {
         setMsg(fail);
       }

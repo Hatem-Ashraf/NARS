@@ -373,61 +373,114 @@ exports.getAllPrograms = async (req, res) => {
 
 exports.deleteProgram = async (req, res) => {
   try {
-    const programId = req.params.id;
+    const facultyId = req.params.facultyId;
+    const departmentId = req.params.departmentId;
+    const programId = req.params.programId; // Assuming you have programId in the URL
 
-    // Check if the program exists
-    const existingProgram = await Program.findById(programId);
-    if (!existingProgram) {
+    if (!facultyId || !departmentId || !programId) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Faculty ID, Department ID, and Program ID must be provided",
+      });
+    }
+
+    const deletedProgram = await Program.findByIdAndDelete(programId);
+
+    if (!deletedProgram) {
       return res.status(404).json({
         status: "fail",
         message: "Program not found",
       });
     }
-
-    // Delete the program
-    await Program.findByIdAndDelete(programId);
 
     res.status(200).json({
       status: "success",
       message: "Program deleted successfully",
+      data: {
+        program: deletedProgram,
+      },
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
-      message: "Error deleting program from the database",
+      message: error.message,
     });
   }
 };
-
 exports.updateProgram = async (req, res) => {
   try {
-    const programId = req.params.id;
-    // Extract program ID, name, and competences from the request body
-    const { name, competences } = req.body;
+    const { name, competences, programHead } = req.body;
+    const facultyId = req.params.facultyId;
+    const departmentId = req.params.departmentId;
+    const programId = req.params.programId; // Assuming you have programId in the URL
 
-    // Find the program by ID
-    const existingProgram = await Program.findById(programId);
+    if (!facultyId || !departmentId || !programId) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Program must have a facultyId, departmentId, and programId",
+      });
+    }
 
-    if (!existingProgram) {
+    const updatedProgram = await Program.findByIdAndUpdate(
+      programId,
+      {
+        name,
+        faculty: facultyId,
+        department: departmentId,
+        competences,
+        programHead
+      },
+      { new: true }
+    );
+
+    if (!updatedProgram) {
       return res.status(404).json({
         status: "fail",
         message: "Program not found",
       });
     }
-
-    // Update the program with the new name and competences
-    existingProgram.name = name;
-
-    // Replace the entire competences array
-    existingProgram.competences = competences;
-
-    // Save the updated program to the database
-    const updatedProgram = await existingProgram.save();
 
     res.status(200).json({
       status: "success",
       data: {
         program: updatedProgram,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
+exports.getProgramById = async (req, res) => {
+  try {
+    const facultyId = req.params.facultyId;
+    const departmentId = req.params.departmentId;
+    const programId = req.params.programId; // Assuming you have programId in the URL
+
+    if (!facultyId || !departmentId || !programId) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Faculty ID, Department ID, and Program ID must be provided",
+      });
+    }
+
+    const program = await Program.findById(programId);
+
+    if (!program) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Program not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        program: program,
       },
     });
   } catch (error) {

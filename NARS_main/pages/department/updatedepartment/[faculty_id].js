@@ -7,7 +7,7 @@ import Textarea from "@/components/Textarea/TextareaRoles";
 import DropDown from "@/components/form_elements/DropDown";
 import { useRouter } from 'next/router';
 
-const addfaculty = ({ cookies }) => {
+const updatePorgram = ({ cookies }) => {
 
   //Check if user is logged in
   const userState = useSelector((s) => s.user);
@@ -48,19 +48,15 @@ const addfaculty = ({ cookies }) => {
   useEffect(() => {
     const fetchCompetence = async () => {
       try {
-      //   const response = await fetch(`http://localhost:8086/${faculty_id}`, {
-      //     method: "GET",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Accept: "application/json",
-      //       Authorization: "Bearer " + userState.token,
-      //     },
-      // });
-       
-      //   const data = await response.json();
-      //   console.log("res Data:", data);
+        const resp = await fetch(`http://localhost:8086/${userState.faculty}/department/${userState.department}/program/${faculty_id}`, {
+        headers: {
+          Authorization: "Bearer " + userState.token,
+        },
+      });
+      const data = await resp.json();
+      console.log("data.data::",data.data);
         
-      //   name.current.value = data.data.name
+        name.current.value = data.data.program.name
       //   email.current.value = data.data.dean
       //   about.current.value = data.data.about
         
@@ -202,18 +198,18 @@ const addfaculty = ({ cookies }) => {
     // });
     console.log({
       name: name.current.value,
-      dean: email.current.value,
-      about: about.current.value,
+      // dean: email.current.value,
+      // about: about.current.value,
       competences: competencesChecked,
       // academicYears: itemsArr,
     })
     try {
-      const r = await fetch(`http://localhost:8083/${faculty_id}`, {
+      const r = await fetch(`http://localhost:8086/${userState.faculty}/department/${userState.department}/program/${faculty_id}`, {
         method: "PATCH",
         body: JSON.stringify({
           name: name.current.value,
-          dean: email.current.value,
-          about: about.current.value,
+          // dean: email.current.value,
+          // about: about.current.value,
           competences: competencesChecked,
           // academicYears: itemsArr,
         }),
@@ -249,7 +245,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
       <div class="ml-3 text-lg font-medium">
-        Failed to update faculty
+        Failed to update Program
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -285,7 +281,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-solid fa-circle-check"></i>
       <div class="ml-3 text-lg font-medium">
-        Faculty has been updated successfully
+        Program has been updated successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
@@ -364,7 +360,7 @@ const addfaculty = ({ cookies }) => {
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-full">
               <h4 className="font-semibold ">
-                  Please mark the competences this faculty aims to achieve:
+                  Please mark the competences this Program aims to achieve:
               </h4>
               <fieldset>
                 <legend className="sr-only">Checkboxes</legend>
@@ -419,4 +415,4 @@ const addfaculty = ({ cookies }) => {
     </>
   );
 };
-export default addfaculty;
+export default updatePorgram;

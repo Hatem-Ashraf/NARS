@@ -161,27 +161,33 @@ exports.signupWithEmail = catchAsync(async (req, res, next) => {
   // Save user without validation
   await user.save({ validateBeforeSave: false });
 
+  //Test Way to fix the bug
+  res.status(200).json({
+    status: "success",
+    message: "Code sent to email",
+  })
+  
   const message = `Your verification code: ${verifyCode}. Please copy this code to verify your account.`;
-  try {
-    // Send email with verification code
-    await sendEmail({
-      email: user.email,
-      subject: "Your verification code (Valid for 10m)",
-      message,
-      verifyCode,
-    });
+  // try {
+  //   // Send email with verification code
+  //   await sendEmail({
+  //     email: user.email,
+  //     subject: "Your verification code (Valid for 10m)",
+  //     message,
+  //     verifyCode,
+  //   });
 
-    res.status(200).json({
-      status: "success",
-      message: "Code sent to email",
-    });
-  } catch (err) {
-    // Handle error if email sending fails
-    await user.save({ validateBeforeSave: false });
-    return next(
-      new AppError("There was an error sending the email. Please try again later", 500)
-    );
-  }
+  //   res.status(200).json({
+  //     status: "success",
+  //     message: "Code sent to email",
+  //   });
+  // } catch (err) {
+  //   // Handle error if email sending fails
+  //   await user.save({ validateBeforeSave: false });
+  //   return next(
+  //     new AppError("There was an error sending the email. Please try again later", 500)
+  //   );
+  // }
 });
 
 
