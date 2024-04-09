@@ -511,3 +511,22 @@ exports.getSpecsPdf = catchAsync(async (req, res, next) => {
   //   data: exam,
   // });
 });
+
+exports.getAllCoursesCount = async (req, res, next) => {
+  try {
+    // Query the database for all courses
+    const count = await Course.countDocuments();
+
+    // Send the count as a response
+    res.status(200).json({
+      status: "success",
+      count: count,
+    });
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};

@@ -55,4 +55,5 @@ router
   .route("/assign-course-instructor")
   .patch(protect, courseController.assignCourseInstructor);
 
+router.route("/course-count").get(protect, courseController.getAllCoursesCount);
 module.exports = router;
