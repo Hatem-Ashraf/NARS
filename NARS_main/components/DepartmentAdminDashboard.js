@@ -76,7 +76,7 @@ export default function DepartmentAdminDashboard(cookies) {
                          <i class="fa-solid fa-file-lines text-3xl ml-1"></i>
                     </span>
                     
-                    <span className="ml-3">Program Report</span>
+                    <span className="ml-3">Department Report</span>
                 </span>
                 
             </Link>
