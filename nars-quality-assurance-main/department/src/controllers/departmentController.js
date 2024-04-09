@@ -11,16 +11,25 @@ exports.getDepartmentSummary = factory.getOne(Department);
 
 exports.createDepartment = catchAsync(async (req, res, next) => {
   try {
-    const { name, code, about, departmentHead, competences, facultyId, vision, mission } = req.body;
+    const {
+      name,
+      code,
+      about,
+      departmentHead,
+      competences,
+      facultyId,
+      vision,
+      mission,
+    } = req.body;
     const department = await Department.create({
       name,
       code,
       about,
       departmentHead,
-      competences, 
+      competences,
       facultyId,
       vision,
-      mission
+      mission,
     });
     res.status(201).json({
       status: "success",
@@ -29,11 +38,10 @@ exports.createDepartment = catchAsync(async (req, res, next) => {
   } catch (error) {
     res.status(400).json({
       status: "fail",
-      message: error.message 
+      message: error.message,
     });
   }
 });
-
 
 exports.getDepartment = catchAsync(async (req, res, next) => {
   let query = Department.findById(req.params.id);
@@ -66,31 +74,29 @@ exports.getDepartment = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.getDepartmentsByFaculty = catchAsync(async (req, res, next) => {
   try {
     const { facultyId } = req.params;
     const departments = await Department.find({ facultyId: facultyId });
     if (departments.length === 0) {
       return res.status(404).json({
-        status: 'error',
-        message: 'No departments found for the given faculty ID.'
+        status: "error",
+        message: "No departments found for the given faculty ID.",
       });
     }
 
     res.status(200).json({
-      status: 'success',
-      data: departments
+      status: "success",
+      data: departments,
     });
   } catch (error) {
-    console.error(error); 
+    console.error(error);
     res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while fetching departments.'
+      status: "error",
+      message: "An error occurred while fetching departments.",
     });
   }
 });
-
 
 exports.searchDepartmentByCode = catchAsync(async (req, res, next) => {
   try {
@@ -99,27 +105,36 @@ exports.searchDepartmentByCode = catchAsync(async (req, res, next) => {
 
     if (!department) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Department not found in the specified faculty for the given code.'
+        status: "error",
+        message:
+          "Department not found in the specified faculty for the given code.",
       });
     }
 
     res.status(200).json({
-      status: 'success',
-      data: department
+      status: "success",
+      data: department,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while searching for the department.'
+      status: "error",
+      message: "An error occurred while searching for the department.",
     });
   }
 });
 
-
 exports.updateDepartment = catchAsync(async (req, res, next) => {
-  const { name, code, about, departmentHead, competences, facultyId, vision, mission } = req.body;
+  const {
+    name,
+    code,
+    about,
+    departmentHead,
+    competences,
+    facultyId,
+    vision,
+    mission,
+  } = req.body;
   const department = await Department.findByIdAndUpdate(req.params.id, {
     name,
     code,
@@ -128,10 +143,29 @@ exports.updateDepartment = catchAsync(async (req, res, next) => {
     competences,
     facultyId,
     vision,
-    mission
+    mission,
   });
   res.status(200).json({
     status: "success",
     data: department,
   });
-})
+});
+
+exports.getAllDepartmentsCount = async (req, res, next) => {
+  try {
+    // Query the database for all departments
+    const count = await Department.countDocuments();
+
+    // Send the count as a response
+    res.status(200).json({
+      status: "success",
+      count: count,
+    });
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};

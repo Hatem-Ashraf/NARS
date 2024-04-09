@@ -97,12 +97,11 @@ router
 
 router
   .route("/depAdmins")
-  .get(authController.protect, staffController.getAllDepartmentAdmins)
+  .get(authController.protect, staffController.getAllDepartmentAdmins);
 
-  router
+router
   .route("/progAdmins")
-  .get(authController.protect, staffController.getAllProgramAdmins)
-
+  .get(authController.protect, staffController.getAllProgramAdmins);
 
 router.route("/addSystemAdmin").post(staffController.createStaff);
 
@@ -131,5 +130,13 @@ router
 
 router.route("/is-protected").post(authController.protectRequest);
 router.route("/is-restricted").post(authController.restrictRequest);
+
+router
+  .route("/stuff-count")
+  .get(authController.protect, staffController.getAllStaffCount);
+
+router
+  .route("/student-count")
+  .get(authController.protect, studentController.getAllStudentsCount);
 
 module.exports = router;

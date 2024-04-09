@@ -9,13 +9,12 @@ exports.getAllFaculties = factory.getAll(Faculty);
 exports.deletefaculty = factory.deleteOne(Faculty);
 exports.updateFaculty = factory.updateOne(Faculty);
 exports.createFaculty = catchAsync(async (req, res, next) => {
-
   try {
     const facultyData = {
       name: req.body.name,
       dean: req.body.dean,
       about: req.body.about,
-      competences: req.body.competences
+      competences: req.body.competences,
     };
 
     const doc = await Faculty.create(facultyData);
@@ -26,7 +25,6 @@ exports.createFaculty = catchAsync(async (req, res, next) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-
 });
 exports.getFacultySummary = factory.getOne(Faculty);
 
@@ -69,3 +67,21 @@ exports.getFaculty = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getAllFacultiesCount = async (req, res, next) => {
+  try {
+    // Query the database for all faculties
+    const count = await Faculty.countDocuments();
+
+    // Send the count as a response
+    res.status(200).json({
+      status: "success",
+      count: count,
+    });
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};

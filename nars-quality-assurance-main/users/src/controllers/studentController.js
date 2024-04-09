@@ -231,3 +231,22 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // 4) Log user in, send JWT
   createSendToken(student, 200, req, res);
 });
+
+exports.getAllStudentsCount = async (req, res, next) => {
+  try {
+    // Query the database for all students
+    const count = await Student.countDocuments();
+
+    // Send the count as a response
+    res.status(200).json({
+      status: "success",
+      count: count,
+    });
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
