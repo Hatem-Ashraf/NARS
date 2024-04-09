@@ -49,14 +49,14 @@ function UserList({ user, setView, setOnestaff }) {
                             return { [column]: data.data.name }; // Assuming the fetched data is an object
                         }
                         else if (column === "program") {
-                            const response = await fetch(`http://localhost:8086/${user.program}`,{
+                            const response = await fetch(`http://localhost:8086/${user.faculty}/department/${user.department}/program/${user.program}`,{
                               headers: {
                                 Authorization: "Bearer " + userState.token,
                               },
                             });
                             const data = await response.json();
-                            console.log("data from fetch", data.data.programs.name);
-                            return { [column]: data.data.programs.name }; // Assuming the fetched data is an object
+                            console.log("data from fetch", data.data.program.name);
+                            return { [column]: data.data.program.name }; // Assuming the fetched data is an object
                         }
                     } catch (error) {
                         console.error(`Error fetching data for ${column}:`, error);
@@ -128,7 +128,7 @@ function UserList({ user, setView, setOnestaff }) {
                         <td className="border px-4 py-2 text-lg">{user.email}</td>
                         {additionalColumns[userRole]?.map((column, index) => (
                             <td key={index} className="border px-4 py-2 text-lg">
-                                {additionalData[column] ? additionalData[column] : "Loading..."}
+                                {additionalData[column] ? additionalData[column] : "Not found"}
                             </td>
                         ))}
 

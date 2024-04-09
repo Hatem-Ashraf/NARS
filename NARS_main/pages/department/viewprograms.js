@@ -20,6 +20,7 @@ const viewfaculty = ({ cookies }) => {
   console.log(cookies.token);
   const router = useRouter();
   const [faculty, setFaculty] = useState([]);
+  const [department, setDepartment] = useState([]);
   useEffect(() => {
     submitHandler();
   }, []);
@@ -28,6 +29,14 @@ const viewfaculty = ({ cookies }) => {
       e.preventDefault();
     }
     try {
+      const resp1 = await fetch(`http://localhost:8084/${userState.department}`, {
+        headers: {
+          Authorization: "Bearer " + userState.token,
+        },
+      });
+      const data2 = await resp1.json();
+      setDepartment(data2.data.name);
+
       const resp = await fetch(`http://localhost:8086/${userState.faculty}/department/${userState.department}`, {
         headers: {
           Authorization: "Bearer " + userState.token,
@@ -41,6 +50,7 @@ const viewfaculty = ({ cookies }) => {
         return {
           name: e.name,
           id: e._id,
+          programHead: e.programHead
         //   dean: e.dean,
         //   about: e.about,
         //   competences_id_array: e.competences,
@@ -90,7 +100,7 @@ const viewfaculty = ({ cookies }) => {
         <div className="mx-auto contentAddUser3 w-full flex flex-col gap-10">
           <div className=" min-h-screen m-auto flex w-full justify-center p-5 "  >
             <div className="w-full p-8 rounded-lg" >
-              <h1 className="text-5xl font-bold text-center mb-10 mt-4 text-indigo-600">Program List</h1>
+              <h1 className="text-5xl font-bold text-center mb-10 mt-4 text-indigo-600">Program List of {`[${department}]`}</h1>
               <form onSubmit={submitHandler} className="mb-4">
                 <div className="flex items-center justify-end">
                   {/* <input

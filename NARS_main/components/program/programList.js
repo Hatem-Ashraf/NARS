@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 function programList({ faculties, setFaculties, delete_url, create_file_name }) {
+
+  console.log("faculties::", faculties)
+
   const userState = useSelector((s) => s.user);
   const [showModal, setShowModal] = useState(false);
   const [compCode, setCompCode] = useState("");
@@ -61,7 +64,7 @@ function programList({ faculties, setFaculties, delete_url, create_file_name }) 
         <thead className="bg-sky-100">
           <tr className="text-xl">
             <th className="px-4 text-xl py-2 font-bold border">Name</th>
-            <th className="px-4 text-xl py-2 font-bold border">Program Coordinator</th>
+            <th className="px-4 text-xl py-2 font-bold border text-center">Program Coordinator</th>
             {/* <th className="px-4 text-xl py-2 font-bold border">Dean</th>
             <th className="px-4 text-xl py-2 font-bold border">About</th> */}
             <th className="px-4 text-xl py-2 font-bold border text-center">Action</th>
