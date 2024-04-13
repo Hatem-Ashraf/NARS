@@ -410,3 +410,7 @@ department-count: get http://localhost:8084/department-count
 faculty-count:get http://localhost:8083/faculty-count
 stuff-count : get http://localhost:8081/stuff-count
 student-count : get http://localhost:8081/student-count
+
+# all competences
+
+get all competences: get http://localhost:8085/allComp
