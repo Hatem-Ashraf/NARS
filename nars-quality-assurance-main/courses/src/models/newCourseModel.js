@@ -22,6 +22,10 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, "Course must have goals"],
   },
+  qualityCompetencies: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Competency',
+  }],
   program: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Program', 

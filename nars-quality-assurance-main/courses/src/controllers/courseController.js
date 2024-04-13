@@ -544,3 +544,25 @@ exports.getCoursesByProgramId = async (req, res) => {
     });
   }
 };
+
+exports.addCompetenciesToCourse = async (req, res) => {
+  const courseId = req.params.courseId;
+  const { qualityCompetencies } = req.body;
+
+  try {
+    const course = await Newcourse.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    course.qualityCompetencies.push(...qualityCompetencies);
+
+    await course.save();
+
+    res.json({ message: 'Competencies added successfully', course });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

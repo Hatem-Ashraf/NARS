@@ -445,3 +445,11 @@ json:
 
 
 
+#quality coordinator to add competencies for all courses
+route:
+http://localhost:8087/newCourseComp/:courseId
+json:
+{
+  "qualityCompetencies": ["660390bd5a91f5aa4add384f", "6603924a5a91f5aa4add3865"]
+}
+

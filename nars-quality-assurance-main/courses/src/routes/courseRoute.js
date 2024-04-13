@@ -23,7 +23,7 @@ router.route("/newCourse/:id")
   .get(protect,courseController.getNewCourse)
   .delete(protect,courseController.deleteNewCourse);
 router.route("/getCoursesByProgramId/:programId").get(protect,courseController.getCoursesByProgramId);
-
+router.route("/newCourseComp/:courseId").put(protect,courseController.addCompetenciesToCourse);
 //##############################################33
 router
   .route("/original-courses")
