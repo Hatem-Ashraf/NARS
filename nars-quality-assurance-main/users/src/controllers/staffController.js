@@ -339,7 +339,6 @@ exports.deleteStaffRole = catchAsync(async (req, res, next) => {
   });
 });
 
-<<<<<<< HEAD
 exports.getAllInstructors = async (req, res, next) => {
   try {
     const instructors = await Staff.find({ roles: 'instructor' });
@@ -355,7 +354,6 @@ exports.getAllInstructors = async (req, res, next) => {
     });
   }
 };
-=======
 exports.getStaffMemberById = catchAsync(async (req, res, next) => {
   const doc = await Staff.findById(req.params.id);
   if (!doc) {
@@ -572,4 +570,3 @@ exports.getAllStaffMembers = catchAsync(async (req, res, next) => {
     },
   });
 })
->>>>>>> dc80cc29c4e9bf4cb861f5fa5a07ec9b3540eaa3
