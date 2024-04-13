@@ -54,63 +54,33 @@ export default function DepartmentAdminDashboard(cookies) {
                 </span>
                 <span className="ml-2">Profile</span>
             </Link>
+            <Link
+                className="link2 focus:text-green-400"
+                href="/department/viewprograms"
+            >
+                 <span >
+                     <span>
+                        <i class="fa-solid fa-layer-group text-3xl"></i>
+                    </span>
+                    
+                    <span className="ml-2">View Programs</span>
+                </span>
+                
+            </Link>
+            <Link
+                className="link2 focus:text-green-400"
+                href="/department/viewprograms"
+            >
+                 <span >
+                     <span>
+                         <i class="fa-solid fa-file-lines text-3xl ml-1"></i>
+                    </span>
+                    
+                    <span className="ml-3">Department Report</span>
+                </span>
+                
+            </Link>
 
-            {header(
-                <span >
-                    <GrOrganization
-                        style={{
-                            fontSize: 30,
-                            display: "inline",
-                            marginBottom: 4,
-                            marginRight: 9,
-
-                        }}
-                    />
-                    {name} Department
-                </span>,
-                [
-                    <Link
-                        className={
-                            router.pathname === "/department/addprogram"
-                                ? "activeLinkDashboard2"
-                                : "normalLinkDashboard2"
-                        }
-                        href="/department/addprogram"
-                    >
-                        Add Program
-                    </Link>,
-                    <Link
-                        className={
-                            router.pathname === "/department/updateprogram"
-                                ? "activeLinkDashboard2"
-                                : "normalLinkDashboard2"
-                        }
-                        href="/department/updateprogram"
-                    >
-                        Update Program
-                    </Link>,
-                    <Link
-                        className={
-                            router.pathname === "/department/deleteprogram"
-                                ? "activeLinkDashboard2"
-                                : "normalLinkDashboard2"
-                        }
-                        href="/department/deleteprogram"
-                    >
-                        Delete Program
-                    </Link>,
-                    <Link
-                        className={
-                            router.pathname === "/department/viewprograms"
-                                ? "activeLinkDashboard2"
-                                : "normalLinkDashboard2"
-                        }
-                        href="/department/viewprograms"
-                    >
-                        View Programs
-                    </Link>,
-                ]
-            )}
 
             <button
                 className="link2 focus:text-green-400 text-left"

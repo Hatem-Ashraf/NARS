@@ -265,7 +265,7 @@ const addfaculty = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p className="font-normal text-3xl text-indigo-800">Add Level B Competencies</p>
+            <p className="font-normal text-3xl text-indigo-800">Add Level B Competences</p>
             {/* <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
                 <div>Faculty Name:</div>

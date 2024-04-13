@@ -11,16 +11,27 @@ router.route("/programSpcs/:id").get(programController.getProgramSpcs);
 
 router.get("/getProgramSummary/:id", programController.getProgramSummary);
 router.route("/viewComp/:id").get(protect, programController.viewComp);
+// router
+//   .route("/")
+//   .post(protect, programController.addProgram)
+//   .get(protect, programController.getAllPrograms);
+
 router
-  .route("/")
+  .route("/:facultyId/department/:departmentId")
   .post(protect, programController.addProgram)
   .get(protect, programController.getAllPrograms);
 
-router
-  .route("/:id")
-  .get(protect, programController.getProgram)
-  .patch(protect, programController.UpdateProgram)
-  .delete(protect, programController.deleteProgram);
+  router
+  .route("/:facultyId/department/:departmentId/program/:programId")
+  .patch(protect, programController.updateProgram)
+  .delete(protect, programController.deleteProgram)
+  .get(protect, programController.getProgramById);
+
+// router
+//   .route("/:id")
+  // .get(protect, programController.getProgram)
+//   .patch(protect, programController.updateProgram)
+//   .delete(protect, programController.deleteProgram);
 
 router
   .route("/:id/directAssessment")

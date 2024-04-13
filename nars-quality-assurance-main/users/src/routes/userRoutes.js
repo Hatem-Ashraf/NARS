@@ -63,16 +63,46 @@ router
     staffController.uploadUserPhoto,
     staffController.updateMe
   );
+
 router
   .route("/staff/updatePassword/:id")
   .patch(authController.protect, staffController.updatePassword);
+
 router
   .route("/staff/getPhoto/:id")
   .get(authController.protect, staffController.getStaffPhoto);
+
 router
   .route("/staff")
   .get(authController.protect, staffController.getAllStaffMembers)
   .post(authController.protect, staffController.createStaff);
+
+router
+  .route("/newDepartmentAdmin")
+  .post(authController.protect, staffController.newDepartmentAdmin);
+router
+  .route("/newProgramAdmin")
+  .post(authController.protect, staffController.newProgramAdmin);
+router
+  .route("/newInstructor")
+  .post(authController.protect, staffController.newInstructor);
+router
+  .route("/newQualityCoordinator")
+  .post(authController.protect, staffController.newQualityCoordinator);
+
+router
+  .route("/Deans")
+  // .get(authController.protect, staffController.getAllDean)
+  .post(authController.protect, staffController.newDean);
+
+router
+  .route("/depAdmins")
+  .get(authController.protect, staffController.getAllDepartmentAdmins)
+
+  router
+  .route("/progAdmins")
+  .get(authController.protect, staffController.getAllProgramAdmins)
+
 
 router.route("/addSystemAdmin").post(staffController.createStaff);
 
@@ -92,7 +122,7 @@ router
 router.route("/getAllInstructors").get(authController.protect,staffController.getAllInstructors);
 router
   .route("/staff/:id")
-  .get(authController.protect, staffController.getStaff)
+  .get(authController.protect, staffController.getStaffMemberById)
   .patch(authController.protect, staffController.updateStaff)
   .delete(
     authController.protect,

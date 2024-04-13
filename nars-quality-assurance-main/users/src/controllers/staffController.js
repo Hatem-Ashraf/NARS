@@ -15,7 +15,7 @@ const kafka = new Kafka({
 });
 const consumer = kafka.consumer({ groupId: "group-1" });
 
-exports.getAllStaffMembers = factory.getAll(Staff);
+// exports.getAllStaffMembers = factory.getAll(Staff);
 exports.deleteStaff = factory.deleteOne(Staff);
 exports.updateStaff = factory.updateOne(Staff);
 exports.getStaff = factory.getOne(Staff);
@@ -339,6 +339,7 @@ exports.deleteStaffRole = catchAsync(async (req, res, next) => {
   });
 });
 
+<<<<<<< HEAD
 exports.getAllInstructors = async (req, res, next) => {
   try {
     const instructors = await Staff.find({ roles: 'instructor' });
@@ -354,3 +355,221 @@ exports.getAllInstructors = async (req, res, next) => {
     });
   }
 };
+=======
+exports.getStaffMemberById = catchAsync(async (req, res, next) => {
+  const doc = await Staff.findById(req.params.id);
+  if (!doc) {
+    return next(new AppError("No document found with that id", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: doc,
+  });
+});
+
+exports.newDepartmentAdmin = async (req, res) => {
+  try {
+    const { name, email, faculty, department, roles } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !department || !roles) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, roles",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+      department,
+      roles,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.newProgramAdmin = async (req, res) => {
+  try {
+    const { name, email, faculty, department, program, roles } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !department || !program || !roles ) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, department, roles",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+      department,
+      program,
+      roles,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.newInstructor = async (req, res) => {
+  try {
+    const { name, email, faculty, department, roles, program } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !department || !roles || !program) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, department, roles, and program.",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+      department,
+      roles,
+      program,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.newQualityCoordinator = async (req, res) => {
+  try {
+    const { name, email, faculty, roles } = req.body;
+
+    // Check if the required fields are provided
+    if (!name || !email || !faculty || !roles) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "Please provide name, email, faculty, department, roles, and program.",
+      });
+    }
+
+    // Create a new staff member
+    const newStaff = await Staff.create({
+      name,
+      email,
+      faculty,
+
+      roles,
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        staff: newStaff,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+//Create new dean
+exports.newDean = catchAsync(async (req, res) => {
+  const { name, email, faculty, roles } = req.body;
+  const newStaff = await Staff.create({
+    name,
+    email,
+    faculty,
+    roles,
+  });
+  res.status(201).json({
+    status: "success",
+    data: {
+      staff: newStaff,
+    },
+  });
+})
+
+exports.getAllDepartmentAdmins = catchAsync(async (req, res, next) => {
+  const {facultyId} = req.body;
+
+  if (!facultyId ) return next(new AppError("Please provide a valid faculty id", 400));
+
+  const staff = await Staff.find({ roles: "department admin", faculty: facultyId });
+  res.status(200).json({
+    status: "success",
+    results: staff.length,
+    data: {
+      staff,
+    },
+  });
+})
+
+exports.getAllProgramAdmins = catchAsync(async (req, res, next) => {
+  const {facultyId, departmentId} = req.body;
+  if (!facultyId || !departmentId ) return next(new AppError("Please provide a valid faculty id and department id", 400));
+  const staff = await Staff.find({ roles: "program admin", department: departmentId });
+  res.status(200).json({
+    status: "success",
+    results: staff.length,
+    data: {
+      staff,
+    },
+  });
+})
+
+exports.getAllStaffMembers = catchAsync(async (req, res, next) => {
+  const staff = await Staff.find();
+  res.status(200).json({
+    status: "success",
+    results: staff.length,
+    data: {
+      staff,
+    },
+  });
+})
+>>>>>>> dc80cc29c4e9bf4cb861f5fa5a07ec9b3540eaa3

@@ -31,7 +31,7 @@ function createHeader(headerName, array, optionalCreatedAt) {
             style={{ height: isOpen2 ? "auto" : 0 }}
           >
             <div className="flex flex-col px-4 ">
-              {array.map((e) => {
+              {array && Array.isArray(array) && array.map((e) => {
                 return <div className="">{e}</div>;
               })}
             </div>

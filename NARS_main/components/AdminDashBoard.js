@@ -46,126 +46,29 @@ export default function AdminDashBoard() {
         </span>
         <span className="ml-2">Dash Board</span>
       </Link>
-      {header(
-        <span>
-          <FaUniversity
-            style={{
-              fontSize: 30,
-              display: "inline",
-              marginBottom: 4,
-              marginRight: 9,
-            }}
-          />
-          Faculty
-        </span>,
-        [
-          <Link
-            className={
-              router.pathname === "/admin/faculty/addfaculty"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/faculty/addfaculty"
-          >
-            Add Faculty
-          </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/faculty/updatefaculty2"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/faculty/updatefaculty2"
-          >
-            Update Faculty
-          </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/faculty/deletefaculty"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/faculty/deletefaculty"
-          >
-            Delete Faculty
-          </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/faculty/viewfaculty"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/faculty/viewfaculty"
-          >
+      <Link className="link2 focus:text-green-400 " href="/admin/faculty/viewfaculty">
+            <span>
+            <FaUniversity
+              style={{
+                fontSize: 30,
+                display: "inline",
+                marginBottom: 4,
+                marginRight: 9,
+              }}
+            />
             View Faculties
-          </Link>,
-        ]
-      )}
-      {header(
+          </span>
+      </Link>
+      <Link className="link2 focus:text-green-400 " href="/admin/department/viewDepartments">
         <span>
-          <GiTeacher
-            style={{
-              fontSize: 30,
-              display: "inline",
-              marginBottom: 4,
-              marginRight: 9,
-            }}
-          />
-          Department
-        </span>,
-        [
-          <Link
-            className={
-              router.pathname === "/admin/department/add"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/department/add"
-          >
-            Add Department
-          </Link>,
-          <Link
-          className={
-            router.pathname === "/admin/department/update2"
-              ? "activeLinkDashboard2"
-              : "normalLinkDashboard2"
-          }
-          href="/admin/department/update2"
-        >
-          Update Department
-        </Link>,
-        <Link
-        className={
-          router.pathname === "/admin/department/delete"
-            ? "activeLinkDashboard2"
-            : "normalLinkDashboard2"
-        }
-        href="/admin/department/delete"
-      >
-        Delete Department
-      </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/department/view-all"
-                ? "activeLinkDashboard2 w-full"
-                : "normalLinkDashboard2 w-full"
-            }
-            href="/admin/department/view-all"
-          >
-            Show all Departments
-          </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/department/search-department"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/department/search-department"
-          >
-            Search
-          </Link>,
-        ]
-      )}
+            <i class="fa-solid fa-layer-group text-3xl"></i>
+        </span>
+        <span className="ml-2">
+          View Departments
+        </span>
+      </Link>
+      
+      
       {header(
         <span>
           <TiGroupOutline
@@ -179,36 +82,66 @@ export default function AdminDashBoard() {
           Staff
         </span>,
         [
-          <Link
+            <Link
+              className={
+                router.pathname === "/admin/staff/addDepartmentAdmin"
+                  ? "activeLinkDashboard2"
+                  : "normalLinkDashboard2"
+              }
+              href="/admin/staff/addDepartmentAdmin"
+            >
+              Add Department Admin
+            </Link>,
+            <Link
             className={
-              router.pathname === "/admin/staff/add"
+              router.pathname === "/admin/staff/addProgramAdmin"
                 ? "activeLinkDashboard2"
                 : "normalLinkDashboard2"
             }
-            href="/admin/staff/add"
+            href="/admin/staff/addProgramAdmin"
           >
-            Add Staff
+            Add Program Admin
+          </Link>,
+            <Link
+            className={
+              router.pathname === "/admin/staff/addQualityCoordinator"
+                ? "activeLinkDashboard2"
+                : "normalLinkDashboard2"
+            }
+            href="/admin/staff/addQualityCoordinator"
+          >
+            Add Quality coordinator
           </Link>,
           <Link
           className={
-            router.pathname === "/admin/staff/updateStaff"
+            router.pathname === "/admin/staff/addInstructor"
               ? "activeLinkDashboard2"
               : "normalLinkDashboard2"
           }
-          href="/admin/staff/updateStaff"
+          href="/admin/staff/addInstructor"
         >
-          Update Staff
+          Add Instructor
         </Link>,
-        <Link
-        className={
-          router.pathname === "/admin/staff/delteStaff"
-            ? "activeLinkDashboard2"
-            : "normalLinkDashboard2"
-        }
-        href="/admin/staff/deleteStaff"
-      >
-        Delete Staff
-      </Link>,
+      //     <Link
+      //     className={
+      //       router.pathname === "/admin/staff/updateStaff"
+      //         ? "activeLinkDashboard2"
+      //         : "normalLinkDashboard2"
+      //     }
+      //     href="/admin/staff/updateStaff"
+      //   >
+      //     Update Staff
+      //   </Link>,
+      //   <Link
+      //   className={
+      //     router.pathname === "/admin/staff/delteStaff"
+      //       ? "activeLinkDashboard2"
+      //       : "normalLinkDashboard2"
+      //   }
+      //   href="/admin/staff/deleteStaff"
+      // >
+      //   Delete Staff
+      // </Link>,
           
           <Link
             className={
@@ -220,36 +153,36 @@ export default function AdminDashBoard() {
           >
             Show all staffs
           </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/staff/search-staff"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/staff/search-staff"
-          >
-            Search
-          </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/staff/staffroles"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/staff/staffroles"
-          >
-            Add roles
-          </Link>,
-          <Link
-            className={
-              router.pathname === "/admin/staff/removeroles"
-                ? "activeLinkDashboard2"
-                : "normalLinkDashboard2"
-            }
-            href="/admin/staff/removeroles"
-          >
-            Remove roles
-          </Link>,
+          // <Link
+          //   className={
+          //     router.pathname === "/admin/staff/search-staff"
+          //       ? "activeLinkDashboard2"
+          //       : "normalLinkDashboard2"
+          //   }
+          //   href="/admin/staff/search-staff"
+          // >
+          //   Search
+          // </Link>,
+      //     <Link
+      //       className={
+      //         router.pathname === "/admin/staff/staffroles"
+      //           ? "activeLinkDashboard2"
+      //           : "normalLinkDashboard2"
+      //       }
+      //       href="/admin/staff/staffroles"
+      //     >
+      //       Add roles
+      //     </Link>,
+      //     <Link
+      //       className={
+      //         router.pathname === "/admin/staff/removeroles"
+      //           ? "activeLinkDashboard2"
+      //           : "normalLinkDashboard2"
+      //       }
+      //       href="/admin/staff/removeroles"
+      //     >
+      //       Remove roles
+      //     </Link>,
         ]
       )}
 

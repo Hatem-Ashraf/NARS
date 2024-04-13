@@ -49,8 +49,43 @@ const addStaff = ({ cookies }) => {
     const selectedFacultyId = faculty.current.value;
     console.log(selectedFacultyId);
 
+    // const resp = await fetch(
+    //   `http://localhost:8083/${selectedFacultyId}`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: "Bearer " + userState.token,
+    //     },
+    //   }
+    // );
+    
+    // let tempArray = [];
+    // const data = await resp.json();
+
+    // data.data.departments.map(async (d) => {
+    //   const resp = await fetch(
+    //     `http://localhost:8084/getDepartmentsByFaculty/${selectedFacultyId}`,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: "Bearer " + userState.token,
+    //       },
+    //     }
+    //   );
+    //   const data = await resp.json();
+    //   console.log(data);
+    //   console.log(data);
+    //   console.log(data);
+    //   console.log(data);
+    //   console.log(data);
+    //   tempArray.push({ name: data.data[0].name, id: data.data[0]._id });
+    //   console.log(tempArray);
+    // });
+
+    let tempArray = [];
+
     const resp = await fetch(
-      `http://localhost:8083/${selectedFacultyId}`,
+      `http://localhost:8084/getDepartmentsByFaculty/${selectedFacultyId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -58,36 +93,16 @@ const addStaff = ({ cookies }) => {
         },
       }
     );
-    let tempArray = [];
-    const data = await resp.json();
 
-    data.data.departments.map(async (d) => {
-      const resp = await fetch(
-        `http://localhost:8084/?name=${d}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userState.token,
-          },
-        }
-      );
-      const data = await resp.json();
-      console.log(data);
-      console.log(data);
-      console.log(data);
-      console.log(data);
-      console.log(data);
-      tempArray.push({ name: data.data[0].name, id: data.data[0]._id });
-      console.log(tempArray);
-    });
-    console.log(tempArray);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
+    const data = await resp.json();
+    
+    if(!data.data) return
+
+    data.data.map((d) => {
+      tempArray.push({ name: d.name, id: d._id });
+    })
+
+    console.log("tempArray", tempArray);
     setTimeout(() => {
       setDepartments(tempArray);
     }, 500);
@@ -152,16 +167,14 @@ const addStaff = ({ cookies }) => {
   };
   const handleDepartmentChange = async () => {
     const selectedDepartment = department.current.value;
+    const selectedfaculty = faculty.current.value;
     const selectedOption =
       department.current.options[department.current.selectedIndex];
     const selectedOptionName = selectedOption.text;
     const depID = department.current.value;
-    console.log(depID);
-    console.log(depID);
-    console.log(depID);
-    console.log(depID);
+    console.log(`http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`)
     const resp = await fetch(
-      `http://localhost:8086/?department=${depID}`,
+      `http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -176,7 +189,7 @@ const addStaff = ({ cookies }) => {
     console.log(data);
     console.log(data);
     console.log(data);
-    tempArray = data.data.map((e) => {
+    tempArray = data.data.programs.map((e) => {
       return { id: e._id, name: e.name };
     });
     console.log(tempArray);
@@ -302,17 +315,28 @@ setMsg(failImport);
     setMsg("");
   };
   const submitHandler = async (e) => {
+
     e.preventDefault();
-    console.log(department.current.value);
+    const facultyId = faculty.current.value;
+    const depId = department.current.value;
+    const programId = program.current.value;
     try {
-      const resp = await fetch('http://localhost:8081/staff', {
+      console.log({
+          roles: "program admin",
+          name: name.current.value,
+          email: email.current.value,
+          faculty: faculty.current.value,
+          department: department.current.value,
+          program: program.current.value,
+      })
+      const resp = await fetch('http://localhost:8081/newProgramAdmin', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify({
-          roles: selectedRoles,
+          roles: "program admin",
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
@@ -323,7 +347,23 @@ setMsg(failImport);
       const data = await resp.json();
       console.log(data);
       if (data.status == "success") {
-        setMsg(success);
+          const resp2 = await fetch(`http://localhost:8086/${facultyId}/department/${depId}/program/${programId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            programHead: email.current.value,
+          }),
+        });
+        const data2 = await resp2.json();
+        console.log("submit Response:",data2);
+        if (data2.status == "success") {
+          setMsg(success);
+        } else {
+          setMsg(fail);
+        }
       } else {
         setMsg(fail);
       }
@@ -528,15 +568,15 @@ setMsg(failImport);
         </div>
       ) : null}
       <div
-        className={`flex flex-row h-screen `}
+        className={`flex flex-row min-h-screen my-5`}
       >
         <form
          
           onSubmit={submitHandler}
-          className=" h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" min-h-screen w-screen  flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
-            <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Staff</p>
+            <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Program Admin</p>
             <div className="flex gap-10 ">
               <div className="flex flex-col gap-5  w-1/4">
                 <div> Name</div>
@@ -598,13 +638,6 @@ setMsg(failImport);
               </div>
             </div>
             <div className="flex gap-10 ">
-              <DropdownRoles
-                handleDivClick={handleDivClick}
-                toggleDropdown={toggleDropdown}
-                dropdownOpen={dropdownOpen}
-                selectedRoles={selectedRoles}
-                handleRoleChange={handleRoleChange}
-              />
               <div className="flex flex-col gap-5  w-1/2">
                 <div>Program</div>
                 <select
@@ -630,7 +663,7 @@ setMsg(failImport);
               <div className="flex justify-between items-center w-full">
                 <div className="w-1/2">{msg}</div>
                 <div className="flex space-x-2">
-                  <button
+                  {/* <button
                     type="button"
                     class="my-6 px-10 py-1 duration-200 text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg md:text-lg text-sm  mx-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800 whitespace-no-wrap"
                     onClick={downloadTemplateHandler}
@@ -648,7 +681,7 @@ setMsg(failImport);
                     className="my-6 text-center px-10 duration-200 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm md:text-lg mx-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800 flex items-center justify-center"
                   >
                     Import
-                  </label>
+                  </label> */}
                   <button
                     type="submit"
                     className="my-6 px-10 py-1 duration-200 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg mx-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"

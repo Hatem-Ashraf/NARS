@@ -4,11 +4,12 @@ const { protect } = require("../shared/middlewares/protectMiddleware");
 const { restrictTo } = require("../shared/middlewares/restrictMiddleware");
 const router = express.Router();
 router.route("/getDepartmentSummary/:id").get(departmentController.getDepartmentSummary);
-router.route("/").get(departmentController.getAllDepartments).post(
-  protect,
 
-  departmentController.createDepartment
-);
+router
+  .route("/")
+  .get(departmentController.getAllDepartments)
+  .post(protect,departmentController.createDepartment);
+
 router.route("/getDepartmentsByFaculty/:facultyId").get(protect,departmentController.getDepartmentsByFaculty);
 
 router.route("/getDepByFaculties").get(protect,departmentController.getDepartmentsByFaculties);
@@ -22,11 +23,7 @@ router
 
     departmentController.getDepartment
   )
-  .patch(
-    protect,
-
-    departmentController.updateDepartment
-  )
+  .patch(protect,departmentController.updateDepartment)
   .delete(
     protect,
 

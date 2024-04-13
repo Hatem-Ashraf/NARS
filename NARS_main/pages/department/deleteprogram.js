@@ -30,11 +30,19 @@ const deleteprogram = ({ cookies }) => {
             });
             const data = await resp.json();
             console.log(data);
-            const newData = data.data.map((e) => {
-                return { name: e.name, id: e._id };
-            });
+            
+            let newData = [];
+            if (data && data.data && Array.isArray(data.data)) {
+                newData = data.data.map((e) => {
+                    return { name: e.name, id: e._id };
+                });
+            } else {
+                console.error("Unexpected data structure:", data);
+            }
+            
             setProgram(newData);
-        }
+            
+                }
         doThis();
     }, []);
 
