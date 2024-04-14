@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { updateField } from "@/components/store/userSlice";
@@ -16,37 +16,90 @@ const CreateCourse = ({ cookies }) => {
   });
   const dispatch = useDispatch();
 
+  //New states
+  const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState({});
+  const coursesList = useRef();
+
   useEffect(() => {
-    // Fetch any necessary data or perform any setup here
+    async function getCourses() {
+      const d = await fetch(`http://localhost:8087/original-courses`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + cookies.token,
+        },
+      });
+
+      const data = await d.json();
+      let a = data.data.map((e) => {
+        return { name: e.name, id: e._id, code: e.code };
+      });
+      console.log("courses from server:",  a);
+      setCourses(a);
+    }
+    getCourses();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCourseData((prevData) => ({
+    setSelectedCourse((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:8087/created-courses", {
-        method: "POST",
-        body: JSON.stringify(courseData),
+
+
+  const handleCourseChange = async () => {
+    const selectedFacultyId = coursesList.current.value;
+    console.log(selectedFacultyId);
+
+
+    let tempArray = [];
+
+    const resp = await fetch(
+      `http://localhost:8087/original-courses/${selectedFacultyId}`,
+      {
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${userState.token}`,
+          Authorization: "Bearer " + userState.token,
         },
-      });
-      const data = await response.json();
-      console.log(data);
-      // Optionally, redirect the user to another page after successful submission
-      router.push("/dashboard"); // Change "/dashboard" to the appropriate route
-    } catch (error) {
-      console.error("Error creating course: ", error);
-    }
+      }
+    );
+
+    const data = await resp.json();
+    
+    if(!data.data) return
+
+    const Onecourse = data.data;
+
+    console.log("Course details from server:", Onecourse);
+    setTimeout(() => {
+      setSelectedCourse(Onecourse);
+    }, 500);
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    // try {
+    //   const response = await fetch("http://localhost:8087/created-courses", {
+    //     method: "POST",
+    //     body: JSON.stringify(courseData),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Accept: "application/json",
+    //       Authorization: `Bearer ${userState.token}`,
+    //     },
+    //   });
+    //   const data = await response.json();
+    //   console.log(data);
+    //   // Optionally, redirect the user to another page after successful submission
+    //   router.push("/dashboard"); // Change "/dashboard" to the appropriate route
+    // } catch (error) {
+    //   console.error("Error creating course: ", error);
+    // }
+    console.log("selectedCourse", selectedCourse)
   };
 
   return (
@@ -63,17 +116,19 @@ const CreateCourse = ({ cookies }) => {
         <form onSubmit={submitHandler}>
           <div className="flex flex-col gap-4 ">
           <label htmlFor="title" className="text-form font-bold w-1/3">Course Title:</label>
-              <select
-                id="title"
-                name="title"
-                value={courseData.title}
-                onChange={handleChange}
-                className="input-field focus:border-gray-400 focus:outline-none flex-grow"
-                required
-              >
-                <option value="">Select a course</option>
-                {/* Populate options here */}
-              </select>
+          <select
+            ref={coursesList}
+            id="small"
+            class="choose-form w-full px-10"
+            onChange={handleCourseChange}
+          >
+            <option className="text-left" disabled selected>
+              Choose a Course
+            </option>
+            {courses.map((e) => {
+              return <option value={e.id}>{e.name}</option>;
+            })}{" "}
+          </select>
             
 
             <label htmlFor="code" className="text-form font-bold">
@@ -83,27 +138,13 @@ const CreateCourse = ({ cookies }) => {
               type="text"
               id="code"
               name="code"
-              value={courseData.code}
+              value={selectedCourse.code}
               onChange={handleChange}
               className="input-field"
-              required
-            />
-
-            <label htmlFor="hours" className="text-form font-bold">
-              Hours:
-            </label>
-            <input
-              type="text"
-              id="hours"
-              name="hours"
-              value={courseData.hours}
-              onChange={handleChange}
-              className="input-field"
-              required
             />
 
             <label htmlFor="information" className="text-form font-bold">
-              Specific Course Information:
+            Course Aims:
             </label>
             <textarea
               id="information"
@@ -112,21 +153,8 @@ const CreateCourse = ({ cookies }) => {
               onChange={handleChange}
               className="input-field"
               rows="4"
-              required
             ></textarea>
 
-            <label htmlFor="goals" className="text-form font-bold">
-              Specific Goals of the Course:
-            </label>
-            <textarea
-              id="goals"
-              name="goals"
-              value={courseData.goals}
-              onChange={handleChange}
-              className="input-field"
-              rows="4"
-              required
-            ></textarea>
           </div>
           <div className="flex justify-end mt-4">
             <button
