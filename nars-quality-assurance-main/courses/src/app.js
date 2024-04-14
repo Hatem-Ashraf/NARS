@@ -10,6 +10,7 @@ const assignmentRoute = require("./routes/assignmentRoutes");
 const assignmentSolutionsRoute = require("./routes/assignmentSolutionsRoutes");
 const marksRoute = require("./routes/marksRoutes");
 const globalErrorHandler = require("./shared/controllers/errorController");
+const topicRoute = require("./routes/topicsRoute");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { Kafka } = require("kafkajs");
@@ -42,7 +43,7 @@ app.use("/exams", examRoute);
 app.use("/assignment", assignmentRoute);
 app.use("/assignmentSolution",assignmentSolutionsRoute);
 app.use("/", courseRoute);
-
+app.use("/topic",topicRoute);
 app.all("*", (req, res, next) => {
   next(
     new AppError(`can't find ${req.originalUrl} on this course server `, 404)

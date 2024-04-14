@@ -1,31 +1,28 @@
 const mongoose = require('mongoose');
 
 const topicSchema = new mongoose.Schema({
-  courseCode: {
+  title: {
     type: String,
-    required: [true, 'Please provide a course code']
+    required: true
   },
-  courseTitle: {
+  week: {
+    type: Number,
+    required: true
+  },
+  plannedHours: {
+    type: Number,
+    required: true
+  },
+  learningOutcomes: [{
     type: String,
-    required: [true, 'Please provide a course title']
-  },
-  courseAims: {
-    type: String,
-    required: [true, 'Please provide course aims']
-  },
-  courseInformation: {
-    type: String
-  },
-  competences: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Competences' }]
-    // Assuming 'Competences' is the model defined in the provided code
-  },
-  learningOutcomes: {
-    type: [{
-      code: { type: String, required: true },
-      name: { type: String, required: true }
-    }]
+    enum: ['LO1', 'LO2', 'LO3'] 
+  }],
+  course: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course', 
+    required: true
   }
 });
+
 
 module.exports = mongoose.model('Topic', topicSchema);
