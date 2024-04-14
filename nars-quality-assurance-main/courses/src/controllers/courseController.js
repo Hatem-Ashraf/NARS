@@ -566,3 +566,23 @@ exports.addCompetenciesToCourse = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+//FOR THE INSTRUCTOR DROP DOWN MENUE
+exports.getCoursesByIds = catchAsync(async (req, res, next) => {
+  const { courseIds } = req.body;
+  if (!courseIds || !Array.isArray(courseIds) || courseIds.length === 0) {
+    return res.status(400).json({
+      status: "error",
+      message: "Please provide an array of course IDs",
+    });
+  }
+  try {
+    const courses = await Newcourse.find({ _id: { $in: courseIds } });
+    res.status(200).json({
+      status: "success",
+      data: courses,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});

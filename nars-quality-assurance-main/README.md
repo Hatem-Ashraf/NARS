@@ -293,8 +293,6 @@ json:
   "name": "Software Engineering",
   "code": "CS450",
   "hours": 4,
-  "information": "This course focuses on software development methodologies, requirements engineering, and software design principles.",
-  "goals": "By the end of this course, students should be capable of designing and implementing complex software systems.",
   "program": "65eb2803478252cb316569c2"
 }
 delete,update,get course by id
@@ -451,5 +449,40 @@ http://localhost:8087/newCourseComp/:courseId
 json:
 {
   "qualityCompetencies": ["660390bd5a91f5aa4add384f", "6603924a5a91f5aa4add3865"]
+}
+
+#instructor TOPICS
+create topic:
+http://localhost:8087/topic/:courseId
+json:
+{
+  "title": "Advanced Topic: Applications",
+  "week": 3,
+  "plannedHours": 4,
+  "learningOutcomes": ["LO2", "LO3"]
+}
+
+get topic by id, update , delete
+http://localhost:8087/topic/:topicId
+
+get all topics
+http://localhost:8087/topic
+
+get all Topics under course:
+http://localhost:8087/topic/getTopicsBycourse/:coureId
+
+
+#instructor Courses
+first to get back courses IDs
+http://localhost:8081/getAssignedCourses/:instructorId
+
+get back the equivalent courses by their ids
+http://localhost:8087/getCoursesByIds
+json
+{
+  "courseIds": [
+    "660033497fa6bdc944beafeb",
+    "660033837fa6bdc944beafed"
+  ]
 }
 

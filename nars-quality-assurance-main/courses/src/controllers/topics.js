@@ -1,104 +1,111 @@
 const catchAsync = require("../shared/utils/catchAsync");
 const AppError = require("./../shared/utils/appError");
 const Course = require("../models/courseModel");
-
+const Topic = require("../models/topicsModel");
 // Function to retrieve all topics for a given course
-exports.getAllTopics = catchAsync(async (req, res, next) => {
-  const course = await Course.findById(req.params.courseId).populate('topics.competences');
-  if (!course) {
-    return next(new AppError("No course found with that id", 404));
+
+exports.createTopic = async (req, res) => {
+  try {
+    const { title, week, plannedHours, learningOutcomes } = req.body;
+    const courseId = req.params.courseId;
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    const newTopic = new Topic({
+      title,
+      week,
+      plannedHours,
+      learningOutcomes,
+      course: courseId 
+    });
+    await newTopic.save();
+
+    res.status(201).json({ message: 'Topic created successfully', topic: newTopic });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
+};
 
-  res.status(200).json({
-    status: "success",
-    data: course.topics,
-  });
-});
 
-// Function to create a new topic for a course
-exports.createTopic = catchAsync(async (req, res, next) => {
-  const course = await Course.findById(req.params.courseId);
-  if (!course) {
-    return next(new AppError("No course found with that id", 404));
+exports.updateTopic = async (req, res) => {
+  try {
+    const { title, week, plannedHours, learningOutcomes } = req.body;
+    const topicId = req.params.topicId;
+
+    const updatedTopic = await Topic.findByIdAndUpdate(topicId, {
+      title,
+      week,
+      plannedHours,
+      learningOutcomes
+    }, { new: true });
+
+    if (!updatedTopic) {
+      return res.status(404).json({ error: 'Topic not found' });
+    }
+
+    res.status(200).json({ message: 'Topic updated successfully', topic: updatedTopic });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
+};
 
-  const newTopic = {
-    courseCode: req.body.courseCode,
-    courseTitle: req.body.courseTitle,
-    courseAims: req.body.courseAims,
-    courseInformation: req.body.courseInformation,
-    competences: req.body.competences,
-    learningOutcomes: req.body.learningOutcomes
-  };
+exports.deleteTopic = async (req, res) => {
+  try {
+    const topicId = req.params.topicId;
+    const deletedTopic = await Topic.findByIdAndDelete(topicId);
 
-  course.topics.push(newTopic);
-  await course.save();
+    if (!deletedTopic) {
+      return res.status(404).json({ error: 'Topic not found' });
+    }
 
-  res.status(201).json({
-    status: "success",
-    data: newTopic,
-  });
-});
-
-// Function to retrieve a specific topic of a course
-exports.getTopic = catchAsync(async (req, res, next) => {
-  const course = await Course.findById(req.params.courseId);
-  if (!course) {
-    return next(new AppError("No course found with that id", 404));
+    res.status(200).json({ message: 'Topic deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
+};
 
-  const topic = course.topics.id(req.params.topicId);
-  if (!topic) {
-    return next(new AppError("No topic found with that id", 404));
+exports.getAllTopics = async (req, res) => {
+  try {
+    const topics = await Topic.find();
+    res.status(200).json({ topics });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
+};
 
-  res.status(200).json({
-    status: "success",
-    data: topic,
-  });
-});
+exports.getTopicById = async (req, res) => {
+  try {
+    const topicId = req.params.topicId;
+    const topic = await Topic.findById(topicId);
 
-// Function to update a specific topic of a course
-exports.updateTopic = catchAsync(async (req, res, next) => {
-  const course = await Course.findById(req.params.courseId);
-  if (!course) {
-    return next(new AppError("No course found with that id", 404));
+    if (!topic) {
+      return res.status(404).json({ error: 'Topic not found' });
+    }
+
+    res.status(200).json({ topic });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
+};
 
-  let topic = course.topics.id(req.params.topicId);
-  if (!topic) {
-    return next(new AppError("No topic found with that id", 404));
+exports.getTopicsByCourse = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    const topics = await Topic.find({ course: courseId });
+
+    res.status(200).json({ topics });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-
-  topic.set({
-    courseCode: req.body.courseCode || topic.courseCode,
-    courseTitle: req.body.courseTitle || topic.courseTitle,
-    courseAims: req.body.courseAims || topic.courseAims,
-    courseInformation: req.body.courseInformation || topic.courseInformation,
-    competences: req.body.competences || topic.competences,
-    learningOutcomes: req.body.learningOutcomes || topic.learningOutcomes
-  });
-
-  await course.save();
-
-  res.status(200).json({
-    status: "success",
-    data: topic,
-  });
-});
-
-// Function to delete a specific topic of a course
-exports.deleteTopic = catchAsync(async (req, res, next) => {
-  const course = await Course.findById(req.params.courseId);
-  if (!course) {
-    return next(new AppError("No course found with that id", 404));
-  }
-
-  course.topics.pull(req.params.topicId);
-  await course.save();
-
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
-});
+};

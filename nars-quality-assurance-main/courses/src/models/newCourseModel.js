@@ -14,14 +14,6 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Course must have hours"],
   },
-  information: {
-    type: String,
-    required: [true, "Course must have information"],
-  },
-  goals: {
-    type: String,
-    required: [true, "Course must have goals"],
-  },
   qualityCompetencies: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Competency',

@@ -365,6 +365,25 @@ exports.getStaffMemberById = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getCoursesByStaffMemberId = catchAsync(async (req, res, next) => {
+  const staffMember = await Staff.findById(req.params.staffId);
+  if (!staffMember) {
+    return next(new AppError("No staff member found with that id", 404));
+  }
+  if (!staffMember.courses || staffMember.courses.length === 0) {
+    return res.status(200).json({
+      status: "success",
+      message: "No courses found for this staff member",
+      data: []
+    });
+  }
+  res.status(200).json({
+    status: "success",
+    data: staffMember.courses,
+  });
+});
+
+
 exports.newDepartmentAdmin = async (req, res) => {
   try {
     const { name, email, faculty, department, roles } = req.body;
