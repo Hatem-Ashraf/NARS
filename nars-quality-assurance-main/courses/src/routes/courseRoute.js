@@ -12,6 +12,19 @@ router
 router.route("/specsPdf/:id").get(courseController.getSpecsPdf);
 
 router.route("/viewComp/:id").get(protect, courseController.viewComp);
+// #####################################
+
+router.route("/newCourse")
+.post(protect,courseController.createNewCourse)
+.get(protect,courseController.getAllNewCourses);
+
+router.route("/newCourse/:id")
+  .patch(protect,courseController.updateNewCourse)
+  .get(protect,courseController.getNewCourse)
+  .delete(protect,courseController.deleteNewCourse);
+router.route("/getCoursesByProgramId/:programId").get(protect,courseController.getCoursesByProgramId);
+router.route("/newCourseComp/:courseId").put(protect,courseController.addCompetenciesToCourse);
+//##############################################33
 router
   .route("/original-courses")
   .get(protect, courseController.getAllCourses)

@@ -10,7 +10,7 @@ router.route("/")
 // Route for retrieving marks for a specific student in a course and adding marks for a specific student
 router.route("/:studentId")
   .get(marksController.getStudentMarks)
-  .post(marksController.addStudentMarks)
+  //.post(marksController.addStudentMarks)
   .patch(marksController.updateStudentMarks);
 
 module.exports = router;
