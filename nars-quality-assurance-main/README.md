@@ -414,3 +414,27 @@ student-count : get http://localhost:8081/student-count
 # all competences
 
 get all competences: get http://localhost:8085/allComp
+
+# assessment methods
+
+create assessment : post http://localhost:8087/assessment-methods/
+JSON:
+{
+"assessment":"quiz1",
+"grade":20,
+"LO":["LO1","LO2"]
+}
+
+get all assessment methods: get http://localhost:8087/assessment-methods/
+
+update assessment methods : put http://localhost:8087/assessment-methods/661c136e9e58ec625120c21b
+JSON :
+{
+"assessment":"quiz1",
+"grade":20,
+"LO":["LO1","LO2"]
+}
+
+get assessment method by id : get http://localhost:8087/assessment-methods/661c136e9e58ec625120c21b
+
+delete assessment method : delete http://localhost:8087/assessment-methods/661c136e9e58ec625120c21b
