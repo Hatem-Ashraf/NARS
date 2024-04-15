@@ -124,6 +124,44 @@ exports.searchDepartmentByCode = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.getDepartmentsByFaculties = catchAsync(async (req, res, next) => {
+  try {
+    const { facultyIds } = req.body;
+
+    // Fetch departments for each faculty ID
+    const departmentsByFaculty = await Promise.all(
+      facultyIds.map(async (facultyId) => {
+        const departments = await Department.find({ facultyId });
+        return { facultyId, departments };
+      })
+    );
+
+    const response = departmentsByFaculty.map(({ facultyId, departments }) => {
+      if (departments.length === 0) {
+        return {
+          facultyId,
+          status: "error",
+          message: "No departments found for the given faculty ID.",
+        };
+      } else {
+        return {
+          facultyId,
+          status: "success",
+          data: departments,
+        };
+      }
+    });
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching departments.",
+    });
+  }
+});
+
 exports.updateDepartment = catchAsync(async (req, res, next) => {
   const {
     name,

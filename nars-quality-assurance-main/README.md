@@ -117,6 +117,12 @@ http://localhost:8084/searchDep?facultyId=65eb200ed1555f7450c9a02b&code=DEP103
 get department by faculty id, or getting all the departments under certain faculty
 http://localhost:8084/getDepartmentsByFaculty/65f60110f95cd7a5e3c17e56
 
+# get all departments at the same time
+
+http://localhost:8084/getDepByFaculties
+{
+"facultyIds": ["65eb1d67d1555f7450c9a027","65f60110f95cd7a5e3c17e56"]
+}
 /////////////////////////////
 
 ## department coordinator
@@ -273,6 +279,38 @@ JSON :
 "roles":"quality coordinator"
 }
 
+##################################################################################################
+
+#FOR PETER
+program coordinator APIS
+create Course , get all courses:
+http://localhost:8087/newCourse
+
+json:
+{
+"name": "Software Engineering",
+"code": "CS450",
+"hours": 4,
+"program": "65eb2803478252cb316569c2"
+}
+delete,update,get course by id
+http://localhost:8087/newCourse/<courseid>
+
+get all courses under certain program
+http://localhost:8087/getCoursesByProgramId/<programId>
+
+assign instructor to course or mutiple courses
+http://localhost:8087/assign-course-instructor
+{
+"instructorId": "65cb5ae3140600eebac07fc0",
+"courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"]
+}
+get all instructors
+http://localhost:8081/getAllInstructors
+
+get instructor by id
+http://localhost:8081/staff/<id>
+
 ## Prgoram
 
 - get all programs: GET http://localhost:8086/:facultyId/department/:departmentId
@@ -400,6 +438,48 @@ json:
 "questions": ["Question 1", "Question 2"],
 "dueTo": "2024-05-08T12:00:00.000Z",
 "courseId": "60c7d32a8e79813c44552b31"
+}
+
+#quality coordinator to add competencies for all courses
+route:
+http://localhost:8087/newCourseComp/:courseId
+json:
+{
+"qualityCompetencies": ["660390bd5a91f5aa4add384f", "6603924a5a91f5aa4add3865"]
+}
+
+#instructor TOPICS
+create topic:
+http://localhost:8087/topic/:courseId
+json:
+{
+"title": "Advanced Topic: Applications",
+"week": 3,
+"plannedHours": 4,
+"learningOutcomes": ["LO2", "LO3"]
+}
+
+get topic by id, update , delete
+http://localhost:8087/topic/:topicId
+
+get all topics
+http://localhost:8087/topic
+
+get all Topics under course:
+http://localhost:8087/topic/getTopicsBycourse/:coureId
+
+#instructor Courses
+first to get back courses IDs
+http://localhost:8081/getAssignedCourses/:instructorId
+
+get back the equivalent courses by their ids
+http://localhost:8087/getCoursesByIds
+json
+{
+"courseIds": [
+"660033497fa6bdc944beafeb",
+"660033837fa6bdc944beafed"
+]
 }
 
 # dashboard

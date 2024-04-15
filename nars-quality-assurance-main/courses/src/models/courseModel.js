@@ -10,37 +10,29 @@ const courseSchema = new mongoose.Schema({
     type: String,
     unique: true,
     trim: true,
+    required: [true, "Course must have a code"]
   },
-  currentInstance: {
-    type: mongoose.Schema.ObjectId,
-    ref: "courseInstance",
-  },
+
   academicYear: {
     type: String,
-    required: [true, "course must belong to ademic year"],
   },
   program: mongoose.Schema.ObjectId,
+  courseAims: {
+    type: String
+  },
   competences: {
     type: [
       {
-        code: {
-          type: String,
-          required: [true, "program must have a code"],
-        },
-        description: {
-          type: String,
-          required: [true, "program must have a description"],
-        },
+        type: String,
       },
     ],
-    required: [true, "Competences must have a description"],
+    required: [true, "course must have Competences"],
   },
   department: mongoose.Schema.ObjectId,
   faculty: mongoose.Schema.ObjectId,
   exams: [mongoose.Schema.ObjectId],
   fullMark: {
     type: Number,
-    required: [true, "course must have a full mark"],
   },
   materialsPaths: [
     {
@@ -59,11 +51,11 @@ const courseSchema = new mongoose.Schema({
     default: 70,
   },
 });
-courseSchema.pre(/^find/, function (next) {
-  this.populate({ path: "currentInstance", select: "-course courseSpecs" });
+// courseSchema.pre(/^find/, function (next) {
+//   this.populate({ path: "currentInstance", select: "-course courseSpecs" });
 
-  next();
-});
+//   next();
+// });
 
 const Course = mongoose.model("course", courseSchema);
 

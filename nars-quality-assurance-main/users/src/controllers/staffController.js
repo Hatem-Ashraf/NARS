@@ -339,6 +339,21 @@ exports.deleteStaffRole = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getAllInstructors = async (req, res, next) => {
+  try {
+    const instructors = await Staff.find({ roles: "instructor" });
+    res.status(200).json({
+      status: "success",
+      data: instructors,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching instructors.",
+    });
+  }
+};
 exports.getStaffMemberById = catchAsync(async (req, res, next) => {
   const doc = await Staff.findById(req.params.id);
   if (!doc) {
@@ -347,6 +362,24 @@ exports.getStaffMemberById = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: doc,
+  });
+});
+
+exports.getCoursesByStaffMemberId = catchAsync(async (req, res, next) => {
+  const staffMember = await Staff.findById(req.params.staffId);
+  if (!staffMember) {
+    return next(new AppError("No staff member found with that id", 404));
+  }
+  if (!staffMember.courses || staffMember.courses.length === 0) {
+    return res.status(200).json({
+      status: "success",
+      message: "No courses found for this staff member",
+      data: [],
+    });
+  }
+  res.status(200).json({
+    status: "success",
+    data: staffMember.courses,
   });
 });
 

@@ -2,6 +2,7 @@ const express = require("express");
 const authController = require("../controllers/authController");
 const staffController = require("../controllers/staffController");
 const studentController = require("../controllers/studentController");
+const staff = require("../models/staffModel");
 
 const router = express.Router();
 
@@ -90,6 +91,8 @@ router
   .route("/newQualityCoordinator")
   .post(authController.protect, staffController.newQualityCoordinator);
 
+router.route("/getAssignedCourses/:staffId")
+.get(authController.protect,staffController.getCoursesByStaffMemberId);
 router
   .route("/Deans")
   // .get(authController.protect, staffController.getAllDean)
@@ -118,6 +121,7 @@ router
   .patch(authController.protect, staffController.addStaffRole)
   .delete(authController.protect, staffController.deleteStaffRole);
 
+router.route("/getAllInstructors").get(authController.protect,staffController.getAllInstructors);
 router
   .route("/staff/:id")
   .get(authController.protect, staffController.getStaffMemberById)
