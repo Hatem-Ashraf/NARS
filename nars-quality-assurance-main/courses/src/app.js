@@ -9,6 +9,7 @@ const examRoute = require("./routes/examRoutes");
 const assignmentRoute = require("./routes/assignmentRoutes");
 const assignmentSolutionsRoute = require("./routes/assignmentSolutionsRoutes");
 const marksRoute = require("./routes/marksRoutes");
+const assessmentMethod = require("./routes/assessmentMethod");
 const globalErrorHandler = require("./shared/controllers/errorController");
 const topicRoute = require("./routes/topicsRoute");
 const bodyParser = require("body-parser");
@@ -41,9 +42,11 @@ if (process.env.NODE_ENV === "development") {
 app.use("/:course/marks", marksRoute);
 app.use("/exams", examRoute);
 app.use("/assignment", assignmentRoute);
-app.use("/assignmentSolution",assignmentSolutionsRoute);
+app.use("/assignmentSolution", assignmentSolutionsRoute);
 app.use("/", courseRoute);
-app.use("/topic",topicRoute);
+app.use("/", assessmentMethod);
+
+app.use("/topic", topicRoute);
 app.all("*", (req, res, next) => {
   next(
     new AppError(`can't find ${req.originalUrl} on this course server `, 404)

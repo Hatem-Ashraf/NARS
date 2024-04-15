@@ -1,5 +1,6 @@
 const ProgramComp = require("../models/programCompetences");
-
+const DepartmentCompetences = require("../models/departmentcompetences");
+const FacultyCompetences = require("../models/facultyCompetences");
 exports.createProgramComp = async (req, res) => {
   try {
     const compData = req.body;
@@ -68,5 +69,25 @@ exports.getProgramCompetenceById = async (req, res) => {
     res.status(200).json({ competence });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllCompetences = async (req, res) => {
+  try {
+    // Fetch all competences from different collections
+    const departmentCompetences = await DepartmentCompetences.find();
+    const facultyCompetences = await FacultyCompetences.find();
+    const programCompetences = await ProgramComp.find();
+
+    // Concatenate all competences into a single array
+    const allCompetences = [
+      ...departmentCompetences,
+      ...facultyCompetences,
+      ...programCompetences,
+    ];
+
+    res.json(allCompetences);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

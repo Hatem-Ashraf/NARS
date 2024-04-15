@@ -341,16 +341,16 @@ exports.deleteStaffRole = catchAsync(async (req, res, next) => {
 
 exports.getAllInstructors = async (req, res, next) => {
   try {
-    const instructors = await Staff.find({ roles: 'instructor' });
+    const instructors = await Staff.find({ roles: "instructor" });
     res.status(200).json({
-      status: 'success',
-      data: instructors
+      status: "success",
+      data: instructors,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while fetching instructors.'
+      status: "error",
+      message: "An error occurred while fetching instructors.",
     });
   }
 };
@@ -374,7 +374,7 @@ exports.getCoursesByStaffMemberId = catchAsync(async (req, res, next) => {
     return res.status(200).json({
       status: "success",
       message: "No courses found for this staff member",
-      data: []
+      data: [],
     });
   }
   res.status(200).json({
@@ -382,7 +382,6 @@ exports.getCoursesByStaffMemberId = catchAsync(async (req, res, next) => {
     data: staffMember.courses,
   });
 });
-
 
 exports.newDepartmentAdmin = async (req, res) => {
   try {
@@ -392,8 +391,7 @@ exports.newDepartmentAdmin = async (req, res) => {
     if (!name || !email || !faculty || !department || !roles) {
       return res.status(400).json({
         status: "fail",
-        message:
-          "Please provide name, email, faculty, roles",
+        message: "Please provide name, email, faculty, roles",
       });
     }
 
@@ -426,11 +424,10 @@ exports.newProgramAdmin = async (req, res) => {
     const { name, email, faculty, department, program, roles } = req.body;
 
     // Check if the required fields are provided
-    if (!name || !email || !faculty || !department || !program || !roles ) {
+    if (!name || !email || !faculty || !department || !program || !roles) {
       return res.status(400).json({
         status: "fail",
-        message:
-          "Please provide name, email, faculty, department, roles",
+        message: "Please provide name, email, faculty, department, roles",
       });
     }
 
@@ -549,14 +546,18 @@ exports.newDean = catchAsync(async (req, res) => {
       staff: newStaff,
     },
   });
-})
+});
 
 exports.getAllDepartmentAdmins = catchAsync(async (req, res, next) => {
-  const {facultyId} = req.body;
+  const { facultyId } = req.body;
 
-  if (!facultyId ) return next(new AppError("Please provide a valid faculty id", 400));
+  if (!facultyId)
+    return next(new AppError("Please provide a valid faculty id", 400));
 
-  const staff = await Staff.find({ roles: "department admin", faculty: facultyId });
+  const staff = await Staff.find({
+    roles: "department admin",
+    faculty: facultyId,
+  });
   res.status(200).json({
     status: "success",
     results: staff.length,
@@ -564,12 +565,18 @@ exports.getAllDepartmentAdmins = catchAsync(async (req, res, next) => {
       staff,
     },
   });
-})
+});
 
 exports.getAllProgramAdmins = catchAsync(async (req, res, next) => {
-  const {facultyId, departmentId} = req.body;
-  if (!facultyId || !departmentId ) return next(new AppError("Please provide a valid faculty id and department id", 400));
-  const staff = await Staff.find({ roles: "program admin", department: departmentId });
+  const { facultyId, departmentId } = req.body;
+  if (!facultyId || !departmentId)
+    return next(
+      new AppError("Please provide a valid faculty id and department id", 400)
+    );
+  const staff = await Staff.find({
+    roles: "program admin",
+    department: departmentId,
+  });
   res.status(200).json({
     status: "success",
     results: staff.length,
@@ -577,7 +584,7 @@ exports.getAllProgramAdmins = catchAsync(async (req, res, next) => {
       staff,
     },
   });
-})
+});
 
 exports.getAllStaffMembers = catchAsync(async (req, res, next) => {
   const staff = await Staff.find();
@@ -588,4 +595,23 @@ exports.getAllStaffMembers = catchAsync(async (req, res, next) => {
       staff,
     },
   });
-})
+});
+
+exports.getAllStaffCount = async (req, res, next) => {
+  try {
+    // Query the database for all staff members
+    const count = await Staff.countDocuments();
+
+    // Send the count as a response
+    res.status(200).json({
+      status: "success",
+      count: count,
+    });
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
