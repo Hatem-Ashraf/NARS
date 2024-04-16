@@ -1,26 +1,34 @@
-const mongoose = require("mongoose");
+// surveyModel.js
+const mongoose = require('mongoose');
 
 const surveySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Survey must have a name"],
-  },
-  description: String,
-  questions: [String],
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  dueTo: {
-    type: Date,
-    required: [true, "Survey must have a due-to date"],
-  },
   courseId: {
-    type: mongoose.Schema.ObjectId,
-    required: [true, "Survey must belong to a course"],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course', 
+    required: true,
   },
+  courseName: {
+    type: String,
+    required: true,
+  },
+  questions: [{
+    text: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5,
+      required: true,
+    },
+  }],
+  overallRating: {
+    type: Number,
+    min: 0,
+    max: 10,
+    required: true,
+  }
 });
 
-const Survey = mongoose.model("Survey", surveySchema);
-
-module.exports = Survey;
+module.exports = mongoose.model('Survey', surveySchema);
