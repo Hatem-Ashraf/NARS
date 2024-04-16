@@ -4,27 +4,31 @@ const { protect } = require("../shared/middlewares/protectMiddleware");
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(surveyController.getAllSurveys)
-  .post(surveyController.addSurvey);
 
 router
   .route("/:id")
   .get(surveyController.getSurveyById)
-  .delete(surveyController.deleteSurvey);
+  .delete(surveyController.deleteSurvey)
+  .put(surveyController.updateSurvey);
 
 router
   .route("/submissions")
-  .post(surveyController.addSubmission);
+  .post(surveyController.submitSurvey);
 
 router
-  .route("/submissions/:id")
-  .get(surveyController.getSurveySubmissions)
-  .delete(surveyController.deleteSubmission);
+  .route("/submissions/:surveyId")
+  .get(surveyController.getSurveyResponses);
+ 
+router.route("/submissions/average/:surveyId")
+.get(surveyController.calculateAverageRatings);
 
-router
-  .route("/student-submissions")
-  .get(surveyController.getStudentSubmissions);
+router.route("/submissions/overAllRatingAverage/:surveyId")
+.get(surveyController.calculateAverageOverallRating);
 
+router.route("/submissions/:submissionId")
+.delete(surveyController.deleteSubmission);
+
+router.route("/")
+.post(surveyController.createSurvey)
+.get(surveyController.getAllSurveys);
 module.exports = router;

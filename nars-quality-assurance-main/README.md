@@ -425,6 +425,8 @@ json:
 }
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 ## SURVAYS
 
 getAllSurveys: get http://localhost:8082/
@@ -438,7 +440,96 @@ json:
 "questions": ["Question 1", "Question 2"],
 "dueTo": "2024-05-08T12:00:00.000Z",
 "courseId": "60c7d32a8e79813c44552b31"
+=======
+## SURVEYS
+getAllSurveys,create survey:
+http://localhost:8082
+json:
+{
+=======
+## SURVEYS
+getAllSurveys,create survey:
+http://localhost:8082
+json:
+{
+>>>>>>> 8215157a24b4bd719ab11e5542ce209d4508b94b
+  "courseId": "65f8cca01c297968e2db0f7d",
+  "courseName": "Machine Learning",
+  "questions": [
+    { "text": "Rate the clarity of the course material.", "rating": 3 },
+    { "text": "How helpful were the course assignments?", "rating": 4 }
+  ],
+  "overallRating": 7
+<<<<<<< HEAD
+>>>>>>> 8215157 (surveys API)
+=======
+>>>>>>> 8215157a24b4bd719ab11e5542ce209d4508b94b
 }
+## the rating for the question is from 1 to 5 (max) does not allow more
+## the overall rtaing is from 1 to 10(max) does not allow more as well
+Update,delete,get survey by id:
+http://localhost:8082/:surveyId
+<<<<<<< HEAD
+=======
+
+submit survey response:
+http://localhost:8082/submissions
+json:
+{
+  "surveyId": "661e7e4e35084432f6383a8a",
+  "responses": [
+    { "questionId": "661e7e4e35084432f6383a8b", "response": 2 },
+    { "questionId": "661e7e4e35084432f6383a8c", "response": 4}
+  ],
+  "overallRating": 6
+}
+get survey submissions:
+http://localhost:8082/submissions/:surveyId
+
+delete submission:
+http://localhost:8082/submissions/:responseId
+
+get the average rating for the questions response under survey:
+http://localhost:8082/submissions/average/:surveyId
+response is:
+{
+  "averageRatings": {
+    "661e7e8335084432f6383a8f": 3,
+    "661e7e8335084432f6383a90": 4.333333333333333
+  }
+}
+get average of the overall rating for a course
+http://localhost:8082/submissions/overAllRatingAverage/:surveyId
+>>>>>>> 8215157a24b4bd719ab11e5542ce209d4508b94b
+
+submit survey response:
+http://localhost:8082/submissions
+json:
+{
+  "surveyId": "661e7e4e35084432f6383a8a",
+  "responses": [
+    { "questionId": "661e7e4e35084432f6383a8b", "response": 2 },
+    { "questionId": "661e7e4e35084432f6383a8c", "response": 4}
+  ],
+  "overallRating": 6
+}
+get survey submissions:
+http://localhost:8082/submissions/:surveyId
+
+delete submission:
+http://localhost:8082/submissions/:responseId
+
+get the average rating for the questions response under survey:
+http://localhost:8082/submissions/average/:surveyId
+response is:
+{
+  "averageRatings": {
+    "661e7e8335084432f6383a8f": 3,
+    "661e7e8335084432f6383a90": 4.333333333333333
+  }
+}
+get average of the overall rating for a course
+http://localhost:8082/submissions/overAllRatingAverage/:surveyId
 
 #quality coordinator to add competencies for all courses
 route:
