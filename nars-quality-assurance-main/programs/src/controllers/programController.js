@@ -411,7 +411,7 @@ exports.deleteProgram = async (req, res) => {
 };
 exports.updateProgram = async (req, res) => {
   try {
-    const { name, competences, programHead } = req.body;
+    const { name, competences, programHead, qualityCoordinator } = req.body;
     const facultyId = req.params.facultyId;
     const departmentId = req.params.departmentId;
     const programId = req.params.programId; // Assuming you have programId in the URL
@@ -431,6 +431,7 @@ exports.updateProgram = async (req, res) => {
         department: departmentId,
         competences,
         programHead,
+        qualityCoordinator
       },
       { new: true }
     );

@@ -48,6 +48,7 @@ const staffSchema = new mongoose.Schema({
       "program admin",
       "department admin",
       "department head",
+      "program quality coordinator",
     ],
   },
 

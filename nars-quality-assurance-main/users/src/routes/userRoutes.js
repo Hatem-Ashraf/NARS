@@ -93,6 +93,11 @@ router
 
 router.route("/getAssignedCourses/:staffId")
 .get(authController.protect,staffController.getCoursesByStaffMemberId);
+//Program Quality Coordinator routes
+router
+  .route("/newProgramQualityCoordinator")
+  .post(authController.protect, staffController.newProgramQualityCoordinator);
+
 router
   .route("/Deans")
   // .get(authController.protect, staffController.getAllDean)
