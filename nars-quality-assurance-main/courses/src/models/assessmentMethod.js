@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const assessmentMethodSchema = new mongoose.Schema({
+  courses: [mongoose.Schema.ObjectId],
   assessment: { type: String, required: true },
   grade: { type: Number, required: true },
   LO: { type: [String] },

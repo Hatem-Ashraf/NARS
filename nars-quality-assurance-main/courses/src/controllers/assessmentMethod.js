@@ -2,11 +2,12 @@ const AssessmentMethod = require("../models/assessmentMethod");
 
 exports.createAssessmentMethod = async (req, res) => {
   try {
-    const { assessment, grade, LO } = req.body;
+    const { assessment, grade, LO, courses } = req.body;
     const newAssessmentMethod = new AssessmentMethod({
       assessment,
       grade,
       LO,
+      courses,
     });
     const savedAssessmentMethod = await newAssessmentMethod.save();
     res.status(201).json(savedAssessmentMethod);
@@ -41,10 +42,10 @@ exports.getAssessmentMethodById = async (req, res) => {
 // Controller function to update an existing assessment method
 exports.updateAssessmentMethod = async (req, res) => {
   try {
-    const { assessment, grade, LO } = req.body;
+    const { assessment, grade, LO, courses } = req.body;
     const updatedAssessmentMethod = await AssessmentMethod.findByIdAndUpdate(
       req.params.id,
-      { assessment, grade, LO },
+      { assessment, grade, LO, courses },
       { new: true }
     );
     res.json(updatedAssessmentMethod);

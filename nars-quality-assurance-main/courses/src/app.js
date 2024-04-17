@@ -10,6 +10,7 @@ const assignmentRoute = require("./routes/assignmentRoutes");
 const assignmentSolutionsRoute = require("./routes/assignmentSolutionsRoutes");
 const marksRoute = require("./routes/marksRoutes");
 const assessmentMethod = require("./routes/assessmentMethod");
+const student = require("./routes/student");
 const globalErrorHandler = require("./shared/controllers/errorController");
 const topicRoute = require("./routes/topicsRoute");
 const bodyParser = require("body-parser");
@@ -45,6 +46,7 @@ app.use("/assignment", assignmentRoute);
 app.use("/assignmentSolution", assignmentSolutionsRoute);
 app.use("/", courseRoute);
 app.use("/", assessmentMethod);
+app.use("/", student);
 
 app.use("/topic", topicRoute);
 app.all("*", (req, res, next) => {

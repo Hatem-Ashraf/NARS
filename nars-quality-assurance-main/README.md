@@ -427,6 +427,7 @@ json:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+
 ## SURVAYS
 
 getAllSurveys: get http://localhost:8082/
@@ -441,32 +442,43 @@ json:
 "dueTo": "2024-05-08T12:00:00.000Z",
 "courseId": "60c7d32a8e79813c44552b31"
 =======
+
 ## SURVEYS
+
 getAllSurveys,create survey:
 http://localhost:8082
 json:
 {
 =======
+
 ## SURVEYS
+
 getAllSurveys,create survey:
 http://localhost:8082
 json:
 {
->>>>>>> 8215157a24b4bd719ab11e5542ce209d4508b94b
-  "courseId": "65f8cca01c297968e2db0f7d",
-  "courseName": "Machine Learning",
-  "questions": [
+
+> > > > > > > 8215157a24b4bd719ab11e5542ce209d4508b94b
+> > > > > > > "courseId": "65f8cca01c297968e2db0f7d",
+> > > > > > > "courseName": "Machine Learning",
+> > > > > > > "questions": [
+
     { "text": "Rate the clarity of the course material.", "rating": 3 },
     { "text": "How helpful were the course assignments?", "rating": 4 }
-  ],
-  "overallRating": 7
+
+],
+"overallRating": 7
 <<<<<<< HEAD
->>>>>>> 8215157 (surveys API)
-=======
->>>>>>> 8215157a24b4bd719ab11e5542ce209d4508b94b
-}
+
+> > > > > > > # 8215157 (surveys API)
+> > > > > > >
+> > > > > > > 8215157a24b4bd719ab11e5542ce209d4508b94b
+> > > > > > > }
+
 ## the rating for the question is from 1 to 5 (max) does not allow more
+
 ## the overall rtaing is from 1 to 10(max) does not allow more as well
+
 Update,delete,get survey by id:
 http://localhost:8082/:surveyId
 <<<<<<< HEAD
@@ -476,12 +488,12 @@ submit survey response:
 http://localhost:8082/submissions
 json:
 {
-  "surveyId": "661e7e4e35084432f6383a8a",
-  "responses": [
-    { "questionId": "661e7e4e35084432f6383a8b", "response": 2 },
-    { "questionId": "661e7e4e35084432f6383a8c", "response": 4}
-  ],
-  "overallRating": 6
+"surveyId": "661e7e4e35084432f6383a8a",
+"responses": [
+{ "questionId": "661e7e4e35084432f6383a8b", "response": 2 },
+{ "questionId": "661e7e4e35084432f6383a8c", "response": 4}
+],
+"overallRating": 6
 }
 get survey submissions:
 http://localhost:8082/submissions/:surveyId
@@ -493,25 +505,26 @@ get the average rating for the questions response under survey:
 http://localhost:8082/submissions/average/:surveyId
 response is:
 {
-  "averageRatings": {
-    "661e7e8335084432f6383a8f": 3,
-    "661e7e8335084432f6383a90": 4.333333333333333
-  }
+"averageRatings": {
+"661e7e8335084432f6383a8f": 3,
+"661e7e8335084432f6383a90": 4.333333333333333
+}
 }
 get average of the overall rating for a course
 http://localhost:8082/submissions/overAllRatingAverage/:surveyId
->>>>>>> 8215157a24b4bd719ab11e5542ce209d4508b94b
+
+> > > > > > > 8215157a24b4bd719ab11e5542ce209d4508b94b
 
 submit survey response:
 http://localhost:8082/submissions
 json:
 {
-  "surveyId": "661e7e4e35084432f6383a8a",
-  "responses": [
-    { "questionId": "661e7e4e35084432f6383a8b", "response": 2 },
-    { "questionId": "661e7e4e35084432f6383a8c", "response": 4}
-  ],
-  "overallRating": 6
+"surveyId": "661e7e4e35084432f6383a8a",
+"responses": [
+{ "questionId": "661e7e4e35084432f6383a8b", "response": 2 },
+{ "questionId": "661e7e4e35084432f6383a8c", "response": 4}
+],
+"overallRating": 6
 }
 get survey submissions:
 http://localhost:8082/submissions/:surveyId
@@ -523,10 +536,10 @@ get the average rating for the questions response under survey:
 http://localhost:8082/submissions/average/:surveyId
 response is:
 {
-  "averageRatings": {
-    "661e7e8335084432f6383a8f": 3,
-    "661e7e8335084432f6383a90": 4.333333333333333
-  }
+"averageRatings": {
+"661e7e8335084432f6383a8f": 3,
+"661e7e8335084432f6383a90": 4.333333333333333
+}
 }
 get average of the overall rating for a course
 http://localhost:8082/submissions/overAllRatingAverage/:surveyId
@@ -594,6 +607,7 @@ JSON:
 "assessment":"quiz1",
 "grade":20,
 "LO":["LO1","LO2"]
+,"courses": courses id
 }
 
 get all assessment methods: get http://localhost:8087/assessment-methods/
@@ -609,3 +623,44 @@ JSON :
 get assessment method by id : get http://localhost:8087/assessment-methods/661c136e9e58ec625120c21b
 
 delete assessment method : delete http://localhost:8087/assessment-methods/661c136e9e58ec625120c21b
+
+# student
+
+create student : post http://localhost:8087/student/
+JSON:
+{
+"name":"hatem3",
+"program":"65d7b844a5a017b149d2ed0d", // program id
+"faculty":"65eb1d67d1555f7450c9a027", // faculty id
+"department":"65eb337db351e20dc76a9134", //department id
+"courses":"661540c535f3db1c1f3c0e3c" // courses ids
+}
+
+update student : patch http://localhost:8087/student/661540c535f3db1c1f3c0e3c
+
+delete student : delete http://localhost:8087/student/661540c535f3db1c1f3c0e3c
+
+get student : get http://localhost:8087/student/661540c535f3db1c1f3c0e3c
+
+get all students : get http://localhost:8087/student
+
+update grades for all student inside course: http://localhost:8087/studentGrade
+json :
+{
+"assessments": [
+{
+"assessment": "quiz1",
+"grades": [
+{"studentId": "6620011defb9984fb09b4ac7", "grade": 10},
+{"studentId": "662008f8686fb836592ed5a8", "grade": 15}
+]
+},
+{
+"assessment": "mid term",
+"grades": [
+{ "studentId": "6620011defb9984fb09b4ac7", "grade": 30 },
+{ "studentId": "662008f8686fb836592ed5a8", "grade": 22}
+]
+}
+]
+}
