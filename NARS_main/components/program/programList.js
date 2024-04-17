@@ -65,6 +65,7 @@ function programList({ faculties, setFaculties, delete_url, create_file_name }) 
           <tr className="text-xl">
             <th className="px-4 text-xl py-2 font-bold border">Name</th>
             <th className="px-4 text-xl py-2 font-bold border text-center">Program Coordinator</th>
+            <th className="px-4 text-xl py-2 font-bold border text-center">Program Quality Coordinator</th>
             {/* <th className="px-4 text-xl py-2 font-bold border">Dean</th>
             <th className="px-4 text-xl py-2 font-bold border">About</th> */}
             <th className="px-4 text-xl py-2 font-bold border text-center">Action</th>
@@ -76,6 +77,7 @@ function programList({ faculties, setFaculties, delete_url, create_file_name }) 
               <tr key={fac.code}>
                 <td className="border text-xl px-4 py-2 bg-white">{fac.name}</td>
                 <td className="border text-xl px-4 py-2 bg-white">{fac.programHead || "No Program Coordinator Yet" }</td>
+                <td className="border text-xl px-4 py-2 bg-white">{fac.qualityCoordinator || "No Program Quality Coordinator Yet" }</td>
                 {/* <td className="border text-xl px-4 py-2 bg-white">{fac.dean}</td>
                 <td className="border text-xl px-4 py-2 bg-white">{fac.about}</td> */}
                 <td className="border text-lg py-5 bg-white">

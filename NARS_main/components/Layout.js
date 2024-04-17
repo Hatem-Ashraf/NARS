@@ -19,7 +19,7 @@ export default function Layout({ children, cookies }) {
           <div className="col-span-2 h-screen"> 
           <SideDashboard />
           </div>
-          <div className="col-span-10 h-screen overflow-y-scroll gap-10">
+          <div className="col-span-10 min-h-screen overflow-y-scroll gap-10">
             <div className="cusGradientColor overflow-auto">{children}</div>
             <Footer />
           </div>

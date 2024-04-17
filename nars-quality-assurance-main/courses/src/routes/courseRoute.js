@@ -31,6 +31,7 @@ router
   .get(protect, courseController.getAllCourses)
   .post(protect, courseController.createCourse);
 router.route("/checkComp/:id").post(protect, courseController.checkComp);
+
 router
   .route("/created-courses")
   .get(protect, courseController.getAllCourseInstances)

@@ -50,7 +50,8 @@ const viewfaculty = ({ cookies }) => {
         return {
           name: e.name,
           id: e._id,
-          programHead: e.programHead
+          programHead: e.programHead,
+          qualityCoordinator: e.qualityCoordinator
         //   dean: e.dean,
         //   about: e.about,
         //   competences_id_array: e.competences,

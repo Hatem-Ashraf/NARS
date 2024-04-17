@@ -9,5 +9,5 @@ mongoose.connect(DB).then(() => {
 
 const port = process.env.PORT;
 const server = app.listen(port, () => {
-  console.log(`surveys app running on port ${port}`);
+  console.log(`courses app running on port ${port}`);
 });

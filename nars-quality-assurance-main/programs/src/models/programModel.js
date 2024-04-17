@@ -18,6 +18,10 @@ const programSchema = new mongoose.Schema({
     type: String,
     // required: [true, "program must have a program head"],
   },
+  qualityCoordinator: {
+    type: String,
+    // required: [true, "program must have a program head"],
+  },
 
   faculty: {
     type: String,
