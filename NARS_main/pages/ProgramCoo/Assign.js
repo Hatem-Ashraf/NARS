@@ -34,9 +34,12 @@ const assignInstructor = ({ cookies }) => {
     saveAs(file, "staff.xlsx");
   };
 
+  console.log(userState.token);
   const router = useRouter();
   const [staff, setStaff] = useState([]);
-
+  useEffect(() => {
+    submitHandler();
+  }, []);
   const submitHandler = async (e) => {
     if (e) {
       e.preventDefault();
@@ -48,20 +51,24 @@ const assignInstructor = ({ cookies }) => {
         },
       });
       const data = await resp.json();
-      let arr = data.data;
+      console.log("data.data:", data.data);
+      let arr = data.data.staff;
 
-      // Filter staff to only include instructors
-      arr = arr.filter((e) => e.roles.includes("instructor"));
-
-      // Map the data to the required format
-      arr = arr.map((e) => {
-        return { email: e.email, name: e.name, roles: e.roles, faculty: e.faculty, department: e.department, program: e.program, id: e._id };
-      });
+      arr = arr.filter((user) => user.roles.includes("instructor")).map((user) => ({
+        email: user.email,
+        name: user.name,
+        roles: user.roles,
+        faculty: user.faculty,
+        department: user.department,
+        program: user.program,
+        id: user._id,
+      }));
       setStaff(arr);
     } catch (e) {
       console.log(e);
     }
   };
+
 
   return (
     <>
