@@ -1,4 +1,4 @@
-# add course
+ add course
 POST http://localhost:8087/original-courses/
 
 JSON:
