@@ -18,8 +18,8 @@ JSON:
   "Competences": ["660393995a91f5aa4add3888", "660393995a91f5aa4add388a"],
   
   "learningOutcomes": [
-    { 
-    "code": "LO1", 
+   
+     { "code": "LO1", 
     
     "name": "Understand basic algorithms and data structures." },
    
@@ -45,20 +45,20 @@ JSON:
   "competences": ["660390bd5a91f5aa4add384f", "660390bd5a91f5aa4add3850", "660390bd5a91f5aa4add3851"],
   
   "learningOutcomes": [
-    {
-      "code": "LO1",
+    
+    {"code": "LO1",
       
       "name": "Understand basic algorithms and data structures."
     },
     
-    {
-      "code": "LO2",
+  
+    { "code": "LO2",
       
       "name": "Write programs using programming languages."
     },
     
-    {
-      "code": "LO3",
+   
+     {  "code": "LO3",
       
       "name": "Apply problem-solving techniques in programming."
     }
@@ -79,14 +79,14 @@ JSON:
   "competences": ["6603924a5a91f5aa4add3865", "6603924a5a91f5aa4add3865"],
   
   "learningOutcomes": [
-    {
-      "code": "LO1",
+
+         { "code": "LO1",
       
       "name": "Understand the fundamentals of computer networks."
     },
     
-    {
-      "code": "LO2",
+   
+      { "code": "LO2",
       
       "name": "Configure and troubleshoot network devices."
     }
