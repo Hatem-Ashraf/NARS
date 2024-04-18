@@ -18,8 +18,13 @@ JSON:
   "Competences": ["660393995a91f5aa4add3888", "660393995a91f5aa4add388a"],
   
   "learningOutcomes": [
-    { "code": "LO1", "name": "Understand basic algorithms and data structures." },
-    { "code": "LO2", "name": "Write programs using PL." }
+    { "code": "LO1", 
+    
+    "name": "Understand basic algorithms and data structures." },
+   
+    { "code": "LO2", 
+    
+    "name": "Write programs using PL." }
   ],
   
   "competencesModel": "programCompetences"
@@ -41,14 +46,19 @@ JSON:
   "learningOutcomes": [
     {
       "code": "LO1",
+      
       "name": "Understand basic algorithms and data structures."
     },
+    
     {
       "code": "LO2",
+      
       "name": "Write programs using programming languages."
     },
+    
     {
       "code": "LO3",
+      
       "name": "Apply problem-solving techniques in programming."
     }
   ],
@@ -70,10 +80,13 @@ JSON:
   "learningOutcomes": [
     {
       "code": "LO1",
+      
       "name": "Understand the fundamentals of computer networks."
     },
+    
     {
       "code": "LO2",
+      
       "name": "Configure and troubleshoot network devices."
     }
   ],
