@@ -9,6 +9,7 @@ const facultyCompetencesRouter = require("./routes/facultyCompetences");
 const depCompetencesRouter = require("./routes/departmentCompetences");
 const ProCompetencesRouter = require("./routes/programCompetences");
 const programObjectiveRouter = require("./routes/programObjective");
+const assignCompRouter = require("./routes/assignCompRoute");
 const globalErrorHandler = require("./shared/controllers/errorController");
 const cors = require("cors");
 
@@ -35,6 +36,7 @@ app.use("/", facultyCompetencesRouter);
 app.use("/", depCompetencesRouter);
 app.use("/", ProCompetencesRouter);
 app.use("/", programObjectiveRouter);
+app.use("/", assignCompRouter);
 app.all("*", (req, res, next) => {
   // const err = new Error(`can't find ${req.originalUrl} on this server `);
   // err.status = 'fail';
