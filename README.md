@@ -18,7 +18,8 @@ JSON:
   "Competences": ["660393995a91f5aa4add3888", "660393995a91f5aa4add388a"],
   
   "learningOutcomes": [
-    { "code": "LO1", 
+    { 
+    "code": "LO1", 
     
     "name": "Understand basic algorithms and data structures." },
    
