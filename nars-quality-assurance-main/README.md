@@ -535,6 +535,7 @@ JSON:
 "assessment":"quiz1",
 "grade":20,
 "LO":["LO1","LO2"]
+,"courses": courses id
 }
 
 get all assessment methods: get http://localhost:8087/assessment-methods/
@@ -550,3 +551,44 @@ JSON :
 get assessment method by id : get http://localhost:8087/assessment-methods/661c136e9e58ec625120c21b
 
 delete assessment method : delete http://localhost:8087/assessment-methods/661c136e9e58ec625120c21b
+
+# student
+
+create student : post http://localhost:8087/student/
+JSON:
+{
+"name":"hatem3",
+"program":"65d7b844a5a017b149d2ed0d", // program id
+"faculty":"65eb1d67d1555f7450c9a027", // faculty id
+"department":"65eb337db351e20dc76a9134", //department id
+"courses":"661540c535f3db1c1f3c0e3c" // courses ids
+}
+
+update student : patch http://localhost:8087/student/661540c535f3db1c1f3c0e3c
+
+delete student : delete http://localhost:8087/student/661540c535f3db1c1f3c0e3c
+
+get student : get http://localhost:8087/student/661540c535f3db1c1f3c0e3c
+
+get all students : get http://localhost:8087/student
+
+update grades for all student inside course: http://localhost:8087/studentGrade
+json :
+{
+"assessments": [
+{
+"assessment": "quiz1",
+"grades": [
+{"studentId": "6620011defb9984fb09b4ac7", "grade": 10},
+{"studentId": "662008f8686fb836592ed5a8", "grade": 15}
+]
+},
+{
+"assessment": "mid term",
+"grades": [
+{ "studentId": "6620011defb9984fb09b4ac7", "grade": 30 },
+{ "studentId": "662008f8686fb836592ed5a8", "grade": 22}
+]
+}
+]
+}
