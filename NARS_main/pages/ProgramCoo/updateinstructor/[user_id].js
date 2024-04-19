@@ -11,7 +11,7 @@ const addfaculty = ({ cookies }) => {
 
   //Check if user is logged in
   const userState = useSelector((s) => s.user);
-  if (userState.role != "program coordinator" || userState.loggedInStatus != "true") {
+  if (userState.role != "program admin" || userState.loggedInStatus != "true") {
     return <div className="error">404 could not found</div>;
   }
 
@@ -26,6 +26,31 @@ const addfaculty = ({ cookies }) => {
   const email = useRef();
   const about = useRef();
   const choosen = useRef();
+
+  async function getCreatedCoursesForInstructor() {
+    const data = await fetch(
+      `http://localhost:8087/original-courses?program=${userState.program}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + userState.token,
+        },
+      }
+    );
+
+    const resp = await data.json();
+
+    console.log(resp);
+
+    sC(resp.data);
+  }
+  const navStatus = useSelector((s) => s.user.navStatus);
+
+  const handelFile = () => {
+    myFileInput.current.click();
+  };
 
   const handleCheckboxChange = (event) => {
     const updatedList = [...competencesChecked]; // Create a copy of the existing competencesChecked array
@@ -42,55 +67,51 @@ const addfaculty = ({ cookies }) => {
     console.log("miniinin1", updatedList);
   };
 
+
+  const [competence, setCompetence] = useState(competences); // Define setCompetence here
   const closeMsg = () => {
     setMsg("");
   };
   useEffect(() => {
     const fetchCompetence = async () => {
       try {
-        const response = await fetch('http://localhost:8081/staff', {
+        const response = await fetch(`http://localhost:8081/staff/${user_id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: "Bearer " + userState.token,
           },
-      });
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch competence');
-        // }
+        });
+  
         const data = await response.json();
         console.log("res Data:", data);
-        // choosen.current.value = data.data.competences.map((e) => {
-        //   return e;
-        // });
-        name.current.value = data.data.name
-        email.current.value = data.data.email
-        // setCompetencesChecked(data.data.competences);
-
-        const response2 = await fetch(`http://localhost:8085/facultyComp`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                  Authorization: "Bearer " + userState.token,
-                },
-            });
+  
+        name.current.value = data.data.name;
+        email.current.value = data.data.email;
+  
+        const response2 = await fetch(`http://localhost:8087/original-courses/`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + userState.token,
+          },
+        });
+  
         const data2 = await response2.json();
-        console.log("data2.competences", data2.competences);
-        setcompetences(data2.competences);
-
-
-        setCompetence(competenceData);
+        console.log("data2.competences", data2.data);
+        setcompetences(data2.data);
       } catch (error) {
         console.error('Error fetching competence:', error);
       }
     };
-
+  
     if (user_id) {
       fetchCompetence();
     }
   }, [user_id]);
+
 
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
@@ -147,21 +168,17 @@ const addfaculty = ({ cookies }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log({
-      name: name.current.value,
-      email: email.current.value,
-      about: about.current.value,
-      competences: competencesChecked,
+      instructorId: user_id,
+      courseIds: competencesChecked,
       // academicYears: itemsArr,
     })
     
     try {
-      const r = await fetch(`http://localhost:8081/${user_id}`, {
+      const r = await fetch(`http://localhost:8087/assign-course-instructor`, {
         method: "PATCH",
         body: JSON.stringify({
-          name: name.current.value,
-          email: email.current.value,
-          about: about.current.value,
-          competences: competencesChecked,
+          instructorId: user_id,
+          courseIds: competencesChecked,
           // academicYears: itemsArr,
         }),
         headers: {
@@ -278,6 +295,8 @@ const addfaculty = ({ cookies }) => {
                   name="name"
                   className="input-form w-full"
                   ref={name}
+                  readOnly
+                  style={{ color: 'gray' }}
                 />
               </div>
               <div className="flex flex-col gap-5  w-2/5">
@@ -288,21 +307,8 @@ const addfaculty = ({ cookies }) => {
                   name="year"
                   className="input-form  w-full"
                   ref={email}
-                  // onBlur={() => getIdByEmail(email)}
-                />
-              </div>
-            </div>
-
-            
-            <div className="flex gap-20">
-              <div className="flex flex-col gap-5 w-full">
-                <div>About:</div>
-                <textarea
-                  required
-                  className="w-full input-form"
-                  rows="4"
-                  placeholder="Type here  about the faculty"
-                  ref={about}
+                  readOnly
+                  style={{ color: 'gray' }}
                 />
               </div>
             </div>
@@ -310,27 +316,37 @@ const addfaculty = ({ cookies }) => {
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-full">
               <label for="country" class="block text-xl font-medium leading-6 text-gray-900">Courses</label>
-              <div class="mt-2">
-                {competences.map((el, index) => {
-                    return (
-                      <div
-                        className="flex flex-row m-4 abet-criteria"
+              <fieldset>
+                <legend className="sr-only">Checkboxes</legend>
+                  <div className="space-y-2">
+                    {competences && competences.map((el, index) => (
+                      <label
                         key={index + 1}
+                        htmlFor={index}
+                        className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
                       >
-                        <div>
+                        <div className="flex items-center">
+                          &#8203;
                           <input
-                            className="mr-2 w-8 h-8 rounded-lg"
                             type="checkbox"
+                            className="size-4 rounded border-gray-300"
+                            id={index} 
                             value={el._id}
                             data-id={index}
                             onChange={handleCheckboxChange}
                           />
                         </div>
-                        <p> {el.code} - {el.description}</p>
-                      </div>
-                    );
-                  })}
-              </div>
+
+                        <div>
+                          <strong className="font-medium text-gray-900">{el.code}</strong>
+                          <p className="mt-1 text-pretty text-medium text-gray-500">
+                            {el.name}.
+                          </p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+              </fieldset>
               </div>
             </div>
               
@@ -343,7 +359,7 @@ const addfaculty = ({ cookies }) => {
                 type="submit"
                 class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                Update
+                Assign
               </button>
             </div>
           </div>
