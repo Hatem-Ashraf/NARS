@@ -8,6 +8,7 @@ import QualityCoordinatorDashboard from "@/components/QualityCoordinatorDashboar
 import StudentDashboard from "../StudentDashoard";
 import ProgramCoordinatorDashboard from "../ProgramCoordinatorDashboard";
 import DepartmentAdminDashboard from "../DepartmentAdminDashboard";
+import ProgramQualityDashboard from "../ProgramQualityDashboard";
 
 import React from "react";
 
@@ -22,6 +23,7 @@ function SideDashboard() {
   const [qualityCoo, setQualityCoo] = useState(false);
   const [programCoo, setProgramCoo] = useState(false);
   const [departAdmin, setDepartAdmin] = useState(false);
+  const [progQuality, setProgQuality] = useState(false);
 
 
   useEffect(() => {
@@ -44,6 +46,9 @@ function SideDashboard() {
     else if (globalState.role === "department admin") {
       setDepartAdmin(true);
     }
+    else if (globalState.role === "program quality coordinator") {
+      setProgQuality(true);
+    }
   }, []);
 
   return (
@@ -56,6 +61,7 @@ function SideDashboard() {
       {student && <StudentDashboard />}
       {programCoo && <ProgramCoordinatorDashboard />}
       {departAdmin && <DepartmentAdminDashboard />}
+      {progQuality && <ProgramQualityDashboard />}
     </div>
   );
 }

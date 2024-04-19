@@ -122,6 +122,16 @@ export default function AdminDashBoard() {
         >
           Add Instructor
         </Link>,
+          <Link
+          className={
+            router.pathname === "/admin/staff/addProgramQualCoor"
+              ? "activeLinkDashboard2"
+              : "normalLinkDashboard2"
+          }
+          href="/admin/staff/addProgramQualCoor"
+        >
+          Add Program Quality-Coordinator
+        </Link>,
       //     <Link
       //     className={
       //       router.pathname === "/admin/staff/updateStaff"

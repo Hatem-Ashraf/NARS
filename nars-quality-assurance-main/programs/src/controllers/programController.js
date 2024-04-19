@@ -316,7 +316,6 @@ exports.addProgram = async (req, res) => {
       });
     }
 
-
     // Create a new program instance with only name and competences
     const newProgram = new Program({
       name,
@@ -355,7 +354,10 @@ exports.getAllPrograms = async (req, res) => {
     }
 
     // Fetch all programs from the database in a specific faculty and department
-      const allPrograms = await Program.find({faculty: facultyId, department: departmentId});
+    const allPrograms = await Program.find({
+      faculty: facultyId,
+      department: departmentId,
+    });
 
     res.status(200).json({
       status: "success",
@@ -409,7 +411,7 @@ exports.deleteProgram = async (req, res) => {
 };
 exports.updateProgram = async (req, res) => {
   try {
-    const { name, competences, programHead } = req.body;
+    const { name, competences, programHead, qualityCoordinator } = req.body;
     const facultyId = req.params.facultyId;
     const departmentId = req.params.departmentId;
     const programId = req.params.programId; // Assuming you have programId in the URL
@@ -417,8 +419,7 @@ exports.updateProgram = async (req, res) => {
     if (!facultyId || !departmentId || !programId) {
       return res.status(400).json({
         status: "fail",
-        message:
-          "Program must have a facultyId, departmentId, and programId",
+        message: "Program must have a facultyId, departmentId, and programId",
       });
     }
 
@@ -429,7 +430,8 @@ exports.updateProgram = async (req, res) => {
         faculty: facultyId,
         department: departmentId,
         competences,
-        programHead
+        programHead,
+        qualityCoordinator
       },
       { new: true }
     );
@@ -487,6 +489,25 @@ exports.getProgramById = async (req, res) => {
     res.status(400).json({
       status: "fail",
       message: error.message,
+    });
+  }
+};
+
+exports.getAllProgramsCount = async (req, res, next) => {
+  try {
+    // Query the database for all programs
+    const count = await Program.countDocuments();
+
+    // Send the count as a response
+    res.status(200).json({
+      status: "success",
+      count: count,
+    });
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({
+      status: "error",
+      message: err.message,
     });
   }
 };

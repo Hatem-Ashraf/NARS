@@ -1,6 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
+  course: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Newcourse',
+    required: [true, 'Please provide a course ID']
+  },
   name: {
     type: String,
     trim: true,
@@ -10,37 +15,44 @@ const courseSchema = new mongoose.Schema({
     type: String,
     unique: true,
     trim: true,
-  },
-  currentInstance: {
-    type: mongoose.Schema.ObjectId,
-    ref: "courseInstance",
+    required: [true, "Course must have a code"]
   },
   academicYear: {
+  type: String,
+  },
+  courseAims: {
     type: String,
-    required: [true, "course must belong to ademic year"],
+    required: [true, 'Please provide course aims']
   },
-  program: mongoose.Schema.ObjectId,
-  competences: {
-    type: [
-      {
-        code: {
-          type: String,
-          required: [true, "program must have a code"],
-        },
-        description: {
-          type: String,
-          required: [true, "program must have a description"],
-        },
-      },
-    ],
-    required: [true, "Competences must have a description"],
+  courseInformation: {
+    type: String,
+    required: [true, 'Please provide course info']
   },
-  department: mongoose.Schema.ObjectId,
-  faculty: mongoose.Schema.ObjectId,
-  exams: [mongoose.Schema.ObjectId],
+  competences: [{
+    type: mongoose.Schema.Types.ObjectId,
+    refPath: 'competencesModel',
+    required: [true, "course must have Competences"],
+
+  }],
+  learningOutcomes: [{
+    code: { type: String, required: true },
+    name: { type: String, required: true },
+    required: true
+  }],
+  department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Department'
+  },
+  faculty: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Faculty'
+  },
+  exams: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Exam'
+  }],
   fullMark: {
     type: Number,
-    required: [true, "course must have a full mark"],
   },
   materialsPaths: [
     {
@@ -58,13 +70,26 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     default: 70,
   },
+  competencesModel: {
+    type: String,
+    enum: ['departmentCompetences', 'facultyCompetences', 'programCompetences']
+  }
 });
-courseSchema.pre(/^find/, function (next) {
-  this.populate({ path: "currentInstance", select: "-course courseSpecs" });
 
+courseSchema.pre(/^find/, function (next) {
+  const populateOptions = {
+    path: 'competences',
+    populate: { path: 'competencesModel' } 
+  };
+
+  if (this.competencesModel) {
+    populateOptions.populate.refPath = this.competencesModel;
+  }
+
+  this.populate(populateOptions);
   next();
 });
 
-const Course = mongoose.model("course", courseSchema);
+const Course = mongoose.model("Course", courseSchema);
 
 module.exports = Course;

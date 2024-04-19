@@ -21,7 +21,7 @@ router
   .post(protect, programController.addProgram)
   .get(protect, programController.getAllPrograms);
 
-  router
+router
   .route("/:facultyId/department/:departmentId/program/:programId")
   .patch(protect, programController.updateProgram)
   .delete(protect, programController.deleteProgram)
@@ -29,7 +29,7 @@ router
 
 // router
 //   .route("/:id")
-  // .get(protect, programController.getProgram)
+// .get(protect, programController.getProgram)
 //   .patch(protect, programController.updateProgram)
 //   .delete(protect, programController.deleteProgram);
 
@@ -38,5 +38,7 @@ router
   .get(programController.getProgramDirectAssessment);
 
 router.route("/:id/LOS").get(programController.getProgramLOs);
+
+router.route("/program-count").get(programController.getAllProgramsCount);
 
 module.exports = router;

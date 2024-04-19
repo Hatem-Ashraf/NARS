@@ -7,6 +7,7 @@ router.get(
   "/programComp",
   programCompetencesController.getAllProgramCompetences
 );
+router.get("/allComp", programCompetencesController.getAllCompetences);
 router.get(
   "/programComp/:id",
   programCompetencesController.getProgramCompetenceById

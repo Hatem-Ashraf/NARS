@@ -24,12 +24,14 @@ router.route("/newCourse/:id")
   .delete(protect,courseController.deleteNewCourse);
 router.route("/getCoursesByProgramId/:programId").get(protect,courseController.getCoursesByProgramId);
 router.route("/newCourseComp/:courseId").put(protect,courseController.addCompetenciesToCourse);
+router.route("/getCoursesByIds").get(protect,courseController.getCoursesByIds);
 //##############################################33
 router
   .route("/original-courses")
   .get(protect, courseController.getAllCourses)
   .post(protect, courseController.createCourse);
 router.route("/checkComp/:id").post(protect, courseController.checkComp);
+
 router
   .route("/created-courses")
   .get(protect, courseController.getAllCourseInstances)
@@ -68,4 +70,5 @@ router
   .route("/assign-course-instructor")
   .patch(protect, courseController.assignCourseInstructor);
 
+router.route("/course-count").get(protect, courseController.getAllCoursesCount);
 module.exports = router;

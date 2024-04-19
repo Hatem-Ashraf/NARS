@@ -21,7 +21,6 @@ exports.deleteCourse = factory.deleteOne(Course);
 exports.getCourse = factory.getOne(Course);
 exports.getAllCourses = factory.getAll(Course);
 
-
 exports.createNewCourse = factory.createOne(Newcourse);
 exports.updateNewCourse = factory.updateOne(Newcourse);
 exports.deleteNewCourse = factory.deleteOne(Newcourse);
@@ -249,7 +248,7 @@ exports.getCourseInstance = factory.getOne(CourseInstance);
 exports.getAllCourseInstances = factory.getAll(CourseInstance);
 
 exports.assignCourseInstructor = catchAsync(async (req, res, next) => {
-  const { instructorId, courseIds } = req.body; 
+  const { instructorId, courseIds } = req.body;
   let token;
   if (
     req.headers.authorization &&
@@ -261,36 +260,42 @@ exports.assignCourseInstructor = catchAsync(async (req, res, next) => {
   }
 
   // Iterate over each course ID and update the instructor
-  const staffData = await Promise.all(courseIds.map(async (courseId) => {
-    return axios.patch(
-      `http://users:8080/staff/update-staff-courses`,
-      {
-        courseId,
-        instructorId,
-      },
-      {
-        headers: { authorization: `Bearer ${token}` },
-      }
-    ).then(res => res.data);
-  }));
+  const staffData = await Promise.all(
+    courseIds.map(async (courseId) => {
+      return axios
+        .patch(
+          `http://users:8080/staff/update-staff-courses`,
+          {
+            courseId,
+            instructorId,
+          },
+          {
+            headers: { authorization: `Bearer ${token}` },
+          }
+        )
+        .then((res) => res.data);
+    })
+  );
 
-  
-  const success = staffData.every(data => data.status);
+  const success = staffData.every((data) => data.status);
 
   if (success) {
     res.status(201).json({
       status: "success",
-      staff: staffData.map(data => data.staff)
+      staff: staffData.map((data) => data.staff),
     });
   } else {
-    const failedCourses = staffData.filter(data => !data.status).map(data => data.courseId);
+    const failedCourses = staffData
+      .filter((data) => !data.status)
+      .map((data) => data.courseId);
     res.status(500).json({
       status: false,
-      message: `Failed to assign instructor to courses: ${failedCourses.join(', ')}`
+      message: `Failed to assign instructor to courses: ${failedCourses.join(
+        ", "
+      )}`,
     });
   }
 });
-
 
 exports.viewComp = catchAsync(async (req, res, next) => {
   let query = Course.findById(req.params.id);
@@ -518,29 +523,29 @@ exports.getSpecsPdf = catchAsync(async (req, res, next) => {
   // });
 });
 
-//NEW CONTROLLERS SECTIONS 
+//NEW CONTROLLERS SECTIONS
 exports.getCoursesByProgramId = async (req, res) => {
   try {
     const { programId } = req.params;
-    
+
     const courses = await Newcourse.find({ program: programId });
 
     if (!courses || courses.length === 0) {
       return res.status(404).json({
-        status: 'error',
-        message: 'No courses found for the specified program ID.'
+        status: "error",
+        message: "No courses found for the specified program ID.",
       });
     }
 
     res.status(200).json({
-      status: 'success',
-      data: courses
+      status: "success",
+      data: courses,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while fetching courses.'
+      status: "error",
+      message: "An error occurred while fetching courses.",
     });
   }
 };
@@ -553,16 +558,55 @@ exports.addCompetenciesToCourse = async (req, res) => {
     const course = await Newcourse.findById(courseId);
 
     if (!course) {
-      return res.status(404).json({ error: 'Course not found' });
+      return res.status(404).json({ error: "Course not found" });
     }
 
     course.qualityCompetencies.push(...qualityCompetencies);
 
     await course.save();
 
-    res.json({ message: 'Competencies added successfully', course });
+    res.json({ message: "Competencies added successfully", course });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+//FOR THE INSTRUCTOR DROP DOWN MENUE
+exports.getCoursesByIds = catchAsync(async (req, res, next) => {
+  const { courseIds } = req.body;
+  if (!courseIds || !Array.isArray(courseIds) || courseIds.length === 0) {
+    return res.status(400).json({
+      status: "error",
+      message: "Please provide an array of course IDs",
+    });
+  }
+  try {
+    const courses = await Newcourse.find({ _id: { $in: courseIds } });
+    res.status(200).json({
+      status: "success",
+      data: courses,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+exports.getAllCoursesCount = async (req, res, next) => {
+  try {
+    // Query the database for all courses
+    const count = await Course.countDocuments();
+
+    // Send the count as a response
+    res.status(200).json({
+      status: "success",
+      count: count,
+    });
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
   }
 };
