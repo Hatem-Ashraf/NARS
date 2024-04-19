@@ -31,8 +31,8 @@ function SideDashboard() {
       setAdmin(true);
     } else if (globalState.role === "instructor") {
       setInstructor(true);
-    } else if (globalState.role === "program admin") {
-      setProgramAdmin(true);
+    // } else if (globalState.role === "program admin") {
+    //   setProgramAdmin(true);
     } else if (globalState.role === "faculty admin") {
       setFacultyAdmin(true);
     } else if (globalState.role === "quality coordinator") {
@@ -40,7 +40,7 @@ function SideDashboard() {
     } else if (globalState.role === "student") {
       setStudent(true);
     }
-    else if (globalState.role === "program coordinator") {
+    else if (globalState.role === "program admin") {
       setProgramCoo(true);
     }
     else if (globalState.role === "department admin") {
@@ -56,7 +56,7 @@ function SideDashboard() {
       {admin && <AdminDashboard />}
       {facultyAdmin && <FacultyAdminDashboard />}
       {instructor && <InstructorDashboard />}
-      {programAdmin && <ProgramAdminDashboard />}
+      {/* {programAdmin && <ProgramAdminDashboard />} */}
       {qualityCoo && <QualityCoordinatorDashboard />}
       {student && <StudentDashboard />}
       {programCoo && <ProgramCoordinatorDashboard />}

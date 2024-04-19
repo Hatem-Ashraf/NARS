@@ -281,7 +281,12 @@ JSON :
 
 ##################################################################################################
 
+<<<<<<< HEAD
+
+# FOR PETER
+=======
 #FOR PETER
+>>>>>>> 3ca1255329eff17dc7b9f1fe73b005cb6a8dba7f
 program coordinator APIS
 create Course , get all courses:
 http://localhost:8087/newCourse
