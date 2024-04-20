@@ -19,27 +19,64 @@ const CreateCourse = ({ cookies }) => {
   //New states
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
+  const [coursesCompetences, setCoursesCompetences] = useState([{
+        code: "A.1",
+        descritopn: "Some description about this competence",
+        level: "A"
+      },
+      {
+        code: "B.3",
+        descritopn: "Some description about this competence",
+        level: "B"
+      },
+      {
+        code: "C.2",
+        descritopn: "Some description about this competence",
+        level: "C"
+      }
+    ]);
+  
   const coursesList = useRef();
 
-  useEffect(() => {
-    async function getCourses() {
-      const d = await fetch(`http://localhost:8087/original-courses`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + cookies.token,
-        },
-      });
+  // useEffect(() => {
+  //   async function getCourses() {
+  //     const d = await fetch(`http://localhost:8087/original-courses`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + cookies.token,
+  //       },
+  //     });
 
-      const data = await d.json();
-      let a = data.data.map((e) => {
-        return { name: e.name, id: e._id, code: e.code };
-      });
-      console.log("courses from server:",  a);
-      setCourses(a);
-    }
-    getCourses();
-  }, []);
+  //     const data = await d.json();
+  //     let a = data.data.map((e) => {
+  //       return { name: e.name, id: e._id, code: e.code };
+  //     });
+  //     console.log("courses from server:",  a);
+  //     setCourses(a);
+        // data.data.competences.map( comp => {
+        //   //call API to feach competences, as they may be Level A or B or C
+        // })
+        // setCoursesCompetences([
+        //   {
+        //     code: "A.1",
+        //     descritopn: "Some description about this competence",
+        //     level: "A"
+        //   },
+        //   {
+        //     code: "B.3",
+        //     descritopn: "Some description about this competence",
+        //     level: "B"
+        //   },
+        //   {
+        //     code: "C.2",
+        //     descritopn: "Some description about this competence",
+        //     level: "C"
+        //   }
+        // ])
+  //   }
+  //   getCourses();
+  // }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -125,9 +162,9 @@ const CreateCourse = ({ cookies }) => {
             <option className="text-left" disabled selected>
               Choose a Course
             </option>
-            {courses.map((e) => {
+            {/* {courses.map((e) => {
               return <option value={e.id}>{e.name}</option>;
-            })}{" "}
+            })}{" "} */}
           </select>
             
 
@@ -143,13 +180,25 @@ const CreateCourse = ({ cookies }) => {
               className="input-field"
             />
 
-            <label htmlFor="information" className="text-form font-bold">
+            <label htmlFor="aims" className="text-form font-bold">
             Course Aims:
+            </label>
+            <textarea
+              id="aims"
+              name="aims"
+              value={selectedCourse.courseAims}
+              onChange={handleChange}
+              className="input-field"
+              rows="4"
+            ></textarea>
+
+            <label htmlFor="information" className="text-form font-bold">
+            Course Information:
             </label>
             <textarea
               id="information"
               name="information"
-              value={courseData.information}
+              value={selectedCourse.information}
               onChange={handleChange}
               className="input-field"
               rows="4"
