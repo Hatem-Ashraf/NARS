@@ -138,22 +138,22 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
             Assign Instructor
           </Link>
   
-          // ,Array(
-          //   c && Array.isArray(c) && c.map((original) => {
-          //     return (
-          //       <div key={original._id} className=" mb-5 -mx-4  px-0 ">
-          //         <HeaderElementProgramCoordinator
-          //           className={``}
-          //           key={original._id}
-          //           id={original._id}
-          //           name={original.name}
-          //           code={original.code}
-          //           cookies={cookies}
-          //         />
-          //       </div>
-          //     );
-          //   })
-          // ),
+          ,Array(
+            c && Array.isArray(c) && c.map((original) => {
+              return (
+                <div key={original._id} className=" mb-5 -mx-4  px-0 ">
+                  <HeaderElementProgramCoordinator
+                    className={``}
+                    key={original._id}
+                    id={original._id}
+                    name={original.name}
+                    code={original.code}
+                    cookies={cookies}
+                  />
+                </div>
+              );
+            })
+          ),
         ]
       )}
 

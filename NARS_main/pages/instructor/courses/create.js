@@ -104,8 +104,14 @@ const CreateCourse = ({ cookies }) => {
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <style>{`
+        body {
+          background-color: rgb(243 244 246);
+          font-family: Arial, sans-serif;
+        }
+      `}</style>
       <div className="mt-5  flex justify-center min-h-screen">
-      <div className=" p-20 max-w-3xl bg-white w-full shadow-2xl rounded-3xl">
+      <div className=" p-20 max-w-3xl bg-gray-100 w-full shadow-2xl rounded-3xl">
         <h2 className="font-bold text-form mb-4 text-3xl text-center">Create a Course</h2>
         <form onSubmit={submitHandler}>
           <div className="flex flex-col gap-4 ">
