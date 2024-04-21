@@ -188,7 +188,7 @@ const CreateCourse = ({ cookies }) => {
       `}</style>
       <div className="mt-5  flex justify-center min-h-screen">
       <div className=" p-20 max-w-3xl bg-gray-100 w-full shadow-2xl rounded-3xl">
-        <h2 className="font-bold text-form mb-4 text-3xl text-center">Create a Course</h2>
+        <h2 className="font-bold text-form mb-4 text-3xl text-center">Create Assessment Method</h2>
         <form onSubmit={submitHandler}>
           <div className="flex flex-col gap-4 ">
           <label htmlFor="title" className="text-form font-bold w-1/3">Course Title:</label>
@@ -208,10 +208,22 @@ const CreateCourse = ({ cookies }) => {
             
 
             <label htmlFor="code" className="text-form font-bold">
-              Course Code:
+              Assessment Name:
             </label>
             <input
-              placeholder="Course Code"
+              placeholder="Assessment name"
+              type="text"
+              id="code"
+              name="code"
+              value={selectedCourse.code}
+              onChange={handleChange}
+              className="input-field border-1 border-gray-800"
+            />
+            <label htmlFor="code" className="text-form font-bold">
+            Assessment Grade:
+            </label>
+            <input
+              placeholder="Assessment grade"
               type="text"
               id="code"
               name="code"
@@ -220,144 +232,13 @@ const CreateCourse = ({ cookies }) => {
               className="input-field border-1 border-gray-800"
             />
 
-            <label htmlFor="aims" className="text-form font-bold">
-            Course Aims:
-            </label>
-            <textarea
-            placeholder="Course Aims"
-              id="aims"
-              name="aims"
-              value={selectedCourse.courseAims}
-              onChange={handleChange}
-              className="input-field border-1 border-gray-800"
-              rows="4"
-            ></textarea>
-
-            <label htmlFor="information" className="text-form font-bold">
-            Course Information:
-            </label>
-            <textarea
-              placeholder="Course Information"
-              id="information"
-              name="information"
-              value={selectedCourse.information}
-              onChange={handleChange}
-              className="input-field border-1 border-gray-800"
-              rows="4"
-            ></textarea>
-
-          <label htmlFor="title" className="text-form font-bold w-1/3">Level A competences:</label>
-          <select
-            ref={coursesList}
-            id="small"
-            class="choose-form w-full px-10"
-            // onChange={handleCourseChange}
-          >
-            <option className="text-left" disabled selected>
-            Choose competence
-            </option>
-          </select>
-
-          <label htmlFor="title" className="text-form font-bold w-1/3">Level B competences:</label>
-          <select
-            ref={coursesList}
-            id="small"
-            class="choose-form w-full px-10"
-            // onChange={handleCourseChange}
-          >
-            <option className="text-left" disabled selected>
-            Choose competence
-            </option>
-          </select>
-
-          <label htmlFor="title" className="text-form font-bold w-1/3">Level C competences:</label>
-          <select
-            ref={coursesList}
-            id="small"
-            class="choose-form w-full px-10"
-            // onChange={handleCourseChange}
-          >
-            <option className="text-left" disabled selected>
-              Choose competence
-            </option>
-          </select>
-          </div>
-          <div className="flex gap-20 mt-10">
-              <div className="flex flex-col space-y-1 gap-5 w-full">
-                <div class="flex items-center justify-between mr-6 text-lg text-gray-700 capitalize ">
-                <span className="font-bold">Learning Ooutcomes:</span>
-                  <button
-                    onClick={handleAddInput}
-                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
-                  >
-                    Add
-                  </button>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y  divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
-                        <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
-                        <th className="py-2 px-4 text-xl text-left w-[5%]">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {inputs.map((input, index) => (
-                        <tr key={index} className="bg-white">
-                          <td className="py-2 px-4">
-                            <input
-                              type="text"
-                              ref={input.ref}
-                              className="input-form w-full"
-                            />
-                          </td>
-                          <td className="py-2 px-4">
-                            <textarea
-                              type="text"
-                              ref={inputs2[index].ref}
-                              className="input-form w-full"
-                            />
-                          </td>
-                          <td className="py-2 px-4 text-center">
-                            <button
-                              type="button"
-                              onClick={(e) => removeLO1(e, inputs2[index], input)}
-                              className="bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-300 inline-flex h-8 w-8"
-                              data-dismiss-target="#alert-border-2 "
-                              aria-label="Close"
-                            >
-                              <span className="sr-only">Dismiss</span>
-                              <svg
-                                aria-hidden="true"
-                                className="w-5 h-5"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                ></path>
-                              </svg>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
             </div>
           <div className="flex justify-end mt-4">
             <button
               type="submit"
               className="px-6 mt-12 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300"
             >
-              Create Course
+              Create Assessment
             </button>
           </div>
         </form>
