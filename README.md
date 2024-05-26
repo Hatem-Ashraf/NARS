@@ -21,7 +21,7 @@
 
 add course
 
-POST http://localhost:8087/original-courses/
+POST http://localhost:8087/newCourse
 
 JSON:
 {

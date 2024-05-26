@@ -37,11 +37,15 @@ const courseSchema = new mongoose.Schema({
   learningOutcomes: [{
     code: { type: String, required: true },
     name: { type: String, required: true },
-    required: true
+    // required: true
   }],
   department: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Department'
+  },
+  program: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Program'
   },
   faculty: {
     type: mongoose.Schema.Types.ObjectId,
@@ -77,16 +81,12 @@ const courseSchema = new mongoose.Schema({
 });
 
 courseSchema.pre(/^find/, function (next) {
-  const populateOptions = {
-    path: 'competences',
-    populate: { path: 'competencesModel' } 
-  };
-
   if (this.competencesModel) {
-    populateOptions.populate.refPath = this.competencesModel;
+    this.populate({
+      path: 'competences',
+      model: this.competencesModel
+    });
   }
-
-  this.populate(populateOptions);
   next();
 });
 
