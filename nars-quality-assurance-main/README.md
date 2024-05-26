@@ -552,7 +552,7 @@ json:
 "qualityCompetencies": ["660390bd5a91f5aa4add384f", "6603924a5a91f5aa4add3865"]
 }
 
-#instructor TOPICS
+# instructor TOPICS
 create topic:
 http://localhost:8087/topic/:courseId
 json:
@@ -572,7 +572,7 @@ http://localhost:8087/topic
 get all Topics under course:
 http://localhost:8087/topic/getTopicsBycourse/:coureId
 
-#instructor Courses
+# instructor Courses
 first to get back courses IDs
 http://localhost:8081/getAssignedCourses/:instructorId
 
