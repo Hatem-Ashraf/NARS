@@ -666,6 +666,8 @@ json :
 }
 
 
+# 25/5/2024!
+
 # New competences, program Objectives !
 ## competences
 * POST, GETall
@@ -681,3 +683,50 @@ json :
 
 * GET one, PATCH, DELETE
  http://localhost:8085/programObj/proObjId
+
+## Instructor Things
+
+* GET one course by id
+* http://localhost:8087/newCourse/:courseId
+
+
+
+
+
+* add basic information of the course (program admin use it only)
+*  POST: http://localhost:8087/newCourse
+* {"name": "NEW ONE! Software Engineering", "code": "CS440", "hours": 4, "program": "66151085a5450305f1424f85"}
+
+
+
+
+
+* add extra information of the course (Instructor use it only)
+* PATCH http://localhost:8087/newCourse/66549659d60a369a8bc68adb
+{
+  "courseInformation" : "Some info about this COURSE!",
+  "courseAims": "This course aims to ....",
+  "learningOutcomes": [
+      {
+        "code":"LO1",
+        "description": "Some desc about this LO1"
+      }
+    ]
+}
+
+
+
+
+
+* get assigned courses
+* GET http://localhost:8081/getAssignedCourses/:instructorId
+
+
+
+
+* assign instructor to course or mutiple courses 
+* PATCH http://localhost:8087/assign-course-instructor/
+ { "instructorId": "665335cae9d1f4e77786e8ce", "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"] }
+
+
+ 
