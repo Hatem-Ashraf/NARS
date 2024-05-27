@@ -296,11 +296,11 @@ json:
 delete,update,get course by id
 http://localhost:8087/newCourse/<courseid>
 
-get all courses under certain program
+* get all courses under certain program
 http://localhost:8087/getCoursesByProgramId/<programId>
 
-assign instructor to course or mutiple courses
-http://localhost:8087/assign-course-instructor
+* assign instructor to course or mutiple courses
+PATCH:  http://localhost:8087/assign-course-instructor
 {
 "instructorId": "65cb5ae3140600eebac07fc0",
 "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"]
@@ -664,3 +664,20 @@ json :
 }
 ]
 }
+
+
+# New competences, program Objectives !
+## competences
+* POST, GETall
+  http://localhost:8085/faculty/facultyId
+
+* GETone, PATCCH, DELETE
+ http://localhost:8085/competenceId
+
+
+## program objectives
+* GET all, POST
+ http://localhost:8085/programObj/faculty/facultyId
+
+* GET one, PATCH, DELETE
+ http://localhost:8085/programObj/proObjId

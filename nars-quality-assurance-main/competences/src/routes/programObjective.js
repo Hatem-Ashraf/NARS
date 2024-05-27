@@ -2,18 +2,18 @@ const express = require("express");
 const programObjectiveController = require("../controllers/programObjective");
 
 const router = express.Router();
-router.post("/programObj", programObjectiveController.createProgramObjective);
-router.get("/programObj", programObjectiveController.getAllProgramObjectives);
+router.post("/programObj/faculty/:facultyId", programObjectiveController.createProgramObjective);
+router.get("/programObj/faculty/:facultyId", programObjectiveController.getAllProgramObjectives);
 router.get(
   "/programObj/:id",
-  programObjectiveController.getProgramObjectiveById
+  programObjectiveController.getOne
 );
 router.delete(
-  "/deleteProObj/:id",
-  programObjectiveController.deleteProgramObjective
+  "/programObj/:id",
+  programObjectiveController.deleteOne
 );
-router.put(
-  "/updateProObj/:id",
-  programObjectiveController.updateProgramObjective
+router.patch(
+  "/programObj/:id",
+  programObjectiveController.updateOne
 );
 module.exports = router;

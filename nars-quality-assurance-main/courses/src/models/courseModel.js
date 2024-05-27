@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Newcourse',
-    required: [true, 'Please provide a course ID']
-  },
+  // course: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Newcourse',
+  //   required: [true, 'Please provide a course ID']
+  // },
   name: {
     type: String,
     trim: true,
@@ -17,26 +17,29 @@ const courseSchema = new mongoose.Schema({
     trim: true,
     required: [true, "Course must have a code"]
   },
+  hours: {
+    type: Number,
+    required: [true, "Course must have hours"],
+  },
   academicYear: {
   type: String,
   },
   courseAims: {
     type: String,
-    required: [true, 'Please provide course aims']
+    // required: [true, 'Please provide course aims']
   },
   courseInformation: {
     type: String,
-    required: [true, 'Please provide course info']
+    // required: [true, 'Please provide course info']
   },
   competences: [{
     type: mongoose.Schema.Types.ObjectId,
-    refPath: 'competencesModel',
-    required: [true, "course must have Competences"],
-
+    ref: 'Competences',
+    // required: [true, "course must have Competences"],
   }],
   learningOutcomes: [{
     code: { type: String, required: true },
-    name: { type: String, required: true },
+    description: { type: String, required: true },
     // required: true
   }],
   department: {
@@ -45,7 +48,8 @@ const courseSchema = new mongoose.Schema({
   },
   program: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Program'
+    ref: 'Program',
+    required: [true, "Course must be in a program"]
   },
   faculty: {
     type: mongoose.Schema.Types.ObjectId,

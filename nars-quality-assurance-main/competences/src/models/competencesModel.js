@@ -16,11 +16,13 @@ level:{
     required: [true, "Competences must have a level"],
     enum: ['A', 'B', 'C','D'],
 },
- faculty: { 
+ faculty: {
+    //Represents what faculty this competence belongs to
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Faculty'
+    ref: 'Faculty',
+    required: [true, "Competence must have a faculty"]
  }
- 
+
 })
 
 const competences = mongoose.model("competences", competencesSchema);
