@@ -22,6 +22,7 @@ router.route("/newCourse/:id")
   .patch(protect,courseController.updateNewCourse)
   .get(protect,courseController.getNewCourse)
   .delete(protect,courseController.deleteNewCourse);
+  
 router.route("/getCoursesByProgramId/:programId").get(protect,courseController.getCoursesByProgramId);
 router.route("/newCourseComp/:courseId").put(protect,courseController.addCompetenciesToCourse);
 router.route("/getCoursesByIds").get(protect,courseController.getCoursesByIds);
@@ -36,9 +37,11 @@ router
   .route("/created-courses")
   .get(protect, courseController.getAllCourseInstances)
   .post(protect, courseController.createCourseInstance);
+
 router
   .route("/original-courses/getAllMaterials/:id")
   .get(courseController.getAllMaterials);
+
 router
   .route("/original-courses/uploadMaterials")
   .patch(
@@ -46,6 +49,7 @@ router
     courseController.uploadMaterials,
     courseController.addMaterials
   );
+
 router
   .route("/original-courses/getMaterials/:id/:id2")
   .get(courseController.getMaterial);
