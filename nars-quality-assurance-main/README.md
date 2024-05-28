@@ -557,14 +557,24 @@ create topic:
 http://localhost:8087/topic/:courseId
 json:
 {
-"title": "Advanced Topic: Applications",
-"week": 3,
-"plannedHours": 4,
-"learningOutcomes": ["LO2", "LO3"]
+  "title": "Introduction to Topic XYZ",
+  "week": 1,
+  "plannedHours": 3,
+  "actualHours": 2, 
+  "learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
 }
+
 
 get topic by id, update , delete
 http://localhost:8087/topic/:topicId
+update Json:
+{
+  "title": "Introduction to Topic XYZ",
+  "week": 1,
+  "plannedHours": 3,
+  "actualHours": 2, 
+  "learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
+}
 
 get all topics
 http://localhost:8087/topic
@@ -754,4 +764,10 @@ json:
         "660390bd5a91f5aa4add3850",
         "6603924a5a91f5aa4add3866"
     ]
+}
+* get mutiple los by ids
+http://localhost:8087/los/mulLos
+json:
+{
+    "ids": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba", "6655f8406b8d7865b1107abc"]
 }

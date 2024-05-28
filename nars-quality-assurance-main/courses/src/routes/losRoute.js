@@ -7,6 +7,7 @@ router.route("/")
 .post(losController.createLos)
 .get(losController.getAllLos);
 
+router.route("/mulLos").get(losController.getMulLoById);
 router.route("/:id")
 .put(losController.updateLos)
 .get(losController.getLosById)
