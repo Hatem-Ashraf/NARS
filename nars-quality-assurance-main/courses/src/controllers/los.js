@@ -1,6 +1,6 @@
 const LO = require("../models/los");
 
-
+const mongoose = require('mongoose');
 
 exports.createLos = async (req, res) => {
     const { code, name, domain, competencies } = req.body;
@@ -87,6 +87,28 @@ exports.getLosById = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
+
+
+  
+exports.getMulLoById = async (req, res) => {
+     const loIds = req.body.ids;
+  
+      try {
+          const loObjectIds = loIds.map(id => mongoose.Types.ObjectId(id));
+          const los = await LO.find({ _id: { $in: loObjectIds } });
+          if (!los || los.length === 0) {
+              return res.status(404).json({ message: 'No learning objectives found for the specified IDs.' });
+          }
+
+          res.json(los);
+      } catch (err) {
+          console.error(err);
+          res.status(500).json({ message: 'Internal Server Error' });
+      }
+  };
+  
+
+  
 
 
 // m4 sha8aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal 
