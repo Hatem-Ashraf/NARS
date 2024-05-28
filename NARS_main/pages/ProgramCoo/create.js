@@ -11,9 +11,9 @@ const addfaculty = ({ cookies }) => {
 
   //Check if user is logged in
   const userState = useSelector((s) => s.user);
-  if (userState.role != "program admin" || userState.loggedInStatus != "true") {
-    return <div className="error">404 could not found</div>;
-  }
+  // if (userState.role != "program admin" || userState.loggedInStatus != "true") {
+  //   return <div className="error">404 could not found</div>;
+  // }
 
 
   const router = useRouter();

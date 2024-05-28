@@ -11,9 +11,9 @@ const addfaculty = ({ cookies }) => {
 
   //Check if user is logged in
   const userState = useSelector((s) => s.user);
-  if (userState.role != "program admin" || userState.loggedInStatus != "true") {
-    return <div className="error">404 could not found</div>;
-  }
+  // if (userState.role != "program admin" || userState.loggedInStatus != "true") {
+  //   return <div className="error">404 could not found</div>;
+  // }
 
 
   const router = useRouter();
@@ -90,7 +90,7 @@ const addfaculty = ({ cookies }) => {
         name.current.value = data.data.name;
         email.current.value = data.data.email;
   
-        const response2 = await fetch(`http://localhost:8087/original-courses/`, {
+        const response2 = await fetch(`http://localhost:8087/newCourse`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
