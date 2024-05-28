@@ -729,4 +729,29 @@ json :
  { "instructorId": "665335cae9d1f4e77786e8ce", "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"] }
 
 
- 
+# LOS API
+## create los or get all los
+http://localhost:8087/los/createLo
+json:
+{
+    "code": "LO124",
+    "name": "Mastering Node.js Fundamentals",
+    "domain": "Cognitive",
+    "competencies": [
+        "660390bd5a91f5aa4add3850",
+        "6603924a5a91f5aa4add3866"
+    ]
+}
+* update,delete,get by id
+http://localhost:8087/los/:id
+json for update:
+json:
+{
+    "code": "LO124",
+    "name": "Mastering Node.js Fundamentals",
+    "domain": "Cognitive",
+    "competencies": [
+        "660390bd5a91f5aa4add3850",
+        "6603924a5a91f5aa4add3866"
+    ]
+}
