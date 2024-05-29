@@ -296,6 +296,11 @@ json:
 delete,update,get course by id
 http://localhost:8087/newCourse/<courseid>
 
+* get competencies under course 
+http://localhost:8087/getComp/:courseId
+
+
+
 * get all courses under certain program
 http://localhost:8087/getCoursesByProgramId/<programId>
 
