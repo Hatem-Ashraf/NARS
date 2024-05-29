@@ -617,3 +617,15 @@ exports.getAllCoursesCount = async (req, res, next) => {
     });
   }
 };
+
+exports.getCompUnderCourse = async (req, res) => {
+  try {
+    const course = await Newcourse.findById(req.params.courseId).select('qualityCompetencies');
+    if (!course) {
+      return res.status(404).send({ error: 'Course not found' });
+    }
+    res.send(course.qualityCompetencies);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+};

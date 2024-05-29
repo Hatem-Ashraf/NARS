@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-  // course: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Newcourse',
-  //   required: [true, 'Please provide a course ID']
-  // },
   name: {
     type: String,
     trim: true,
@@ -22,25 +17,25 @@ const courseSchema = new mongoose.Schema({
     required: [true, "Course must have hours"],
   },
   academicYear: {
-  type: String,
+    type: String,
   },
   courseAims: {
     type: String,
-    // required: [true, 'Please provide course aims']
+    required: [true, 'Please provide course aims']
   },
   courseInformation: {
     type: String,
-    // required: [true, 'Please provide course info']
+    required: [true, 'Please provide course info']
   },
   competences: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Competences',
-    // required: [true, "course must have Competences"],
+    ref: 'Competence',
+    required: true
   }],
   learningOutcomes: [{
-    code: { type: String, required: true },
-    description: { type: String, required: true },
-    // required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'LO',
+    required: true
   }],
   department: {
     type: mongoose.Schema.Types.ObjectId,
@@ -90,10 +85,12 @@ courseSchema.pre(/^find/, function (next) {
       path: 'competences',
       model: this.competencesModel
     });
+  } else {
+    this.populate('competences');
   }
   next();
 });
 
 const Course = mongoose.model("Course", courseSchema);
 
-module.exports = Course;
+module.exports =  Course;

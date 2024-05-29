@@ -25,6 +25,7 @@ router.route("/newCourse/:id")
   
 router.route("/getCoursesByProgramId/:programId").get(protect,courseController.getCoursesByProgramId);
 router.route("/newCourseComp/:courseId").put(protect,courseController.addCompetenciesToCourse);
+router.route("/getComp/:courseId").get(protect,courseController.getCompUnderCourse);
 router.route("/getCoursesByIds").get(protect,courseController.getCoursesByIds);
 //##############################################33
 router
