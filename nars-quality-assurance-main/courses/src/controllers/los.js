@@ -111,14 +111,11 @@ exports.getMulLoById = async (req, res) => {
   
 
 
-// m4 sha8aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal 
-//zozzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 exports.getAllLosByDomain = async (req, res) => {
     const domain = req.params.domain;
-    const los = await LO.find({ domain: domain });
     try {
-       
-        
+        const los = await LO.find({ domain: domain });
+
         if (!los || los.length === 0) {
             return res.status(404).json({ message: 'No learning objectives found for the specified domain.' });
         }
