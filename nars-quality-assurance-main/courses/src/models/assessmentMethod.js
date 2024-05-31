@@ -10,7 +10,7 @@ const assessmentMethodSchema = new mongoose.Schema({
       ref: "LO",
     },
   ],
-  weight: { type: Number, required: true },
+  weight: { type: Number },
 });
 
 const assessmentMethod = mongoose.model(
