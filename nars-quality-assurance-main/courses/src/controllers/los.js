@@ -111,8 +111,6 @@ exports.getMulLoById = async (req, res) => {
   
 
 
-// m4 sha8aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal 
-//zozzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 exports.getAllLosByDomain = async (req, res) => {
     const { domain } = req.query; // Extract domain parameter from query string
 
