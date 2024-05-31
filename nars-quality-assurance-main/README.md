@@ -296,22 +296,20 @@ json:
 delete,update,get course by id
 http://localhost:8087/newCourse/<courseid>
 
-* get competencies under course 
-http://localhost:8087/getComp/:courseId
+- get competencies under course
+  http://localhost:8087/getComp/:courseId
 
+- get all courses under certain program
+  http://localhost:8087/getCoursesByProgramId/<programId>
 
-
-* get all courses under certain program
-http://localhost:8087/getCoursesByProgramId/<programId>
-
-* assign instructor to course or mutiple courses
-PATCH:  http://localhost:8087/assign-course-instructor
-{
-"instructorId": "65cb5ae3140600eebac07fc0",
-"courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"]
-}
-get all instructors
-http://localhost:8081/getAllInstructors
+- assign instructor to course or mutiple courses
+  PATCH: http://localhost:8087/assign-course-instructor
+  {
+  "instructorId": "65cb5ae3140600eebac07fc0",
+  "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"]
+  }
+  get all instructors
+  http://localhost:8081/getAllInstructors
 
 get instructor by id
 http://localhost:8081/staff/<id>
@@ -558,27 +556,27 @@ json:
 }
 
 # instructor TOPICS
+
 create topic:
 http://localhost:8087/topic/:courseId
 json:
 {
-  "title": "Introduction to Topic XYZ",
-  "week": 1,
-  "plannedHours": 3,
-  "actualHours": 2, 
-  "learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
+"title": "Introduction to Topic XYZ",
+"week": 1,
+"plannedHours": 3,
+"actualHours": 2,
+"learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
 }
-
 
 get topic by id, update , delete
 http://localhost:8087/topic/:topicId
 update Json:
 {
-  "title": "Introduction to Topic XYZ",
-  "week": 1,
-  "plannedHours": 3,
-  "actualHours": 2, 
-  "learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
+"title": "Introduction to Topic XYZ",
+"week": 1,
+"plannedHours": 3,
+"actualHours": 2,
+"learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
 }
 
 get all topics
@@ -588,6 +586,7 @@ get all Topics under course:
 http://localhost:8087/topic/getTopicsBycourse/:coureId
 
 # instructor Courses
+
 first to get back courses IDs
 http://localhost:8081/getAssignedCourses/:instructorId
 
@@ -621,8 +620,9 @@ JSON:
 {
 "assessment":"quiz1",
 "grade":20,
-"LO":["LO1","LO2"]
-,"courses": courses id
+"LO":["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
+,"courses": courses id,
+"weight":20
 }
 
 get all assessment methods: get http://localhost:8087/assessment-methods/
@@ -680,107 +680,94 @@ json :
 ]
 }
 
-
 # 25/5/2024!
 
 # New competences, program Objectives !
+
 ## competences
-* POST, GETall
+
+- POST, GETall
   http://localhost:8085/faculty/facultyId
 
-* GETone, PATCCH, DELETE
- http://localhost:8085/competenceId
-
+- GETone, PATCCH, DELETE
+  http://localhost:8085/competenceId
 
 ## program objectives
-* GET all, POST
- http://localhost:8085/programObj/faculty/facultyId
 
-* GET one, PATCH, DELETE
- http://localhost:8085/programObj/proObjId
+- GET all, POST
+  http://localhost:8085/programObj/faculty/facultyId
+
+- GET one, PATCH, DELETE
+  http://localhost:8085/programObj/proObjId
 
 ## Instructor Things
 
-* GET one course by id
-* http://localhost:8087/newCourse/:courseId
+- GET one course by id
+- http://localhost:8087/newCourse/:courseId
 
+- add basic information of the course (program admin use it only)
+- POST: http://localhost:8087/newCourse
+- {"name": "NEW ONE! Software Engineering", "code": "CS440", "hours": 4, "program": "66151085a5450305f1424f85"}
 
-
-
-
-* add basic information of the course (program admin use it only)
-*  POST: http://localhost:8087/newCourse
-* {"name": "NEW ONE! Software Engineering", "code": "CS440", "hours": 4, "program": "66151085a5450305f1424f85"}
-
-
-
-
-
-* add extra information of the course (Instructor use it only)
-* PATCH http://localhost:8087/newCourse/66549659d60a369a8bc68adb
-{
+- add extra information of the course (Instructor use it only)
+- PATCH http://localhost:8087/newCourse/66549659d60a369a8bc68adb
+  {
   "courseInformation" : "Some info about this COURSE!",
   "courseAims": "This course aims to ....",
   "learningOutcomes": [
-      {
-        "code":"LO1",
-        "description": "Some desc about this LO1"
-      }
-    ]
-}
+  {
+  "code":"LO1",
+  "description": "Some desc about this LO1"
+  }
+  ]
+  }
 
+- get assigned courses
+- GET http://localhost:8081/getAssignedCourses/:instructorId
 
-
-
-
-* get assigned courses
-* GET http://localhost:8081/getAssignedCourses/:instructorId
-
-
-
-
-* assign instructor to course or mutiple courses 
-* PATCH http://localhost:8087/assign-course-instructor/
- { "instructorId": "665335cae9d1f4e77786e8ce", "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"] }
-
+- assign instructor to course or mutiple courses
+- PATCH http://localhost:8087/assign-course-instructor/
+  { "instructorId": "665335cae9d1f4e77786e8ce", "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"] }
 
 # LOS API
-## create los 
+
+## create los
+
 http://localhost:8087/los
 json:
 {
-    "code": "LO124",
-    "name": "Mastering Node.js Fundamentals",
-    "domain": "Cognitive",
-    "competencies": [
-        "660390bd5a91f5aa4add3850",
-        "6603924a5a91f5aa4add3866"
-    ]
+"code": "LO124",
+"name": "Mastering Node.js Fundamentals",
+"domain": "Cognitive",
+"competencies": [
+"660390bd5a91f5aa4add3850",
+"6603924a5a91f5aa4add3866"
+]
 }
-* get all los
-http://localhost:8087/los/all
 
-* get los under certain domain
-method: GET
-http://localhost:8087/los?domain=Cognitive
+- get all los
+  http://localhost:8087/los/all
 
+- get los under certain domain
+  method: GET
+  http://localhost:8087/los?domain=Cognitive
 
-* update,delete,get by id
-http://localhost:8087/los/:id
-json for update:
-json:
-{
-    "code": "LO124",
-    "name": "Mastering Node.js Fundamentals",
-    "domain": "Cognitive",
-    "competencies": [
-        "660390bd5a91f5aa4add3850",
-        "6603924a5a91f5aa4add3866"
-    ]
-}
-* get mutiple los by ids
-http://localhost:8087/los/mulLos
-json:
-{
-    "ids": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba", "6655f8406b8d7865b1107abc"]
-}
+- update,delete,get by id
+  http://localhost:8087/los/:id
+  json for update:
+  json:
+  {
+  "code": "LO124",
+  "name": "Mastering Node.js Fundamentals",
+  "domain": "Cognitive",
+  "competencies": [
+  "660390bd5a91f5aa4add3850",
+  "6603924a5a91f5aa4add3866"
+  ]
+  }
+- get mutiple los by ids
+  http://localhost:8087/los/mulLos
+  json:
+  {
+  "ids": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba", "6655f8406b8d7865b1107abc"]
+  }
