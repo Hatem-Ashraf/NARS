@@ -114,20 +114,17 @@ exports.getMulLoById = async (req, res) => {
 // m4 sha8aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal 
 //zozzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 exports.getAllLosByDomain = async (req, res) => {
-    const domain = req.params.domain;
-    const los = await LO.find({ domain: domain });
-    try {
-       
-        
-        if (!los || los.length === 0) {
-            return res.status(404).json({ message: 'No learning objectives found for the specified domain.' });
-        }
+    const { domain } = req.query; // Extract domain parameter from query string
 
-        // If LOs are found, send them in the response
-        res.json(los);
-    } catch (err) {
-        // If an error occurs, send a 500 response with the error message
-        console.error(err);
-        res.status(500).json({ message: 'Internal Server Error' });
+    if (!domain) {
+      return res.status(400).json({ message: 'Missing required query parameter: domain' });
+    }
+  
+    try {
+      const los = await LO.find({ domain }); // Filter using domain field
+      res.status(200).json(los);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error filtering Learning Objects' });
     }
 };

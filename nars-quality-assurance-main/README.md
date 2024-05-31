@@ -745,8 +745,8 @@ json :
 
 
 # LOS API
-## create los or get all los
-http://localhost:8087/los/createLo
+## create los 
+http://localhost:8087/los
 json:
 {
     "code": "LO124",
@@ -757,6 +757,14 @@ json:
         "6603924a5a91f5aa4add3866"
     ]
 }
+* get all los
+http://localhost:8087/los/all
+
+* get los under certain domain
+method: GET
+http://localhost:8087/los?domain=Cognitive
+
+
 * update,delete,get by id
 http://localhost:8087/los/:id
 json for update:
