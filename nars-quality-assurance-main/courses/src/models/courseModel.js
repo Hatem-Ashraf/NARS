@@ -1,5 +1,31 @@
 const mongoose = require('mongoose');
 
+// Learning Outcome Schema
+const LOSchema = new mongoose.Schema({
+  code: { type: String, required: true },
+  name: { type: String, required: true },
+  domain: {
+    type: String,
+    enum: ['Cognitive', 'Psychomotor', 'Affective'],
+    required: true
+  },
+  competencies: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Competence'
+  }]
+});
+
+const LO = mongoose.model('LO', LOSchema);
+
+// Competence Schema
+const competenceSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String }
+});
+
+const Competence = mongoose.model('Competence', competenceSchema);
+
+// Course Schema
 const courseSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -21,11 +47,11 @@ const courseSchema = new mongoose.Schema({
   },
   courseAims: {
     type: String,
-    required: [true, 'Please provide course aims']
+    // required: [true, 'Please provide course aims']
   },
   courseInformation: {
     type: String,
-    required: [true, 'Please provide course info']
+    // required: [true, 'Please provide course info']
   },
   competences: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -93,4 +119,4 @@ courseSchema.pre(/^find/, function (next) {
 
 const Course = mongoose.model("Course", courseSchema);
 
-module.exports =  Course;
+module.exports = { Course, LO, Competence };
