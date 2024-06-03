@@ -86,13 +86,19 @@ const CreateCourse = ({ cookies }) => {
     const Onecourse = data.data;
     console.log("The selected course:", Onecourse);
 
-    const initialMapping = Onecourse.learningOutcomes.reduce((acc, lo) => {
-      acc[lo._id] = [];
-      return acc;
-    }, {});
+    // const initialMapping = Onecourse.learningOutcomes.reduce((acc, lo) => {
+    //   acc[lo._id] = [];
+    //   return acc;
+    // }, {});
 
-    console.log("initialMapping", initialMapping);
-    if (!mapping) setMapping(initialMapping);
+    // console.log("initialMapping", initialMapping);
+    // if (!mapping) setMapping(initialMapping);
+    // setMapping(initialMapping);
+
+    setMapping([
+      {'LO1': []},
+      {'LO2': []}
+    ]);
 
     const fetchCompetenceDetails = async (competenceId) => {
       const response = await fetch(`http://localhost:8085/${competenceId}`, {
