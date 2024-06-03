@@ -692,6 +692,9 @@ json :
 - GETone, PATCCH, DELETE
   http://localhost:8085/competenceId
 
+- GET competences by level
+  http://localhost:8085/faculty/:facultyId/level/C
+
 ## program objectives
 
 - GET all, POST
