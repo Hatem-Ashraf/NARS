@@ -23,6 +23,7 @@ const CreateCourse = ({ cookies }) => {
     },
   ]);
   const [selectedCourse, setSelectedCourse] = useState({});
+  const [courseLOs, setCourseLOs] = useState([]);
   const [coursesCompetences, setCoursesCompetences] = useState([{
         code: "A.1",
         descritopn: "Some description about this competence",
@@ -195,6 +196,24 @@ const CreateCourse = ({ cookies }) => {
           categorizedCompetences
         });
       }, 500);
+
+      const response2 = await fetch(`http://localhost:8087/los/courses/${selectedId}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+
+      const data = await response2.json();
+      
+      if (data.status == "success") {
+        setCourseLOs(data.data);
+        console.log("LOs for the seleteced course:", data)
+      } else {
+        throw new Error('Failed to fetch LOs for this course');
+      }
+
     } catch (error) {
       console.error('Error fetching competences:', error);
     }
@@ -380,7 +399,13 @@ const CreateCourse = ({ cookies }) => {
               rows="4"
             ></textarea>
 
-        {/* {selectedCourse && <CourseDetails course={selectedCourse} />} */}
+        {selectedCourse && 
+          <CompetencesList course={selectedCourse} />
+        }
+
+        {selectedCourse && 
+          <LOsList LOs={courseLOs} selectedCourse={selectedCourse} />
+        }
 
           </div>
 
@@ -403,46 +428,148 @@ const CreateCourse = ({ cookies }) => {
   );
 };
 
-const CourseDetails = ({ course }) => {
+const CompetencesList = ({ course }) => {
   const { categorizedCompetences } = course;
 
   if (!categorizedCompetences) {
-    return <div>Loading competences...</div>;
+    return null;
+  }
+
+  const competences = [
+    ...categorizedCompetences.A,
+    ...categorizedCompetences.B,
+    ...categorizedCompetences.C,
+  ];
+
+  if (competences.length === 0) {
+    return (
+      <div className="mt-4">
+        <h3 className="text-lg font-bold mt-6 mb-2">Competences assigned to this course</h3>
+        <h5 className="font-bold m-5 text-red-600">No competences assigned to this course!</h5>
+      </div>
+    );
   }
 
   return (
-    <div className="mt-4 ">
-      <h3 className="text-lg font-bold mt-6 mb-2">Learning Outcomes (LO’s)</h3>
-
-      <div className="mb-4">
-        <h4 className="text-md font-semibold bg-red-200">Level A</h4>
-        <ul className="list-inside ml-5 ">
-          {categorizedCompetences.A.map((competence) => (
-            <li key={competence._id}><span className="font-semibold">{competence.code}</span> - {competence.description}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mb-4">
-        <h4 className="text-md font-semibold bg-red-200">Level B</h4>
-        <ul className="list-inside ml-5 ">
-          {categorizedCompetences.B.map((competence) => (
-            <li key={competence._id}><span className="font-semibold">{competence.code}</span> - {competence.description}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mb-4">
-        <h4 className="text-md font-semibold bg-red-200">Level C</h4>
-        <ul className="list-inside ml-5 ">
-          {categorizedCompetences.C.map((competence) => (
-            <li key={competence._id}><span className="font-semibold">{competence.code} </span>- {competence.description}</li>
-          ))}
-        </ul>
-      </div>
+    <div className="mt-4">
+      <h3 className="text-lg font-bold mt-6 mb-2">Competences assigned to this course</h3>
+      <table className="table-auto border-collapse w-full">
+        <thead>
+          <tr>
+            <th className="border px-4 py-2">Level</th>
+            <th className="border px-4 py-2">Code</th>
+            <th className="border px-4 py-2">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categorizedCompetences.A.length > 0 && (
+            <>
+              <tr>
+                <td colSpan="3" className="border px-4 py-2 font-bold bg-red-200">Level A</td>
+              </tr>
+              {categorizedCompetences.A.map((competence) => (
+                <tr key={competence._id}>
+                  <td className="border px-4 py-2">A</td>
+                  <td className="border px-4 py-2 font-semibold">{competence.code}</td>
+                  <td className="border px-4 py-2">{competence.description}</td>
+                </tr>
+              ))}
+            </>
+          )}
+          {categorizedCompetences.B.length > 0 && (
+            <>
+              <tr>
+                <td colSpan="3" className="border px-4 py-2 font-bold bg-red-200">Level B</td>
+              </tr>
+              {categorizedCompetences.B.map((competence) => (
+                <tr key={competence._id}>
+                  <td className="border px-4 py-2">B</td>
+                  <td className="border px-4 py-2 font-semibold">{competence.code}</td>
+                  <td className="border px-4 py-2">{competence.description}</td>
+                </tr>
+              ))}
+            </>
+          )}
+          {categorizedCompetences.C.length > 0 && (
+            <>
+              <tr>
+                <td colSpan="3" className="border px-4 py-2 font-bold bg-red-200">Level C</td>
+              </tr>
+              {categorizedCompetences.C.map((competence) => (
+                <tr key={competence._id}>
+                  <td className="border px-4 py-2">C</td>
+                  <td className="border px-4 py-2 font-semibold">{competence.code}</td>
+                  <td className="border px-4 py-2">{competence.description}</td>
+                </tr>
+              ))}
+            </>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
+
+
+
+const LOsList = ({ LOs }) => {
+  if (!LOs) {
+    return null;
+  }
+
+  if (LOs.length === 0) {
+    return (
+      <div className="mt-4">
+        <h3 className="text-lg font-bold mt-6 mb-2">LOs created for this course</h3>
+        <h5 className="font-bold m-5 text-red-600">No LOs created for this course!</h5>
+      </div>
+    );
+  }
+
+  // Group LOs by domain
+  const groupedLOs = LOs.reduce((acc, LO) => {
+    if (!acc[LO.domain]) {
+      acc[LO.domain] = [];
+    }
+    acc[LO.domain].push(LO);
+    return acc;
+  }, {});
+
+  const domains = ["Cognitive", "Psychomotor", "Affective"];
+
+  // Create table rows
+  const tableRows = [];
+  domains.forEach((domain) => {
+    tableRows.push(
+      <tr key={`${domain}-header`}>
+        <td colSpan="2" className="border px-4 py-2 font-bold bg-gray-200">{domain} Domain</td>
+      </tr>
+    );
+    if (groupedLOs[domain]) {
+      groupedLOs[domain].forEach((LO) => {
+        tableRows.push(
+          <tr key={LO._id}>
+            <td className="border px-4 py-2 font-semibold">{LO.code}</td>
+            <td className="border px-4 py-2">{LO.name}</td>
+          </tr>
+        );
+      });
+    }
+  });
+
+  return (
+    <div className="mt-4">
+      <h3 className="text-lg font-bold mt-6 mb-2">LOs created for this course</h3>
+      <table className="table-auto border-collapse w-full">
+        <tbody>
+          {tableRows}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+
 
 
 

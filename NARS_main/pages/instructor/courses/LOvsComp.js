@@ -8,14 +8,17 @@ const CreateCourse = ({ cookies }) => {
   const router = useRouter();
 
   const [mapping, setMapping] = useState({});
+  const [competencesChecked, setCompetencesChecked] = useState([]);
+  const [courseLOs, setCourseLOs] = useState([]);
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [courses, setCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState({});
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  
   const coursesList = useRef();
-
+  const seletedLO = useRef();
   useEffect(() => {
-    async function getCourses() {
+    async function getCoursesAndLOs() {
       try {
         const response = await fetch(`http://localhost:8081/getAssignedCourses/${userState._id}`, {
           method: "GET",
@@ -66,8 +69,12 @@ const CreateCourse = ({ cookies }) => {
       }
     }
 
-    getCourses();
+    getCoursesAndLOs();
   }, []);
+
+  const closeMsg = () => {
+    setMsg("");
+  };
 
   const handleCourseChange = async () => {
     const selectedId = coursesList.current.value;
@@ -85,20 +92,6 @@ const CreateCourse = ({ cookies }) => {
 
     const Onecourse = data.data;
     console.log("The selected course:", Onecourse);
-
-    // const initialMapping = Onecourse.learningOutcomes.reduce((acc, lo) => {
-    //   acc[lo._id] = [];
-    //   return acc;
-    // }, {});
-
-    // console.log("initialMapping", initialMapping);
-    // if (!mapping) setMapping(initialMapping);
-    // setMapping(initialMapping);
-
-    setMapping([
-      {'LO1': []},
-      {'LO2': []}
-    ]);
 
     const fetchCompetenceDetails = async (competenceId) => {
       const response = await fetch(`http://localhost:8085/${competenceId}`, {
@@ -141,37 +134,166 @@ const CreateCourse = ({ cookies }) => {
           categorizedCompetences
       });
 
+      
+      const response2 = await fetch(`http://localhost:8087/los/courses/${selectedId}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+
+      const data = await response2.json();
+      
+      if (data.status == "success") {
+        setCourseLOs(data.data);
+        console.log("LOs for the seleteced course:", data)
+      } else {
+        throw new Error('Failed to fetch LOs for this course');
+      }
+
     } catch (error) {
       console.error('Error fetching competences:', error);
     }
   };
 
-  const handleCheckboxChange = (loId, competenceId) => {
-    console.log("Before change:", mapping);
+  const handleLoChange = (event) => {
+    const selectedLO = event.target.value;
+    console.log("selectedLO", selectedLO);
+  };
 
-    setMapping(prevMapping => {
-      const updatedMapping = { ...prevMapping };
+  const handleCheckboxChange = (event) => {
+    const updatedList = [...competencesChecked]; // Create a copy of the existing competencesChecked array
+    const checkboxValue = event.target.value; // Get the value of the checkbox
 
-      if (!Array.isArray(updatedMapping[loId])) {
-        updatedMapping[loId] = [];
-      }
+    if (event.target.checked) {
+      updatedList.push(checkboxValue); // Add the checkbox value to the updatedList array
+    } else {
+      const indexToRemove = updatedList.indexOf(checkboxValue);
+      updatedList.splice(indexToRemove, 1); // Remove the checkbox value from the updatedList array
+    }
 
-      if (updatedMapping[loId].includes(competenceId)) {
-        updatedMapping[loId] = updatedMapping[loId].filter(id => id !== competenceId);
-      } else {
-        updatedMapping[loId].push(competenceId);
-      }
-
-      console.log("After change:", updatedMapping);
-      return updatedMapping;
-    });
+    setCompetencesChecked(updatedList); // Update the competencesChecked state with the updatedList array
+    console.log("competences checked ! :", updatedList);
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (selectedCourse == null) {
+      alert("Please select a course")
+      return ;
+    }
+    
+    if (seletedLO.current.value == 'Choose LO'){
+      alert("Please select a LO")
+      return ;
+    }
+
     console.log("selectedCourse", selectedCourse);
-    console.log("mapping", mapping);
+    console.log("selteced LO", seletedLO.current.value);
+    console.log("compenteces", competencesChecked);
+
+
+    try {
+      const response = await fetch(`http://localhost:8087/los/${seletedLO.current.value}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.token}`,
+      },
+      body: JSON.stringify({
+        competencies: competencesChecked
+    })
+    });
+
+    const data = await response.json();
+    console.log("data", data);
+
+    if (data.status == "success") {
+      console.log("Course created successfully.");
+      setMsg(success)
+    }else {
+      setMsg(fail)
+      throw new Error(data.message || "Failed to create course.");
+    }
+
+  } catch (err) {
+    console.error(err);
+  }
+
   };
+
+  let fail = (
+    <div
+      id="alert-border-2"
+      class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+      role="alert"
+    >
+      <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
+      <div class="ml-3 text-lg font-medium">
+        Failed to create Mapping
+        <a href="#" class="font-semibold underline hover:no-underline"></a>.
+      </div>
+      <button
+        type="button"
+        onClick={closeMsg}
+        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+        data-dismiss-target="#alert-border-2"
+        aria-label="Close"
+      >
+        <span class="sr-only">Dismiss</span>
+        <svg
+          aria-hidden="true"
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  );
+
+  let success = (
+    <div
+      id="alert-border-3"
+      class="flex p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800"
+      role="alert"
+    >
+      <i class="fa-solid fa-circle-check"></i>
+      <div class="ml-3 text-lg font-medium">
+        Mapping has been Submitted successfully
+        <a href="#" class="font-semibold underline hover:no-underline"></a>
+      </div>
+      <button
+        onClick={closeMsg}
+        type="button"
+        class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+        data-dismiss-target="#alert-border-3"
+        aria-label="Close"
+      >
+        <span class="sr-only">Dismiss</span>
+        <svg
+          aria-hidden="true"
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  );
 
   return (
     <div className="flex flex-row min-h-screen mt-5 mb-5">
@@ -187,9 +309,22 @@ const CreateCourse = ({ cookies }) => {
                   return <option value={e.id}>{e.name}</option>;
                 })}
               </select>
-              {<CompetencesCheckboxes
+
+              <label htmlFor="title" className="text-form font-bold w-1/3">Learning outcome:</label>
+              <select disabled={selectedCourse === null} ref={seletedLO} id="small2" className="choose-form w-full px-10" onChange={handleLoChange} >
+                <option className="text-left" disabled selected>Choose LO</option>
+                {courseLOs.map((e) => {
+                  return (
+                    <option value={e._id}>
+                        {e.code} - {e.name.length > 40 ? `${e.name.substring(0, 40)}...` : e.name}
+                    </option>
+                  );                })}
+              </select>
+
+              { selectedCourse && <CompetencesCheckboxes
                 course={selectedCourse} 
-                selectedCourse={selectedCourse} 
+                handleCheckboxChange={handleCheckboxChange}
+                selectedLO={seletedLO.current.value}
               />}
             </div>
             <div className="flex gap-20 mt-10">
@@ -210,12 +345,13 @@ const CreateCourse = ({ cookies }) => {
   );
 };
 
-const CompetencesCheckboxes = ({ course }) => {
+const CompetencesCheckboxes = ({ course, handleCheckboxChange, selectedLO }) => {
   const { categorizedCompetences } = course;
 
-  if (!categorizedCompetences) {
-    return <div>Loading competences...</div>;
+  if (course.competences.length == 0) {
+    return <div className="font-semibold text-lg m-5">No competences assgined to this course!</div>;
   }
+
 
   const competences = [...categorizedCompetences.A, ...categorizedCompetences.B, ...categorizedCompetences.C];
   
@@ -223,7 +359,7 @@ const CompetencesCheckboxes = ({ course }) => {
     <div className="flex justify-between gap-20">
     <div className="flex flex-col gap-5 w-full">
     <h4 className="font-semibold ">
-        Please mark the competences this faculty aims to achieve:
+        Please mark the competences this LO aims to achieve:
     </h4>
     <fieldset>
       <legend className="sr-only">Checkboxes</legend>
@@ -262,49 +398,5 @@ const CompetencesCheckboxes = ({ course }) => {
   );
 }
 
-
-
-
-const MapTable = ({ course, mapping, handleCheckboxChange, selectedCourse }) => {
-  const { categorizedCompetences } = course;
-
-  if (!categorizedCompetences) {
-     return <div>Loading Mapping table...</div>;
-  }
-  
-  console.log("mapping", mapping)
-  return (
-    <table className="min-w-full bg-white">
-      <thead>
-        <tr>
-          <th className="py-2 px-4 border-b border-gray-300">Learning Outcomes</th>
-          {['A', 'B', 'C'].map(level => (
-            categorizedCompetences[level].map(competence => (
-              <th key={competence._id} className="py-2 px-4 border-b border-gray-300">{competence.code}</th>
-            ))
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {course.learningOutcomes.map(lo => (
-          <tr key={lo._id}>
-            <td className="py-2 px-4 border-b border-gray-300">{lo.description}</td>
-            {['A', 'B', 'C'].map(level => (
-              categorizedCompetences[level].map(competence => (
-                <td key={competence._id} className="py-2 px-4 border-b border-gray-300">
-                  <input
-                    type="checkbox"
-                    // checked={mapping[lo._id]?.includes(competence._id) || false}
-                    onClick={(e) => handleCheckboxChange(lo._id, competence._id)}
-                  />
-                </td>
-              ))
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
 
 export default CreateCourse;
