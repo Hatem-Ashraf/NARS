@@ -42,8 +42,6 @@ const CreateCourse = ({ cookies }) => {
   
   const coursesList = useRef();
 
-  const [inputs, setInputs] = useState([]);
-  const [inputs2, setInputs2] = useState([]);
 
   //Fetging all the assined corsesd 
   useEffect(() => {
@@ -122,37 +120,6 @@ const CreateCourse = ({ cookies }) => {
   };
 
 
-  const handleAddInput = (e) => {
-    e.preventDefault();
-
-    setInputs([
-      ...inputs,
-      {
-        ref: createRef(),
-      },
-    ]);
-
-    setInputs2([
-      ...inputs2,
-      {
-        ref: createRef(),
-      },
-    ]);
-  };
-
-  const removeLO1 = (e, input2, input) => {
-    e.preventDefault();
-    setInputs2(
-      inputs2.filter((e) => {
-        return e != input2;
-      })
-    );
-    setInputs(
-      inputs.filter((e) => {
-        return e != input;
-      })
-    );
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -235,24 +202,7 @@ const CreateCourse = ({ cookies }) => {
   
   const submitHandler = async (e) => {
     e.preventDefault();
-    const arr1 = inputs.map((input1) => {
-      return {
-        code: input1.ref.current.value,
-      };
-    });
-    const arr2 = inputs2.map((input2) => {
-      return {
-        value: input2.ref.current.value,
-      };
-    });
-    const LOs = arr1.map((a, index) => {
-      const b = arr2[index];
-      return {
-        code: a.code,
-        description: b.value,
-      };
-    });
-    console.log("LOs::", LOs);
+
     console.log("selectedCourse", selectedCourse)
     console.log({
       name: selectedCourse.name,
@@ -260,7 +210,6 @@ const CreateCourse = ({ cookies }) => {
       // qualityCompetencies: selectedCourse.competences,
       courseAims: selectedCourse.courseAims,
       courseInformation: selectedCourse.courseInformation,
-      learningOutcomes: LOs
     })
 
     if (selectedCourse) {
@@ -276,7 +225,6 @@ const CreateCourse = ({ cookies }) => {
           // qualityCompetencies: selectedCourse.competences,
           courseAims: selectedCourse.courseAims,
           courseInformation: selectedCourse.courseInformation,
-          learningOutcomes: LOs
         }),
       });
 
@@ -432,79 +380,10 @@ const CreateCourse = ({ cookies }) => {
               rows="4"
             ></textarea>
 
-        {selectedCourse && <CourseDetails course={selectedCourse} />}
+        {/* {selectedCourse && <CourseDetails course={selectedCourse} />} */}
 
           </div>
-          <div className="flex gap-20 mt-10">
-              <div className="flex flex-col space-y-1 gap-5 w-full">
-                <div class="flex items-center justify-between mr-6 text-lg text-gray-700 capitalize ">
-                <span className="font-bold">Learning Ooutcomes:</span>
-                  <button
-                    onClick={handleAddInput}
-                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
-                  >
-                    Add
-                  </button>
-                </div>
 
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y  divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
-                        <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
-                        <th className="py-2 px-4 text-xl text-left w-[5%]">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {inputs.map((input, index) => (
-                        <tr key={index} className="bg-white">
-                          <td className="py-2 px-4">
-                            <input
-                              type="text"
-                              ref={input.ref}
-                              className="input-form w-full"
-                            />
-                          </td>
-                          <td className="py-2 px-4">
-                            <textarea
-                              type="text"
-                              ref={inputs2[index].ref}
-                              className="input-form w-full"
-                            />
-                          </td>
-                          <td className="py-2 px-4 text-center">
-                            <button
-                              type="button"
-                              onClick={(e) => removeLO1(e, inputs2[index], input)}
-                              className="bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-300 inline-flex h-8 w-8"
-                              data-dismiss-target="#alert-border-2 "
-                              aria-label="Close"
-                            >
-                              <span className="sr-only">Dismiss</span>
-                              <svg
-                                aria-hidden="true"
-                                className="w-5 h-5"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                ></path>
-                              </svg>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
             <div className="flex gap-20 mt-10">
               {<div className="w-3/4 mt-10 mx-auto">{msg}</div>}
             </div>
