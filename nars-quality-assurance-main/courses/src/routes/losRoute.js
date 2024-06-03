@@ -7,11 +7,14 @@ router.route("/")
 .post(losController.createLos)
 .get(losController.getAllLosByDomain);
 
-router.route("/mulLos").get(losController.getMulLoById);
+router.route("/mulLos")
+.get(losController.getMulLoById)
+.post(losController.createMultipleLos);
+
 router.route("/courses/:courseId").get(losController.getLosByCourseId);
 router.route("/all").get(losController.getAllLos);
 router.route("/:id")
-.put(losController.updateLos)
+.patch(losController.updateLos)
 .get(losController.getLosById)
 .delete(losController.deleteLos);
 module.exports = router;

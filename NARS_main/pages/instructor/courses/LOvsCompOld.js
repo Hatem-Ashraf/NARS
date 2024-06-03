@@ -11,7 +11,7 @@ const CreateCourse = ({ cookies }) => {
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [courses, setCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState({});
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const coursesList = useRef();
 
   useEffect(() => {

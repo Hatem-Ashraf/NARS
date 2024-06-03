@@ -23,7 +23,7 @@ const CreateCourse = ({ cookies }) => {
     },
   ]);
   
-  const [selectedCourse, setSelectedCourse] = useState({});
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const [coursesCompetences, setCoursesCompetences] = useState([{
         code: "A.1",
         descritopn: "Some description about this competence",
@@ -305,6 +305,12 @@ const CreateCourse = ({ cookies }) => {
   
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!selectedCourse) {
+      alert("Please select a course first")
+      return;
+    }
+
     const arr1 = inputs.map((input1) => {
       return {
         code: input1.ref.current.value,
@@ -339,7 +345,7 @@ const CreateCourse = ({ cookies }) => {
       const b = arr2[index];
       return {
         code: a.code,
-        description: b.value,
+        name: b.value,
         domain: "Cognitive",
       };
     });
@@ -348,7 +354,7 @@ const CreateCourse = ({ cookies }) => {
       const b = arr4[index];
       return {
         code: a.code,
-        description: b.value,
+        name: b.value,
         domain: "Psychomotor",
       };
     });
@@ -357,7 +363,7 @@ const CreateCourse = ({ cookies }) => {
       const b = arr6[index];
       return {
         code: a.code,
-        description: b.value,
+        name: b.value,
         domain: "Affective",
       };
     });
@@ -368,9 +374,41 @@ const CreateCourse = ({ cookies }) => {
     // console.log("LOs2::", LOs2);
     // console.log("LOs3::", LOs3);
     console.log("all LOs::", LOs);
+    console.log({
+      courseId: selectedCourse._id,
+      LOs
+    });
+
+    try{
+      const response = await fetch("http://localhost:8087/los/mulLos",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userState.token,
+        },
+        body: JSON.stringify({
+          courseId: selectedCourse._id,
+          LOs
+        }),
+      })
+
+      const data = await response.json();
+      console.log("data::", data);
+
+      if (data.status == "success") {
+        console.log("Course created successfully.");
+        setMsg(success)
+      }else {
+        setMsg(fail)
+        throw new Error(data.message || "Failed to create course.");
+      }
+
+
+    } catch (err)  {
+      console.log(err);
+    }
     
     
-   
 
      
   };
@@ -383,7 +421,7 @@ const CreateCourse = ({ cookies }) => {
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
       <div class="ml-3 text-lg font-medium">
-        Failed to Submit Course
+        Failed to Submit LOs
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -419,7 +457,7 @@ const CreateCourse = ({ cookies }) => {
     >
       <i class="fa-solid fa-circle-check"></i>
       <div class="ml-3 text-lg font-medium">
-        Course has been Submitted successfully
+        LOs has been Submitted successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
