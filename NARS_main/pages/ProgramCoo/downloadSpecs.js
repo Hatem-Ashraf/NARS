@@ -3,6 +3,11 @@ import html2canvas from 'html2canvas';
 
 const generatePdf = () => {
   const input = document.getElementById('pdfContent');
+  
+  if (!input) {
+    console.error('Element #pdfContent not found');
+    return;
+  }
 
   html2canvas(input, {
     scale: 2, // Increase the scale for better quality
@@ -17,8 +22,8 @@ const generatePdf = () => {
     const imgWidth = pdfWidth * 0.9; // Reduce image width to 90% of PDF width
     const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
 
-    let position = 0;
     const xOffset = (pdfWidth - imgWidth) / 2; // Center horizontally
+    let position = 0;
 
     pdf.addImage(imgData, 'JPEG', xOffset, position, imgWidth, imgHeight);
 
@@ -33,6 +38,8 @@ const generatePdf = () => {
     }
 
     pdf.save('program_specs.pdf');
+  }).catch((error) => {
+    console.error('Error generating PDF:', error);
   });
 };
 

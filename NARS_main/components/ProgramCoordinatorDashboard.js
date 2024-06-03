@@ -235,6 +235,11 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
           View program specs
           </Link>,
           <Link
+          className={
+            router.pathname === ""
+              ? "activeLinkDashboard2"
+              : "normalLinkDashboard2"
+          }
           href="#"
           onClick={(e) => {
             e.preventDefault();
