@@ -736,14 +736,18 @@ json :
 http://localhost:8087/los
 json:
 {
-"code": "LO124",
-"name": "Mastering Node.js Fundamentals",
-"domain": "Cognitive",
+"code": "LO132",
+"name": "Robotics and Automation",
+"domain": "Psychomotor",
 "competencies": [
 "660390bd5a91f5aa4add3850",
 "6603924a5a91f5aa4add3866"
-]
+],
+ "courseId": "65f8b2371c297968e2db0f5a"
 }
+
+- get los under course
+http://localhost:8087/los/courses/:courseId
 
 - get all los
   http://localhost:8087/los/all
