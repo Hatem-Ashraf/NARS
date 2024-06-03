@@ -666,15 +666,15 @@ json :
 {
 "assessment": "quiz1",
 "grades": [
-{"studentId": "6620011defb9984fb09b4ac7", "grade": 10},
-{"studentId": "662008f8686fb836592ed5a8", "grade": 15}
+{"studentId": "665d9c801fb9fa6d97249ce1", "grade": 10},
+{"studentId": "665d9c901fb9fa6d97249ce6", "grade": 15}
 ]
 },
 {
 "assessment": "mid term",
 "grades": [
-{ "studentId": "6620011defb9984fb09b4ac7", "grade": 30 },
-{ "studentId": "662008f8686fb836592ed5a8", "grade": 22}
+{ "studentId": "665d9c801fb9fa6d97249ce1", "grade": 30 },
+{ "studentId": "665d9c901fb9fa6d97249ce6", "grade": 25}
 ]
 }
 ]
