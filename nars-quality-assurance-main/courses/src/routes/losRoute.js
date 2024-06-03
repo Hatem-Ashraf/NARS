@@ -8,6 +8,7 @@ router.route("/")
 .get(losController.getAllLosByDomain);
 
 router.route("/mulLos").get(losController.getMulLoById);
+router.route("/courses/:courseId").get(losController.getLosByCourseId);
 router.route("/all").get(losController.getAllLos);
 router.route("/:id")
 .put(losController.updateLos)

@@ -3,8 +3,9 @@ const LO = require("../models/los");
 const mongoose = require('mongoose');
 
 exports.createLos = async (req, res) => {
-    const { code, name, domain, competencies } = req.body;
-    if (!code || !name || !domain || !competencies) {
+    const { code, name, domain, competencies, courseId } = req.body;
+
+    if (!code || !name || !domain || !competencies || !courseId) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
@@ -13,7 +14,8 @@ exports.createLos = async (req, res) => {
             code,
             name,
             domain,
-            competencies
+            competencies,
+            courseId
         });
         const savedLO = await newLO.save();
 
@@ -21,18 +23,17 @@ exports.createLos = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: 'An error occurred while creating the Learning Objective' });
     }
-
 };
 
 
 exports.updateLos = async (req, res) => {
     const { id } = req.params;
-    const { code, name, domain, competencies } = req.body;
+    const { code, name, domain, competencies, courseId } = req.body;
 
     try {
         const updatedLO = await LO.findByIdAndUpdate(
             id,
-            { code, name, domain, competencies },
+            { code, name, domain, competencies, courseId },
             { new: true, runValidators: true }
         );
 
@@ -124,5 +125,19 @@ exports.getAllLosByDomain = async (req, res) => {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error filtering Learning Objects' });
+    }
+};
+
+exports.getLosByCourseId = async (req, res) => {
+    const { courseId } = req.params;
+
+    try {
+        const los = await LO.find({ courseId });
+        if (los.length === 0) {
+            return res.status(404).json({ error: 'No Learning Objectives found for this course ID' });
+        }
+        res.status(200).json(los);
+    } catch (err) {
+        res.status(500).json({ error: 'An error occurred while retrieving Learning Objectives' });
     }
 };
