@@ -17,6 +17,10 @@ const studentSchema = new mongoose.Schema({
       default: [],
     },
   ],
+  totalGrade: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const student2 = mongoose.model("Student2", studentSchema);
