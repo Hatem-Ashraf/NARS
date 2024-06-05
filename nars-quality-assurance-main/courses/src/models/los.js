@@ -11,7 +11,12 @@ const LOSchema = new mongoose.Schema({
     competencies: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Competency'
-    }]
+    }],
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course', // Assuming you have a Course model
+        required: true
+    }
 });
 
 const LO = mongoose.model('LO', LOSchema);

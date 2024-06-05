@@ -3,8 +3,9 @@ const LO = require("../models/los");
 const mongoose = require('mongoose');
 
 exports.createLos = async (req, res) => {
-    const { code, name, domain, competencies } = req.body;
-    if (!code || !name || !domain || !competencies) {
+    const { code, name, domain, competencies, courseId } = req.body;
+
+    if (!code || !name || !domain || !competencies || !courseId) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
@@ -13,7 +14,8 @@ exports.createLos = async (req, res) => {
             code,
             name,
             domain,
-            competencies
+            competencies,
+            courseId
         });
         const savedLO = await newLO.save();
 
@@ -21,28 +23,37 @@ exports.createLos = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: 'An error occurred while creating the Learning Objective' });
     }
-
 };
 
 
 exports.updateLos = async (req, res) => {
     const { id } = req.params;
-    const { code, name, domain, competencies } = req.body;
+    const { code, name, domain, competencies, courseId } = req.body;
 
     try {
         const updatedLO = await LO.findByIdAndUpdate(
             id,
-            { code, name, domain, competencies },
+            { code, name, domain, competencies, courseId },
             { new: true, runValidators: true }
         );
 
         if (!updatedLO) {
-            return res.status(404).json({ error: 'Learning Objective not found' });
+
+            return res.status(404).json({ 
+                status: "fail",
+                error: 'Learning Objective not found' 
+            });
         }
 
-        res.status(200).json(updatedLO);
+        res.status(200).json({
+            status: 'success',
+            data: updatedLO
+        });
     } catch (err) {
-        res.status(500).json({ error: 'An error occurred while updating the Learning Objective' });
+        res.status(500).json({ 
+            status: 'error',
+            error: 'An error occurred while updating the Learning Objective' 
+        });
     }
 };
 
@@ -123,6 +134,70 @@ exports.getAllLosByDomain = async (req, res) => {
       res.status(200).json(los);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error filtering Learning Objects' });
+      res.status(500).json({ 
+        status: 'error',
+        message: 'Error filtering Learning Objects' 
+    });
+    }
+};
+
+exports.getLosByCourseId = async (req, res) => {
+    const { courseId } = req.params;
+
+    try {
+        const los = await LO.find({ courseId });
+        if (los.length === 0) {
+            return res.status(404).json({
+                status: 'error',
+                 error: 'No Learning Objectives found for this course ID' 
+                });
+        }
+        res.status(200).json({
+            status: 'success',
+            data: los
+        });
+    } catch (err) {
+        res.status(500).json({ 
+            status: 'error',
+            error: 'An error occurred while retrieving Learning Objectives' 
+        });
+    }
+};
+
+
+
+exports.createMultipleLos = async (req, res) => {
+    try {
+        const { LOs, courseId } = req.body;
+
+        if (!LOs || !Array.isArray(LOs) || !courseId) {
+            return res.status(400).json({ error: 'All fields are required (courseId, LOs array)' });
+        }
+
+        const losToInsert = LOs.map(lo => {
+            const { code, name, domain } = lo;
+
+            if (!code || !name || !domain ) {
+                throw new Error('Each LO must have code, name, and domain');
+            }
+            return {
+                code,
+                name,
+                domain,
+                courseId
+            };
+        });
+
+        const savedLOs = await LO.insertMany(losToInsert);
+
+        res.status(201).json({
+            status: "success",
+            data: savedLOs
+        });
+    } catch (err) {
+        if (err.message.includes('Each LO must have')) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.status(500).json({ error: 'An error occurred while creating the Learning Objectives' });
     }
 };
