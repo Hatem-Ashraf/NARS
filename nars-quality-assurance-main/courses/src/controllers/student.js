@@ -197,6 +197,9 @@ exports.updateAssessmentGradesForCourse = async (req, res) => {
           });
         }
       }
+
+      // Recalculate and save total grade for each student
+      await updateTotalGrades();
     }
 
     res.status(200).json({
@@ -208,5 +211,29 @@ exports.updateAssessmentGradesForCourse = async (req, res) => {
       status: "fail",
       message: err.message,
     });
+  }
+};
+
+const updateTotalGrades = async () => {
+  try {
+    const students = await Student.find();
+
+    for (const student of students) {
+      let totalGrade = 0;
+
+      // Calculate the total grade for the student
+      student.assessmentMethods.forEach((assessment) => {
+        totalGrade += assessment.grade;
+      });
+
+      // Update the totalGrade field in the student document
+      student.totalGrade = totalGrade;
+
+      // Save the updated student document
+      await student.save();
+    }
+  } catch (error) {
+    console.error("Error updating total grades:", error);
+    throw new Error("Error updating total grades");
   }
 };
