@@ -2,25 +2,28 @@ const catchAsync = require("../shared/utils/catchAsync");
 const AppError = require("./../shared/utils/appError");
 const Course = require("../models/courseModel");
 const Topic = require("../models/topicsModel");
+const mongoose = require('mongoose');
+
 // Function to retrieve all topics for a given course
 
 exports.createTopic = async (req, res) => {
   try {
-    const { title, week, plannedHours, learningOutcomes } = req.body;
+    const { title, week, plannedHours, learningOutcomes, actualHours } = req.body;
     const courseId = req.params.courseId;
     const course = await Course.findById(courseId);
     if (!course) {
       return res.status(404).json({ error: 'Course not found' });
     }
+    const loIds = learningOutcomes.map(loId => mongoose.Types.ObjectId(loId));
     const newTopic = new Topic({
       title,
       week,
       plannedHours,
-      learningOutcomes,
-      course: courseId 
+      actualHours, 
+      learningOutcomes: loIds, 
+      course: courseId
     });
     await newTopic.save();
-
     res.status(201).json({ message: 'Topic created successfully', topic: newTopic });
   } catch (error) {
     console.error(error);
@@ -31,14 +34,16 @@ exports.createTopic = async (req, res) => {
 
 exports.updateTopic = async (req, res) => {
   try {
-    const { title, week, plannedHours, learningOutcomes } = req.body;
+    const { title, week, plannedHours, learningOutcomes, actualHours } = req.body;
     const topicId = req.params.topicId;
+    const loIds = learningOutcomes.map(loId => mongoose.Types.ObjectId(loId));
 
     const updatedTopic = await Topic.findByIdAndUpdate(topicId, {
       title,
       week,
       plannedHours,
-      learningOutcomes
+      actualHours, 
+      learningOutcomes: loIds 
     }, { new: true });
 
     if (!updatedTopic) {
@@ -51,6 +56,7 @@ exports.updateTopic = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 exports.deleteTopic = async (req, res) => {
   try {

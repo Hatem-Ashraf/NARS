@@ -27,25 +27,25 @@ const addfaculty = ({ cookies }) => {
   const about = useRef();
   const choosen = useRef();
 
-  async function getCreatedCoursesForInstructor() {
-    const data = await fetch(
-      `http://localhost:8087/original-courses?program=${userState.program}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Bearer " + userState.token,
-        },
-      }
-    );
+  // async function getCreatedCoursesForInstructor() {
+  //   const data = await fetch(
+  //     `http://localhost:8087/original-courses?program=${userState.program}`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: "Bearer " + userState.token,
+  //       },
+  //     }
+  //   );
 
-    const resp = await data.json();
+  //   const resp = await data.json();
 
-    console.log(resp);
+  //   console.log(resp);
 
-    sC(resp.data);
-  }
+  //   sC(resp.data);
+  // }
   const navStatus = useSelector((s) => s.user.navStatus);
 
   const handelFile = () => {

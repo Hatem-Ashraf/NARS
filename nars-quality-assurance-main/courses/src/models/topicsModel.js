@@ -13,9 +13,13 @@ const topicSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  actualHours: {
+    type: Number,
+    required: true
+  },
   learningOutcomes: [{
-    type: String,
-    enum: ['LO1', 'LO2', 'LO3'] 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'LO'
   }],
   course: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +27,5 @@ const topicSchema = new mongoose.Schema({
     required: true
   }
 });
-
 
 module.exports = mongoose.model('Topic', topicSchema);

@@ -21,18 +21,18 @@ exports.deleteCourse = factory.deleteOne(Course);
 exports.getCourse = factory.getOne(Course);
 exports.getAllCourses = factory.getAll(Course);
 
-exports.createNewCourse = factory.createOne(Newcourse);
-exports.updateNewCourse = factory.updateOne(Newcourse);
-exports.deleteNewCourse = factory.deleteOne(Newcourse);
-exports.getNewCourse = factory.getOne(Newcourse);
-exports.getAllNewCourses = factory.getAll(Newcourse);
-// exports.getAllNewCourses = catchAsync( async (req, res, next) => {
-//   const courses = await Course.find();
-//   res.status(200).json({
-//     status: "success",
-//     data: courses,
-//   });
-// });
+exports.createNewCourse = factory.createOne(Course);
+exports.updateNewCourse = factory.updateOne(Course);
+exports.deleteNewCourse = factory.deleteOne(Course);
+exports.getNewCourse = factory.getOne(Course);
+// exports.getAllNewCourses = factory.getAll(Newcourse);
+exports.getAllNewCourses = catchAsync( async (req, res, next) => {
+  const courses = await Course.find();
+  res.status(200).json({
+    status: "success",
+    data: courses,
+  });
+});
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -615,5 +615,17 @@ exports.getAllCoursesCount = async (req, res, next) => {
       status: "error",
       message: err.message,
     });
+  }
+};
+
+exports.getCompUnderCourse = async (req, res) => {
+  try {
+    const course = await Newcourse.findById(req.params.courseId).select('qualityCompetencies');
+    if (!course) {
+      return res.status(404).send({ error: 'Course not found' });
+    }
+    res.send(course.qualityCompetencies);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
   }
 };

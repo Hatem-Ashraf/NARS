@@ -10,6 +10,11 @@ const programObjsSchema = new mongoose.Schema({
     type: String,
     required: [true, "program Objective must have a description"],
   },
+  faculty: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "faculty",
+    required: [true, "program Objective must have a faculty"],
+  }
 });
 
 const programObjective = mongoose.model("programObjective", programObjsSchema);

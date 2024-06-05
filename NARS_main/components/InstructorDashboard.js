@@ -128,7 +128,6 @@ export default function InstructorDashboard({ cookies }) {
           <span className="ml-2 text-lg">Create Surveys</span>
         </div>
       </Link>
-
       {header(
         <span>
           <i class="fa-solid fa-signal text-2xl mr-2"></i>
@@ -157,7 +156,19 @@ export default function InstructorDashboard({ cookies }) {
             </Link>,
         ]
       )}
-
+          <Link
+          className="link2 focus:text-green-400"
+          href="/indirectAssessment/report"
+      >
+            <span >
+                <span>
+                    <i class="fa-solid fa-file-lines text-3xl ml-1"></i>
+              </span>
+              
+              <span className="ml-3">Course Report</span>
+          </span>
+          
+      </Link>
 
       <button className="link2   text-left mt-4 font-semibold" onClick={logoutHandler}>
         <div className="flex items-center">

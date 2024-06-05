@@ -4,7 +4,13 @@ const assessmentMethodSchema = new mongoose.Schema({
   courses: [mongoose.Schema.ObjectId],
   assessment: { type: String, required: true },
   grade: { type: Number, required: true },
-  LO: { type: [String] },
+  LO: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "LO",
+    },
+  ],
+  weight: { type: Number, required: true },
 });
 
 const assessmentMethod = mongoose.model(
