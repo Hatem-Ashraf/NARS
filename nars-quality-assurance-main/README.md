@@ -689,7 +689,7 @@ json :
 - POST, GETall
   http://localhost:8085/faculty/facultyId
 
-- GETone, PATCCH, DELETE
+- GETone, PATCH, DELETE
   http://localhost:8085/competenceId
 
 ## program objectives

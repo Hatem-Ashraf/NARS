@@ -24,7 +24,10 @@ const competences = ({ cookies }) => {
 
   const submitHandler = async () => {
     try {
-        const resp = await fetch(`http://localhost:8085/programComp/`, {
+      const { name, competences } = req.body;
+
+      const facultyId = req.params.facultyId;
+        const resp = await fetch(`http://localhost:8085/faculty/${facultyId}/level/C`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -37,7 +40,7 @@ const competences = ({ cookies }) => {
       setcompetences(data.competences);
       setFilteredcompetences(data.competences);
       
-      const resp2 = await fetch(`http://localhost:8085/programObj/`, {
+      const resp2 = await fetch(`http://localhost:8085/programObj/faculty/facultyId`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -140,7 +143,7 @@ const competences = ({ cookies }) => {
                   </button>
                 </div>
               </form>
-              {filteredcompetences.length > 0 ? (
+              {filteredcompetences && filteredcompetences.length  > 0 ? (
                 <>
                   <h2 className="text-xl font-semibold mb-2">Competence List</h2>
                   <CompetencesList 
