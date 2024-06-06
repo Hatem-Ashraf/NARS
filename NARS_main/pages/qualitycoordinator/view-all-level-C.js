@@ -24,7 +24,7 @@ const competences = ({ cookies }) => {
 
   const submitHandler = async () => {
     try {
-        const resp = await fetch(`http://localhost:8085/programComp/`, {
+        const resp = await fetch(`http://localhost:8085/faculty/${userState.faculty}/level/C`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -33,11 +33,11 @@ const competences = ({ cookies }) => {
             },
         });
       const data = await resp.json();
-      console.log("data.competences", data.competences);
-      setcompetences(data.competences);
-      setFilteredcompetences(data.competences);
+      console.log("data.competences", data.data);
+      setcompetences(data.data);
+      setFilteredcompetences(data.data);
       
-      const resp2 = await fetch(`http://localhost:8085/programObj/`, {
+      const resp2 = await fetch(`http://localhost:8085/programObj/faculty/${userState.faculty}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -46,9 +46,9 @@ const competences = ({ cookies }) => {
             },
         });
       const data2 = await resp2.json();
-      console.log("data.objectives", data2.objectives);
-      setObjectives(data2.objectives);
-      setFilteredObjectives(data2.objectives);
+      console.log("data.objectives", data2.data);
+      setObjectives(data2.data);
+      setFilteredObjectives(data2.data);
 
     } catch (e) {
       console.log(e);
@@ -147,8 +147,8 @@ const competences = ({ cookies }) => {
                   competences={filteredcompetences} 
                   setCompetences={setFilteredcompetences}  
                   level="level-C"
-                  delete_url="http://localhost:8085/deleteProComp/"
-                  create_file_name="AddLevelC"
+                  delete_url={`http://localhost:8085/`}
+                  create_file_name="AddLevelC-comp"
                   />
 
                   <div className="my-20"></div>
@@ -172,7 +172,7 @@ const competences = ({ cookies }) => {
                   competences={filteredObjectives} 
                   setCompetences={setFilteredObjectives}  
                   level="level-C-obj"
-                  delete_url="http://localhost:8085/deleteProObj/"
+                  delete_url="http://localhost:8085/programObj/"
                   create_file_name="AddLevelC-obj"
                   />
                 </>

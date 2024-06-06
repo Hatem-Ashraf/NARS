@@ -36,33 +36,7 @@ const addfaculty = ({ cookies }) => {
   const closeMsg = () => {
     setMsg("");
   };
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const resp = await fetch(`http://localhost:8085/facultyComp`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                  Authorization: "Bearer " + userState.token,
-                },
-            });
-          const data = await resp.json();
-          console.log("data.competences", data.competences);
-          setcompetences(data.competences);
-          // setFilteredcompetences(data.competences);
-        } catch (e) {
-          console.log(e);
-        }
-    };
 
-    fetchData();
-
-    // Clean-up function if needed
-    return () => {
-      // Any clean-up code if required
-    };
-  }, []); // Empty dependency array ensures effect runs only once on mount
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
   const handleAddInput = (e) => {
@@ -283,46 +257,7 @@ const addfaculty = ({ cookies }) => {
               </div>
             </div>
 
-            <div className="flex justify-between gap-20">
-              <div className="flex flex-col gap-5 w-full">
-              <h4 className="font-semibold ">
-                  Please mark the competences this faculty aims to achieve:
-              </h4>
-              <fieldset>
-                <legend className="sr-only">Checkboxes</legend>
 
-                <div className="space-y-2">
-                {competences.map((el, index) => {
-                    return (
-                  <label
-                    key={index + 1}
-                    htmlFor={index}
-                    className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
-                  >
-                    <div className="flex items-center">
-                      &#8203;
-                      <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
-                      value={el._id}
-                      data-id={index}
-                      onChange={handleCheckboxChange}
-                      />
-                    </div>
-
-                    <div>
-                      <strong className="font-medium text-gray-900"> {el.code} </strong>
-
-                      <p className="mt-1 text-pretty text-medium text-gray-500">
-                      {el.description}.
-                      </p>
-                    </div>
-                  </label>
-                    )
-                  })}
-                </div>
-              </fieldset>
-              </div>
-            </div>
-              
             <div className="flex gap-20">
               <div className="flex flex-col space-y-1 gap-5 w-full">
                 {/* <p className=" mb-0 ">Competences:</p> */}

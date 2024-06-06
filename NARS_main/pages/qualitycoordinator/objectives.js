@@ -35,12 +35,9 @@ function Competences({ competences, setCompetences, level, delete_url, create_fi
         },
       });
   
-      if (!response.ok) {
-        throw new Error('Failed to delete competence');
+      if (response.status != "success") {
+        console.log("Faild to delete competence!!")
       }
-  
-      const resp = await response.json();
-      console.log("Response:", resp);
   
       const newCompetences = competences.filter((comp) => comp._id !== competenceIdToDelete);
       setCompetences(newCompetences);

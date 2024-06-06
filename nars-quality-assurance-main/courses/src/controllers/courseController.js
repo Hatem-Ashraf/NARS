@@ -34,6 +34,20 @@ exports.getAllNewCourses = catchAsync( async (req, res, next) => {
   });
 });
 
+
+exports.getAllFacultyCourses = catchAsync( async (req, res, next) => {
+
+  if (!req.params.facultyId) {
+    return next(new AppError("Please provide a faculty id", 400));
+  }
+
+  const courses = await Course.find( { faculty: req.params.facultyId } );
+  res.status(200).json({
+    status: "success",
+    data: courses,
+  });
+});
+
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, `/${__dirname}/../public/materials/`);

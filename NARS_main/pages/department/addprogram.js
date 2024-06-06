@@ -39,7 +39,7 @@ const addDepartment = ({ cookies }) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const resp = await fetch(`http://localhost:8085/programComp/`, {
+            const resp = await fetch(`http://localhost:8085/faculty/${userState.faculty}/level/C`, {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",
@@ -48,8 +48,8 @@ const addDepartment = ({ cookies }) => {
                 },
             });
           const data = await resp.json();
-          console.log("data.competences", data.competences);
-          setcompetences(data.competences);
+          console.log("data.competences", data.data);
+          setcompetences(data.data);
           // setFilteredcompetences(data.competences);
         } catch (e) {
           console.log(e);
@@ -288,45 +288,8 @@ const addDepartment = ({ cookies }) => {
               </div>
             </div> */}
 
-            <div className="flex justify-between gap-20">
-              <div className="flex flex-col gap-5 w-full">
-              <h4 className="font-semibold ">
-                  Please mark the competences this Program aims to achieve:
-              </h4>
-              <fieldset>
-                <legend className="sr-only">Checkboxes</legend>
+        <CompetenceList competences={competences} handleCheckboxChange={handleCheckboxChange}/>
 
-                <div className="space-y-2">
-                {competences.map((el, index) => {
-                    return (
-                  <label
-                    key={index + 1}
-                    htmlFor={index}
-                    className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
-                  >
-                    <div className="flex items-center">
-                      &#8203;
-                      <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
-                      value={el._id}
-                      data-id={index}
-                      onChange={handleCheckboxChange}
-                      />
-                    </div>
-
-                    <div>
-                      <strong className="font-medium text-gray-900"> {el.code} </strong>
-
-                      <p className="mt-1 text-pretty text-medium text-gray-500">
-                      {el.description}.
-                      </p>
-                    </div>
-                  </label>
-                    )
-                  })}
-                </div>
-              </fieldset>
-              </div>
-            </div>
               
             <div className="flex gap-20">
               <div className="flex flex-col space-y-1 gap-5 w-full">
@@ -418,4 +381,63 @@ const addDepartment = ({ cookies }) => {
     </>
   );
 };
+
+const CompetenceList = ({ competences, handleCheckboxChange }) => {
+
+  console.log("Competences from CompetenceList: ", competences)
+
+  if (competences.length == 0) {
+    return (
+      <div className="flex flex-col gap-5 w-full">
+        <h4 className="font-semibold text-xl"> 
+            Please mark the competences this faculty aims to achieve:
+        </h4>
+        <p className="text-red-500 font-semibold text-lg ml-5">No competences found for this faculty</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex justify-between gap-20">
+    <div className="flex flex-col gap-5 w-full">
+    <h4 className="font-semibold ">
+        Please mark the competences this faculty aims to achieve:
+    </h4>
+    <fieldset>
+      <legend className="sr-only">Checkboxes</legend>
+
+      <div className="space-y-2">
+      {competences.map((el, index) => {
+          return (
+        <label
+          key={index + 1}
+          htmlFor={index}
+          className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
+        >
+          <div className="flex items-center">
+            &#8203;
+            <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
+            value={el._id}
+            data-id={index}
+            onChange={handleCheckboxChange}
+            />
+          </div>
+
+          <div>
+            <strong className="font-medium text-gray-900"> {el.code} </strong>
+
+            <p className="mt-1 text-pretty text-medium text-gray-500">
+            {el.description}.
+            </p>
+          </div>
+        </label>
+          )
+        })}
+      </div>
+    </fieldset>
+    </div>
+  </div>
+  )
+}
+
 export default addDepartment;
