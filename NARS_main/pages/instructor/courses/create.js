@@ -226,6 +226,7 @@ const CreateCourse = ({ cookies }) => {
     console.log({
       name: selectedCourse.name,
       code: selectedCourse.code,
+      // fullMark: selectedCourse.fullMark,
       // qualityCompetencies: selectedCourse.competences,
       courseAims: selectedCourse.courseAims,
       courseInformation: selectedCourse.courseInformation,
@@ -241,6 +242,7 @@ const CreateCourse = ({ cookies }) => {
         body: JSON.stringify({
           name: selectedCourse.name,
           code: selectedCourse.code,
+          // fullMark: selectedCourse.fullMark,
           // qualityCompetencies: selectedCourse.competences,
           courseAims: selectedCourse.courseAims,
           courseInformation: selectedCourse.courseInformation,
@@ -258,7 +260,7 @@ const CreateCourse = ({ cookies }) => {
       }
 
     } else {
-      alert("Please fill form")
+      alert("Please select course")
       return
     }
   };
@@ -342,7 +344,7 @@ const CreateCourse = ({ cookies }) => {
       >
       <div className="mt-5 w-[70%] flex justify-center min-h-screen">
       <div className=" p-20 bg-gray-100 w-full shadow-2xl rounded-3xl">
-        <h2 className="font-bold text-form mb-4 text-3xl text-center">Create a Course</h2>
+        <h2 className="font-bold text-form mb-4 text-3xl text-center">Course Details</h2>
           <div className="flex flex-col gap-4 ">
           <label htmlFor="title" className="text-form font-bold w-1/3">Course Title:</label>
           <select
@@ -369,6 +371,19 @@ const CreateCourse = ({ cookies }) => {
               id="code"
               name="code"
               value={selectedCourse.code}
+              onChange={handleChange}
+              className="input-field border-1 border-gray-800"
+            />
+
+            <label htmlFor="code" className="text-form font-bold">
+              Course Total Grades :
+            </label>
+            <input
+              placeholder="Course Total Grades"
+              type="text"
+              id="marks"
+              name="marks"
+              value={selectedCourse.fullMark}
               onChange={handleChange}
               className="input-field border-1 border-gray-800"
             />
@@ -400,12 +415,13 @@ const CreateCourse = ({ cookies }) => {
             ></textarea>
 
         {selectedCourse && 
-          <CompetencesList course={selectedCourse} />
+          <>
+            <CompetencesList course={selectedCourse} />
+            <LOsList LOs={courseLOs} course={selectedCourse} />
+          </>
         }
 
-        {selectedCourse && 
-          <LOsList LOs={courseLOs} selectedCourse={selectedCourse} />
-        }
+      
 
           </div>
 
@@ -512,7 +528,14 @@ const CompetencesList = ({ course }) => {
 
 
 
-const LOsList = ({ LOs }) => {
+const LOsList = ({ LOs, course }) => {
+
+  const { categorizedCompetences } = course;
+
+  if (!categorizedCompetences) {
+    return null;
+  }
+
   if (!LOs) {
     return null;
   }
