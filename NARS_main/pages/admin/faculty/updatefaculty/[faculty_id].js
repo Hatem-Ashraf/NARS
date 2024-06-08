@@ -69,7 +69,7 @@ const addfaculty = ({ cookies }) => {
         about.current.value = data.data.about
         // setCompetencesChecked(data.data.competences);
 
-        const response2 = await fetch(`http://localhost:8085/facultyComp`, {
+        const response2 = await fetch(`http://localhost:8085/faculty/${faculty_id}/level/A`, {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",
@@ -78,8 +78,8 @@ const addfaculty = ({ cookies }) => {
                 },
             });
         const data2 = await response2.json();
-        console.log("data2.competences", data2.competences);
-        setcompetences(data2.competences);
+        console.log("data2.competences", data2.data);
+        setcompetences(data2.data);
 
 
         setCompetence(competenceData);
@@ -364,45 +364,7 @@ const addfaculty = ({ cookies }) => {
               </div>
             </div>
 
-            <div className="flex justify-between gap-20">
-              <div className="flex flex-col gap-5 w-full">
-              <h4 className="font-semibold ">
-                  Please mark the competences this faculty aims to achieve:
-              </h4>
-              <fieldset>
-                <legend className="sr-only">Checkboxes</legend>
-
-                <div className="space-y-2">
-                {competences.map((el, index) => {
-                    return (
-                  <label
-                    key={index + 1}
-                    htmlFor={index}
-                    className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
-                  >
-                    <div className="flex items-center">
-                      &#8203;
-                      <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
-                      value={el._id}
-                      data-id={index}
-                      onChange={handleCheckboxChange}
-                      />
-                    </div>
-
-                    <div>
-                      <strong className="font-medium text-gray-900"> {el.code} </strong>
-
-                      <p className="mt-1 text-pretty text-medium text-gray-500">
-                      {el.description}.
-                      </p>
-                    </div>
-                  </label>
-                    )
-                  })}
-                </div>
-              </fieldset>
-              </div>
-            </div>
+            <CompetenceList competences={competences} handleCheckboxChange={handleCheckboxChange}/>
               
             <div className="flex gap-20 ">
               {<div className="w-1/2 mt-10">{msg}</div>}
@@ -422,4 +384,64 @@ const addfaculty = ({ cookies }) => {
     </>
   );
 };
+
+
+const CompetenceList = ({ competences, handleCheckboxChange }) => {
+
+  console.log("Competences from CompetenceList: ", competences)
+
+  if (competences.length == 0) {
+    return (
+      <div className="flex flex-col gap-5 w-full">
+        <h4 className="font-semibold text-xl"> 
+            Please mark the competences this faculty aims to achieve:
+        </h4>
+        <p className="text-red-500 font-semibold text-lg ml-5">No competences found for this faculty</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex justify-between gap-20">
+    <div className="flex flex-col gap-5 w-full">
+    <h4 className="font-semibold ">
+        Please mark the competences this faculty aims to achieve:
+    </h4>
+    <fieldset>
+      <legend className="sr-only">Checkboxes</legend>
+
+      <div className="space-y-2">
+      {competences.map((el, index) => {
+          return (
+        <label
+          key={index + 1}
+          htmlFor={index}
+          className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
+        >
+          <div className="flex items-center">
+            &#8203;
+            <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
+            value={el._id}
+            data-id={index}
+            onChange={handleCheckboxChange}
+            />
+          </div>
+
+          <div>
+            <strong className="font-medium text-gray-900"> {el.code} </strong>
+
+            <p className="mt-1 text-pretty text-medium text-gray-500">
+            {el.description}.
+            </p>
+          </div>
+        </label>
+          )
+        })}
+      </div>
+    </fieldset>
+    </div>
+  </div>
+  )
+}
+
 export default addfaculty;

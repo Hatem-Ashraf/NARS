@@ -133,7 +133,7 @@ const addfaculty = ({ cookies }) => {
     console.log("competences::", competences);
     try {
 
-      const r = await fetch(`http://localhost:8085/departmentComp`, {
+      const r = await fetch(`http://localhost:8085/faculty/${userState.faculty}`, {
         method: "POST",
         body: JSON.stringify(competences),
         headers: {
@@ -145,7 +145,7 @@ const addfaculty = ({ cookies }) => {
       const resp = await r.json();
       console.log("resp::", resp);
       
-      if (resp.status == "fail" || resp.status == "error"|| resp.competences.length <= 0) {
+      if (resp.status == "fail") {
         // setErr(resp.error.errors.dean.message);
         console.log(resp, err);
         setMsg(fail);
@@ -153,42 +153,21 @@ const addfaculty = ({ cookies }) => {
       else {
         setMsg(success);
         console.log(resp);
+        //redirect to /profile after 1.5 second
+        setTimeout(() => {
+          window.location.href = "/qualitycoordinator/view-all-level-B";
+        }, 1500);
       }
     } catch (e) {
       console.log(e);
     }
-    try {
 
-      const r = await fetch(`http://localhost:8085/departmentComp`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Bearer " + userState.token,
-        },
-      });
-
-      const resp = await r.json();
-      console.log("All competencies::", resp);
-      // console.log(itemsArr);
-      // if (resp.status == "fail" || resp.status == "error") {
-      //   setErr(resp.error.errors.dean.message);
-      //   console.log(resp, err);
-      //   setMsg(fail);
-      // }
-      // else {
-      //   setMsg(success);
-      //   console.log(resp);
-      // }
-    } catch (e) {
-      console.log("error", e);
-    }
   };
 
   let fail = (
     <div
       id="alert-border-2"
-      class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+      class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50"
       role="alert"
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
@@ -199,7 +178,7 @@ const addfaculty = ({ cookies }) => {
       <button
         type="button"
         onClick={closeMsg}
-        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 "
         data-dismiss-target="#alert-border-2"
         aria-label="Close"
       >
@@ -224,7 +203,7 @@ const addfaculty = ({ cookies }) => {
   let success = (
     <div
       id="alert-border-3"
-      class="flex p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800"
+      class="flex p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 "
       role="alert"
     >
       <i class="fa-solid fa-circle-check"></i>
@@ -235,7 +214,7 @@ const addfaculty = ({ cookies }) => {
       <button
         onClick={closeMsg}
         type="button"
-        class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+        class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 "
         data-dismiss-target="#alert-border-3"
         aria-label="Close"
       >
@@ -314,7 +293,7 @@ const addfaculty = ({ cookies }) => {
 
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y  divide-gray-200">
-                    <thead className="bg-gray-50 dark:bg-gray-800">
+                    <thead className="bg-gray-50 ">
                       <tr>
                         <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
                         <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
@@ -323,7 +302,7 @@ const addfaculty = ({ cookies }) => {
                     </thead>
                     <tbody>
                       {inputs.map((input, index) => (
-                        <tr key={index} className="bg-white dark:bg-gray-700">
+                        <tr key={index} className="bg-white ">
                           <td className="py-2 px-4">
                             <input
                               type="text"
@@ -342,7 +321,7 @@ const addfaculty = ({ cookies }) => {
                             <button
                               type="button"
                               onClick={(e) => removeLO1(e, inputs2[index], input)}
-                              className="bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                              className="bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 "
                               data-dismiss-target="#alert-border-2 "
                               aria-label="Close"
                             >
@@ -377,7 +356,7 @@ const addfaculty = ({ cookies }) => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 "
               >
                 Create
               </button>

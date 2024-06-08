@@ -48,6 +48,18 @@ exports.getAll = catchAsync(async (req, res, next) => {
   });
 });
 
+//Get all competences with a specific level
+exports.getAllByLevel = catchAsync(async (req, res, next) => {
+  if (!req.params.facultyId || !req.params.level) {
+    return next(new AppError("Please provide a faculty id & level ( A or B or C ) ", 400));
+  }
+      const competences = await Competences.find({ faculty: req.params.facultyId, level: req.params.level });
+res.status(200).json({
+  status: "success",
+  data: competences,
+});
+});
+
 //Get one competence
 exports.getOne = catchAsync(async (req, res, next) => {
 
@@ -108,6 +120,6 @@ exports.deleteOne = catchAsync(async (req, res, next) => {
   }
   res.status(204).json({
     status: "success",
-    data: null,
+    data: doc,
   });
 });

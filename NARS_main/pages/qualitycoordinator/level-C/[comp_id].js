@@ -62,14 +62,14 @@ const addfaculty = ({ cookies }) => {
   useEffect(() => {
     const fetchCompetence = async () => {
       try {
-        const response = await fetch(`http://localhost:8085/programComp/${comp_id}`);
+        const response = await fetch(`http://localhost:8085/${comp_id}`);
         // if (!response.ok) {
         //   throw new Error('Failed to fetch competence');
         // }
         const competenceData = await response.json();
-        console.log("competenceData", competenceData);
-        setCompCode(competenceData.competence.code)
-        setCompDescrption(competenceData.competence.description)
+        console.log("competenceData", competenceData.data);
+        setCompCode(competenceData.data.code)
+        setCompDescrption(competenceData.data.description)
 
         // setCompetence(competenceData);
       } catch (error) {
@@ -163,12 +163,12 @@ const addfaculty = ({ cookies }) => {
     });
     console.log("competences::", competences);
     try {
-      const r = await fetch(`http://localhost:8085/updateProComp/${comp_id}`, {
-        method: "PUT",
+      const r = await fetch(`http://localhost:8085/${comp_id}`, {
+        method: "PATCH",
         body: JSON.stringify({
           code: compCode,
           description: compDescrption,
-          level: "A",
+          level: "C",
         }),
         headers: {
           "Content-Type": "application/json",
@@ -187,36 +187,14 @@ const addfaculty = ({ cookies }) => {
       else {
         setMsg(success);
         console.log(resp);
+        setTimeout(() => {
+          router.push("/qualitycoordinator/view-all-level-C");
+        }, 1500);
       }
     } catch (e) {
       console.log(e);
     }
-    try {
 
-      const r = await fetch(`http://localhost:8085/departmentComp`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Bearer " + userState.token,
-        },
-      });
-
-      const resp = await r.json();
-      console.log("All competencies::", resp);
-      // console.log(itemsArr);
-      // if (resp.status == "fail" || resp.status == "error") {
-      //   setErr(resp.error.errors.dean.message);
-      //   console.log(resp, err);
-      //   setMsg(fail);
-      // }
-      // else {
-      //   setMsg(success);
-      //   console.log(resp);
-      // }
-    } catch (e) {
-      console.log("error", e);
-    }
   };
 
   let fail = (
@@ -348,7 +326,7 @@ const addfaculty = ({ cookies }) => {
 
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y  divide-gray-200">
-                    <thead className="bg-gray-50 dark:bg-gray-800">
+                    <thead className="bg-gray-50 ">
                       <tr>
                         <th className="py-2 px-4 text-xl text-left w-[15%]">Code</th>
                         <th className="py-2 px-4 text-xl text-left w-[80%]">Description</th>
@@ -428,7 +406,7 @@ const addfaculty = ({ cookies }) => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 "
               >
                 Update
               </button>

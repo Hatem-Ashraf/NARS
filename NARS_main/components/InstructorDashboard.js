@@ -95,6 +95,14 @@ export default function InstructorDashboard({ cookies }) {
           <span className="ml-2 text-lg">Create Course</span>
         </div>
       </Link>
+
+      <Link className="link2  font-semibold" href="/instructor/courses/LOs">
+        <div className="flex items-center mt-4">
+          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
+          <span className="ml-2 text-lg">LOs</span>
+        </div>
+      </Link>
+
       <Link className="link2  font-semibold" href="/indirectAssessment/assessment">
         <div className="flex items-center mt-4">
           <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
@@ -136,11 +144,11 @@ export default function InstructorDashboard({ cookies }) {
         [
             <Link
               className={
-                router.pathname === "/admin/staff/addDepartmentAdmin"
+                router.pathname === "/instructor/courses/LOvsComp"
                   ? "activeLinkDashboard2"
                   : "normalLinkDashboard2"
               }
-              href="/admin/staff/addDepartmentAdmin"
+              href="/instructor/courses/LOvsComp"
             >
               LO with competences
             </Link>,
