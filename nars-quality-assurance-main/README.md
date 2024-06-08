@@ -559,24 +559,26 @@ json:
 
 create topic:
 http://localhost:8087/topic/:courseId
-json:
-{
-"title": "Introduction to Topic XYZ",
-"week": 1,
-"plannedHours": 3,
-"actualHours": 2,
-"learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
-}
 
 get topic by id, update , delete
 http://localhost:8087/topic/:topicId
 update Json:
 {
-"title": "Introduction to Topic XYZ",
-"week": 1,
-"plannedHours": 3,
-"actualHours": 2,
-"learningOutcomes": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
+  "title": "Database Management Systems",
+  "week": 4,
+  "plannedHours": 8,
+  "actualHours": 7,
+  "learningOutcomes": ["6655f9166b8d7865b1107abc"],
+  "isCovered": true
+}
+{
+  "title": "Algorithms",
+  "week": 3,
+  "plannedHours": 7,
+  "actualHours": 5,
+  "learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+  "isCovered": false,
+  "possibleCompensationActions": "Extra class sessions and additional homework"
 }
 
 get all topics
@@ -584,6 +586,20 @@ http://localhost:8087/topic
 
 get all Topics under course:
 http://localhost:8087/topic/getTopicsBycourse/:coureId
+
+topic coverage precentage
+http://localhost:8087/topic/precentage/:courseId
+
+return all topics under the course filtered by coverage
+http://localhost:8087/topic/allTopics/:courseId
+
+return all topics under the course filtered by coverage but using query
+http://localhost:8087/topic/665d997ac78a6463d4f4fbb9/query?status=non-covered
+
+los ptecentage coverage for each
+http://localhost:8087/topic/loCoverage/:courseId
+
+courseId:665d997ac78a6463d4f4fbb9
 
 # instructor Courses
 
