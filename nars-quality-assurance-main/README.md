@@ -771,3 +771,9 @@ json:
   {
   "ids": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba", "6655f8406b8d7865b1107abc"]
   }
+
+# course specs report
+
+get all assessment methods: get http://localhost:8087/assessment-methods/
+
+- get all los http://localhost:8087/los/all
