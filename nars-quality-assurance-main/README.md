@@ -802,5 +802,7 @@ get all assessment methods: get http://localhost:8087/assessment-methods/
 - get all los http://localhost:8087/los/all
 - get los under course: http://localhost:8087/los/courses/:courseId
 - to get los by domain : http://localhost:8087/los?domain=Cognitive
-
+- get competencies under course
+  http://localhost:8087/getComp/:courseId
+  
 
