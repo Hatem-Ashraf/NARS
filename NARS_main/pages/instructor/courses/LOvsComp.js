@@ -300,7 +300,7 @@ const CreateCourse = ({ cookies }) => {
       <form onSubmit={submitHandler} className="min-h-screen w-screen flex flex-col justify-center items-center text-black">
         <div className="mt-5 w-[70%] flex justify-center min-h-screen">
           <div className="p-20 bg-gray-100 w-full shadow-2xl rounded-3xl">
-            <h2 className="font-bold text-form mb-4 text-3xl text-center">Create a Course</h2>
+            <h2 className="font-bold text-form mb-4 text-3xl text-center">Map LOs with Competences</h2>
             <div className="flex flex-col gap-4">
               <label htmlFor="title" className="text-form font-bold w-1/3">Course Title:</label>
               <select ref={coursesList} id="small" className="choose-form w-full px-10" onChange={handleCourseChange}>

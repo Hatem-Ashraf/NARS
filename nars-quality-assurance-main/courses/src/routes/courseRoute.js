@@ -18,6 +18,10 @@ router.route("/newCourse")
 .post(protect,courseController.createNewCourse)
 .get(protect,courseController.getAllNewCourses);
 
+
+router.route("/newCourse/faculty/:facultyId")
+.get(protect,courseController.getAllNewCourses);
+
 router.route("/newCourse/:id")
   .patch(protect,courseController.updateNewCourse)
   .get(protect,courseController.getNewCourse)

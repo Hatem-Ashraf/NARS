@@ -35,12 +35,14 @@ function Competences({ competences, setCompetences, level, delete_url, create_fi
         },
       });
   
-      if (!response.ok) {
-        throw new Error('Failed to delete competence');
+      // const resp = await response.json();
+      console.log("Response:", response);
+
+      if (response.status != "success") {
+        console.log('Failed to delete competence');
       }
   
-      const resp = await response.json();
-      console.log("Response:", resp);
+  
   
       const newCompetences = competences.filter((comp) => comp._id !== competenceIdToDelete);
       setCompetences(newCompetences);
@@ -89,7 +91,7 @@ function Competences({ competences, setCompetences, level, delete_url, create_fi
         </tbody>
       </table>
       <div className="flex justify-center mt-10 ">
-        <Link href={`/qualitycoordinator/AddLevelC-comp`} className="bg-green-600 p-2 rounded text-white text-xl font-bold">
+        <Link href={`/qualitycoordinator/${create_file_name}`} className="bg-green-600 p-2 rounded text-white text-xl font-bold">
           <span>Add Competences
             <i className="fa-solid fa-plus text-white ml-2"></i>
           </span>

@@ -21,7 +21,7 @@ const competences = ({ cookies }) => {
 
   const submitHandler = async () => {
     try {
-        const resp = await fetch(`http://localhost:8085/departmentComp`, {
+        const resp = await fetch(`http://localhost:8085/faculty/${userState.faculty}/level/B`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -30,9 +30,9 @@ const competences = ({ cookies }) => {
             },
         });
       const data = await resp.json();
-      console.log("data.competences", data.competences);
-      setcompetences(data.competences);
-      setFilteredcompetences(data.competences);
+      console.log("data.competences", data.data);
+      setcompetences(data.data);
+      setFilteredcompetences(data.data);
     } catch (e) {
       console.log(e);
     }
