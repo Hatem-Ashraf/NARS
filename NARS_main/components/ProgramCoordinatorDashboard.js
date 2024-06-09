@@ -35,6 +35,8 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
   useEffect(() => {
     console.log("TOKEN IS ", JSON.stringify(userState._id));
     console.log("TOKEN IS ", JSON.stringify(userState.token));
+    console.log("data.competences", userState.faculty);
+
 
     try {
       getCreatedCoursesForInstructor();
@@ -159,22 +161,22 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
             Assign Instructor
           </Link>
   
-          ,Array(
-            c && Array.isArray(c) && c.map((original) => {
-              return (
-                <div key={original._id} className=" mb-5 -mx-4  px-0 ">
-                  <HeaderElementProgramCoordinator
-                    className={``}
-                    key={original._id}
-                    id={original._id}
-                    name={original.name}
-                    code={original.code}
-                    cookies={cookies}
-                  />
-                </div>
-              );
-            })
-          ),
+          // ,Array(
+          //   c && Array.isArray(c) && c.map((original) => {
+          //     return (
+          //       <div key={original._id} className=" mb-5 -mx-4  px-0 ">
+          //         <HeaderElementProgramCoordinator
+          //           className={``}
+          //           key={original._id}
+          //           id={original._id}
+          //           name={original.name}
+          //           code={original.code}
+          //           cookies={cookies}
+          //         />
+          //       </div>
+          //     );
+          //   })
+          // ),
         ]
       )}
 

@@ -2,10 +2,10 @@ import React from "react";
 
 const LosDescriptionTable = () => {
   const basicInformation = [
-    { label: "Program title", value: "Communications and Computer Engineering Program" },
-    { label: "Program type", value: "Single" },
-    { label: "Department", value: "Electrical Engineering" },
-    { label: "Coordinator", value: "Dr. Michael Nasief" },
+    { label: "Program title", value: "Communication and Computer Engineering (CCE) Program" },
+    { label: "Program Specialty", value: "Communication and Electronics Engineering and Computer Engineering" },
+    { label: "Program duration", value: "10 semesters (5-years)" },
+    { label: "Program structure", value: "Credit hours system" },
   ];
 
   const professionalInformation = [

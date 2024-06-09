@@ -57,6 +57,7 @@ const CreateCourse = ({ cookies }) => {
     async function getCourses() {
       try {
         // Fetch the array of course IDs assigned to the user
+        
         const response = await fetch(`http://localhost:8081/getAssignedCourses/${userState._id}`, {
           method: "GET",
           headers: {
