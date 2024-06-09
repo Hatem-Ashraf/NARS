@@ -824,3 +824,50 @@ get all assessment methods: get http://localhost:8087/assessment-methods/
   http://localhost:8087/getComp/:courseId
   
 
+# for program repot grading system
+- create ,getAll:
+http://localhost:8086/grade
+json:
+{
+  "programId": "66151085a5450305f1424f85",
+  "academicYear": "First Year",
+  "grades": [
+    {
+      "grade": "Excellent",
+      "numberOfStudents": 52,
+      "percentage": 62.65
+    },
+    {
+      "grade": "Very good",
+      "numberOfStudents": 28,
+      "percentage": 33.73
+    },
+    {
+      "grade": "Good",
+      "numberOfStudents": 1,
+      "percentage": 1.2
+    },
+    {
+      "grade": "Pass",
+      "numberOfStudents": 0,
+      "percentage": 0
+    },
+    {
+      "grade": "Failed in one or two subjects",
+      "numberOfStudents": 1,
+      "percentage": 1.2
+    },
+    {
+      "grade": "Failed in more than two subjects",
+      "numberOfStudents": 1,
+      "percentage": 1.2
+    }
+  ]
+}
+
+- update, get by id,delete:
+http://localhost:8086/grade/:gradeId
+json: same as the create json
+
+- get grading under certain program
+http://localhost:8086/grade/gradeUnderProgram/:programId
