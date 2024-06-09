@@ -3,7 +3,7 @@ const LO = require("../models/los");
 const mongoose = require('mongoose');
 
 exports.createLos = async (req, res) => {
-    const { code, name, domain, competencies, courseId } = req.body;
+    const { code, name, domain, competencies, courseId,target } = req.body;
 
     if (!code || !name || !domain || !competencies || !courseId) {
         return res.status(400).json({ error: 'All fields are required' });
@@ -15,7 +15,8 @@ exports.createLos = async (req, res) => {
             name,
             domain,
             competencies,
-            courseId
+            courseId,
+            target
         });
         const savedLO = await newLO.save();
 
@@ -28,12 +29,12 @@ exports.createLos = async (req, res) => {
 
 exports.updateLos = async (req, res) => {
     const { id } = req.params;
-    const { code, name, domain, competencies, courseId } = req.body;
+    const { code, name, domain, competencies, courseId,target } = req.body;
 
     try {
         const updatedLO = await LO.findByIdAndUpdate(
             id,
-            { code, name, domain, competencies, courseId },
+            { code, name, domain, competencies, courseId ,target},
             { new: true, runValidators: true }
         );
 

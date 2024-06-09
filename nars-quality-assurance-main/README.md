@@ -792,7 +792,8 @@ json:
 "660390bd5a91f5aa4add3850",
 "6603924a5a91f5aa4add3866"
 ],
-"courseId": "65f8b2371c297968e2db0f5a"
+"courseId": "65f8b2371c297968e2db0f5a",
+"target": 95
 }
 
 - get los under course
