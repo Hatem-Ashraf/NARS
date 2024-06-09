@@ -841,4 +841,4 @@ get all assessment methods under course: http://localhost:8087/assessment-method
 
 # course report
 
-get number of grades for each course : http://localhost:8087/grade-distribution
+get number of grades for each course : get http://localhost:8087/grade-distribution/661540c535f3db1c1f3c0e3c //course id

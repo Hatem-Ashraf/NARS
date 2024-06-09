@@ -347,10 +347,10 @@ exports.assignGrades = async (req, res) => {
 
 exports.calculateGradeDistributionForCourse = async (req, res) => {
   try {
-    const courseId = req.params.courseId;
+    const id = req.params.id;
 
     // Retrieve all students enrolled in the given course
-    const students = await Student.find({ courses: courseId });
+    const students = await Student.find({ courses: id });
 
     // Initialize an object to store grade distribution
     const gradeDistribution = {
@@ -372,7 +372,7 @@ exports.calculateGradeDistributionForCourse = async (req, res) => {
     students.forEach((student) => {
       // Find the course grade entry for the given course
       const courseGrade = student.coursesGrades.find((course) =>
-        course.courseId.equals(courseId)
+        course.courseId.equals(id)
       );
 
       if (courseGrade) {
@@ -395,10 +395,8 @@ exports.calculateGradeDistributionForCourse = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "An error occurred while calculating grade distribution.",
-      });
+    res.status(500).json({
+      message: "An error occurred while calculating grade distribution.",
+    });
   }
 };
