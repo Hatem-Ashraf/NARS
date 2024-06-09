@@ -428,8 +428,7 @@ json:
 }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 ## SURVAYS
 
@@ -471,7 +470,6 @@ json:
 
 ],
 "overallRating": 7
-<<<<<<< HEAD
 
 > > > > > > > # 8215157 (surveys API)
 > > > > > > >
@@ -484,8 +482,7 @@ json:
 
 Update,delete,get survey by id:
 http://localhost:8082/:surveyId
-<<<<<<< HEAD
-=======
+
 
 submit survey response:
 http://localhost:8082/submissions
@@ -842,3 +839,53 @@ get all assessment methods under course: http://localhost:8087/assessment-method
 # course report
 
 get number of grades for each course : get http://localhost:8087/grade-distribution/661540c535f3db1c1f3c0e3c //course id
+
+
+
+# for program repot grading system
+- create ,getAll:
+http://localhost:8086/grade
+json:
+{
+  "programId": "66151085a5450305f1424f85",
+  "academicYear": "First Year",
+  "grades": [
+    {
+      "grade": "Excellent",
+      "numberOfStudents": 52,
+      "percentage": 62.65
+    },
+    {
+      "grade": "Very good",
+      "numberOfStudents": 28,
+      "percentage": 33.73
+    },
+    {
+      "grade": "Good",
+      "numberOfStudents": 1,
+      "percentage": 1.2
+    },
+    {
+      "grade": "Pass",
+      "numberOfStudents": 0,
+      "percentage": 0
+    },
+    {
+      "grade": "Failed in one or two subjects",
+      "numberOfStudents": 1,
+      "percentage": 1.2
+    },
+    {
+      "grade": "Failed in more than two subjects",
+      "numberOfStudents": 1,
+      "percentage": 1.2
+    }
+  ]
+}
+
+- update, get by id,delete:
+http://localhost:8086/grade/:gradeId
+json: same as the create json
+
+- get grading under certain program
+http://localhost:8086/grade/gradeUnderProgram/:programId

@@ -5,6 +5,8 @@ const morgan = require("morgan");
 const AppError = require("./shared/utils/appError");
 const cookieParser = require("cookie-parser");
 const programRouter = require("./routes/programRouts");
+const gradeRouter = require("./routes/grade");
+
 const globalErrorHandler = require("./shared/controllers/errorController");
 const cors = require("cors");
 
@@ -26,6 +28,8 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 app.use("/", programRouter);
+app.use("/grade", gradeRouter);
+
 
 app.all("*", (req, res, next) => {
   // const err = new Error(`can't find ${req.originalUrl} on this server `);
