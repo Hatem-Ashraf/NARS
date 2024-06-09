@@ -559,6 +559,24 @@ json:
 
 create topic:
 http://localhost:8087/topic/:courseId
+{
+  "title": "Database Management Systems",
+  "week": 4,
+  "plannedHours": 8,
+  "actualHours": 7,
+  "learningOutcomes": ["6655f9166b8d7865b1107abc"],
+  "isCovered": true
+}
+{
+  "title": "Algorithms",
+  "week": 3,
+  "plannedHours": 7,
+  "actualHours": 5,
+  "learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+  "isCovered": false,
+  "possibleCompensationActions": "Extra class sessions and additional homework"
+}
+
 
 get topic by id, update , delete
 http://localhost:8087/topic/:topicId

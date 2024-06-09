@@ -1,6 +1,6 @@
 const catchAsync = require("../shared/utils/catchAsync");
 const AppError = require("./../shared/utils/appError");
-const Course = require("../models/newCourseModel");
+const Course = require("../models/courseModel");
 const Topic = require("../models/topicsModel");
 const mongoose = require('mongoose');
 
