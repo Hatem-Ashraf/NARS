@@ -746,11 +746,11 @@ json:
 "660390bd5a91f5aa4add3850",
 "6603924a5a91f5aa4add3866"
 ],
- "courseId": "65f8b2371c297968e2db0f5a"
+"courseId": "65f8b2371c297968e2db0f5a"
 }
 
 - get los under course
-http://localhost:8087/los/courses/:courseId
+  http://localhost:8087/los/courses/:courseId
 
 - get all los
   http://localhost:8087/los/all
@@ -782,5 +782,10 @@ http://localhost:8087/los/courses/:courseId
 # course specs report
 
 get all assessment methods: get http://localhost:8087/assessment-methods/
+get all assessment methods under course: http://localhost:8087/assessment-methods-under-course/661540c535f3db1c1f3c0e3c //course id
 
 - get all los http://localhost:8087/los/all
+
+# course report
+
+get number of grades for each course : http://localhost:8087/grade-distribution

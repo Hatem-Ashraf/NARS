@@ -1,4 +1,5 @@
 const AssessmentMethod = require("../models/assessmentMethod");
+const mongoose = require("mongoose");
 
 exports.createAssessmentMethod = async (req, res) => {
   try {
@@ -14,6 +15,40 @@ exports.createAssessmentMethod = async (req, res) => {
     res.status(201).json(savedAssessmentMethod);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+exports.getAssessmentsByCourseId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      console.log("courseId is undefined");
+      return res
+        .status(400)
+        .json({ message: "courseId parameter is required" });
+    }
+
+    console.log(`Received courseId: ${id}`);
+    const courseObjectId = mongoose.Types.ObjectId(id);
+
+    // Find assessments where the course ID matches the provided course ID
+    const assessments = await AssessmentMethod.find({
+      courses: courseObjectId,
+    }).populate("LO");
+
+    console.log(`Assessments found: ${assessments.length}`);
+
+    if (assessments.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No assessments found for this course" });
+    }
+
+    res.status(200).json(assessments);
+  } catch (error) {
+    console.error("Error fetching assessments:", error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
