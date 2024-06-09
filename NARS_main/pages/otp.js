@@ -18,20 +18,21 @@ export default function otp() {
     const resp = await r.json();
     console.log(resp);
     if (resp.status == "fail") {
-      alert("fail");
+      alert(resp.message);
     } else {
       d(userActions.registerCompletionPart2());
 
       router.push("/password");
     }
   };
+
   const otp = useRef();
   if (completed) {
     return (
-      <div class="flex flex-col gap-5 justify-center items-center w-full">
+      <div class="flex flex-col gap-5 justify-center items-center min-h-screen w-full">
         <div className="text-2xl font-bold mt-20 mb-5"> </div>
         <form
-          className="flex flex-col gap-10 justify-center items-center text-1xl border-none border-black shadow-2xl rounded-2xl px-7 py-4"
+          className="w-[25%] bg-gray-100 flex flex-col gap-10 justify-center items-center text-1xl border-none border-black shadow-2xl rounded-2xl px-7 py-4"
           onSubmit={submitHandler}
         >
           <div className="flex flex-col gap-5">
