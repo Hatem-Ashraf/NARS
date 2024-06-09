@@ -666,15 +666,31 @@ json :
 {
 "assessment": "quiz1",
 "grades": [
-{"studentId": "665d9c801fb9fa6d97249ce1", "grade": 10},
-{"studentId": "665d9c901fb9fa6d97249ce6", "grade": 15}
+{
+"studentId": "6664c664091ccee715bd2e56",
+"courseId": "661540c535f3db1c1f3c0e3c",
+"grade": 5
+},
+{
+"studentId": "6664c58d5cf71f8c5226ce45",
+"courseId": "661540c535f3db1c1f3c0e3c",
+"grade": 10
+}
 ]
 },
 {
 "assessment": "mid term",
 "grades": [
-{ "studentId": "665d9c801fb9fa6d97249ce1", "grade": 30 },
-{ "studentId": "665d9c901fb9fa6d97249ce6", "grade": 25}
+{
+"studentId": "6664c664091ccee715bd2e56",
+"courseId": "661540c535f3db1c1f3c0e3c",
+"grade": 15
+},
+{
+"studentId": "6664c58d5cf71f8c5226ce45",
+"courseId": "661540c535f3db1c1f3c0e3c",
+"grade": 20
+}
 ]
 }
 ]
