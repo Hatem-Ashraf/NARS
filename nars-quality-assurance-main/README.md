@@ -428,8 +428,7 @@ json:
 }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 ## SURVAYS
 
@@ -471,7 +470,6 @@ json:
 
 ],
 "overallRating": 7
-<<<<<<< HEAD
 
 > > > > > > > # 8215157 (surveys API)
 > > > > > > >
@@ -484,8 +482,7 @@ json:
 
 Update,delete,get survey by id:
 http://localhost:8082/:surveyId
-<<<<<<< HEAD
-=======
+
 
 submit survey response:
 http://localhost:8082/submissions
@@ -842,6 +839,7 @@ get all assessment methods under course: http://localhost:8087/assessment-method
 # course report
 
 get number of grades for each course : get http://localhost:8087/grade-distribution/661540c535f3db1c1f3c0e3c //course id
+
 
 
 # for program repot grading system
