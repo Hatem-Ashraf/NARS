@@ -16,6 +16,11 @@ const LOSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course', // Assuming you have a Course model
         required: true
+    },
+
+    target: { 
+        type: Number,
+        required: false 
     }
 });
 
