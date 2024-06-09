@@ -354,6 +354,16 @@ exports.calculateGradeDistributionForCourse = async (req, res) => {
   try {
     const id = req.params.id;
 
+    // Retrieve the course details to get the fullMark
+    const course = await Course.findById(id);
+    if (!course) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Course not found",
+      });
+    }
+    const fullMark = course.fullMark || 100; // Default to 100 if fullMark is not defined
+
     // Retrieve all students enrolled in the given course
     const students = await Student.find({ courses: id });
 
@@ -381,8 +391,8 @@ exports.calculateGradeDistributionForCourse = async (req, res) => {
       );
 
       if (courseGrade) {
-        // Calculate the percentage for the student
-        const percentage = (courseGrade.totalGrade / 100) * 100;
+        // Calculate the percentage for the student using the course's fullMark
+        const percentage = (courseGrade.totalGrade / fullMark) * 100;
 
         // Determine the grade based on the percentage
         const grade = getGrade(percentage);
