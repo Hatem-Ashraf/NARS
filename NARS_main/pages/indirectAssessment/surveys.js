@@ -37,7 +37,8 @@ const CreateSurvey = ({ cookies }) => {
         if (!response.ok) {
           throw new Error('Failed to fetch assigned courses');
         }
-    
+     
+        
         const coursesData = await response.json();
         const courseIds = coursesData.data;
     
