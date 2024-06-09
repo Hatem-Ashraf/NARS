@@ -12,4 +12,11 @@ router.route("/:topicId")
   .patch(topicsController.updateTopic)
   .delete(topicsController.deleteTopic);
 router.route("/getTopicsBycourse/:courseId").get(topicsController.getTopicsByCourse);
+router.route("/precentage/:courseId").get(topicsController.calculateCoverage);
+router.route("/allTopics/:courseId").get(topicsController.covered_nonCovered);
+router.route("/loCoverage/:courseId").get(topicsController.lo_coverage);
+router.route("/:courseId/query").get(topicsController.covered_nonCoveredByQuery);
+
+
+
 module.exports = router;

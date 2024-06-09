@@ -142,27 +142,15 @@ exports.getAllLosByDomain = async (req, res) => {
 };
 
 exports.getLosByCourseId = async (req, res) => {
-    const { courseId } = req.params;
-
     try {
-        const los = await LO.find({ courseId });
-        if (los.length === 0) {
-            return res.status(404).json({
-                status: 'error',
-                 error: 'No Learning Objectives found for this course ID' 
-                });
-        }
-        res.status(200).json({
-            status: 'success',
-            data: los
-        });
-    } catch (err) {
-        res.status(500).json({ 
-            status: 'error',
-            error: 'An error occurred while retrieving Learning Objectives' 
-        });
-    }
-};
+        const { courseId } = req.params;
+        const los = await LO.find({ courseId }).exec();
+        res.json(los);
+      } catch (error) {
+        console.error(error); // Debug log
+        res.status(500).send(error.message);
+      }
+    };
 
 
 
