@@ -15,6 +15,7 @@ const globalErrorHandler = require("./shared/controllers/errorController");
 const topicRoute = require("./routes/topicsRoute");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const dispLos = require('../controllers/dispLos');
 const { Kafka } = require("kafkajs");
 
 const app = express();
@@ -47,7 +48,7 @@ app.use("/assignmentSolution", assignmentSolutionsRoute);
 app.use("/", courseRoute);
 app.use("/", assessmentMethod);
 app.use("/", student);
-
+app.use('/los/program/:programId' , dispLos );
 app.use("/topic", topicRoute);
 app.all("*", (req, res, next) => {
   next(
