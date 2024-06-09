@@ -242,8 +242,15 @@ const updateTotalGrades = async () => {
         student.assessmentMethods.forEach((assessment) => {
           // Check if the assessment belongs to the current course
           if (assessment.courses.includes(courseId)) {
-            totalGradeForCourse += assessment.grade;
-            courseFullMark += assessment.fullMark; // Assuming you have a field named fullMark in assessment
+            // Find the assessment object
+            const studentAssessment = student.assessmentMethods.find(
+              (method) => method.assessment === assessment.assessment
+            );
+
+            // Update the total grade for the course
+            totalGradeForCourse += studentAssessment.grade;
+            // Update the full mark for the course
+            courseFullMark += course.fullMark; // Use the full mark from the course schema
           }
         });
 
@@ -256,9 +263,6 @@ const updateTotalGrades = async () => {
           totalGrade: totalGradeForCourse,
           grade,
         };
-
-        // Update the total grade for the student
-        student.totalGrade += totalGradeForCourse;
       }
 
       // Update the student's coursesGrades array with the calculated grades for each course
@@ -279,6 +283,7 @@ const updateTotalGrades = async () => {
   }
 };
 const getGrade = (percentage) => {
+  console.log("percentage:", percentage);
   if (percentage >= 90) return "A+";
   if (percentage >= 85) return "A";
   if (percentage >= 80) return "A-";
