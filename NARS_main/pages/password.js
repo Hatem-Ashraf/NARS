@@ -22,9 +22,16 @@ export default function password() {
     const resp = await r.json();
     console.log(resp);
     if (resp.status != "success") {
-      setMsg(true);
+      setMsg(false);
+      alert(resp.message)
     } else {
+      setMsg(true);
       Cookies.set("token", resp.token);
+
+      //redirect to /login after 1.5 second
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1500);
     }
   };
 
@@ -79,10 +86,10 @@ export default function password() {
   };
   if (completed) {
     return (
-      <div class="flex flex-col gap-5 justify-center items-center w-full">
+      <div class="flex flex-col gap-5 justify-center items-center w-full min-h-screen">
         <div className="text-2xl font-bold mt-20 mb-5"> </div>
         <form
-          className="flex flex-col gap-10 justify-center items-center text-1xl border-none border-black shadow-2xl rounded-2xl px-7 py-4"
+          className="bg-gray-100 w-[25%] mb-10 flex flex-col gap-10 justify-center items-center text-1xl border-none border-black shadow-2xl rounded-2xl px-7 py-4"
           onSubmit={submitHandler}
         >
           <div className="flex flex-col gap-5">
@@ -129,13 +136,15 @@ export default function password() {
             </span>
             )}
           </div>
-          <button
-            type="submit"
-            class="home-btn1 px-10 w-full "
-            disabled={input.password !== input.confirmPassword}
-          >
-            Confirm
-          </button>
+          <div className="mt-5 w-[50%] flex justify-center">
+            <button
+              type="submit"
+              className="home-btn1 px-10 w-full"
+              disabled={input.password !== input.confirmPassword}
+            >
+              Confirm
+            </button>
+          </div>
         </form>
       </div>
     );
