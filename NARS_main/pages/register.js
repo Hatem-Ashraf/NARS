@@ -39,7 +39,7 @@ export default function Register() {
   };
 
   return (
-    <div className="mt-5" style={{ minHeight: "100vh", position: "relative", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100vh", position: "relative", display: "flex", flexDirection: "column" }}>
       <style>{`
         body {
           background-color: #012a4a;
@@ -53,7 +53,7 @@ export default function Register() {
       <div className="flex items-center justify-center m-0 ">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 p-8 border border-gray-300 rounded-lg shadow-xl px-5 py-10 w-[700px] max-w-full bg-white"
+          className="flex flex-col mt-20 gap-5 p-8 border border-gray-300 rounded-lg shadow-xl px-5 py-10 w-[700px] max-w-full bg-white"
         >
           <h1 className="text-3xl font-bold text-blue-900 text-center">Create Your Account</h1>
           <div className="flex flex-col gap-5">
