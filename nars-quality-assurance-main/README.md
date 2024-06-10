@@ -428,8 +428,7 @@ json:
 }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 ## SURVAYS
 
@@ -471,7 +470,6 @@ json:
 
 ],
 "overallRating": 7
-<<<<<<< HEAD
 
 > > > > > > > # 8215157 (surveys API)
 > > > > > > >
@@ -484,8 +482,7 @@ json:
 
 Update,delete,get survey by id:
 http://localhost:8082/:surveyId
-<<<<<<< HEAD
-=======
+
 
 submit survey response:
 http://localhost:8082/submissions
@@ -780,7 +777,8 @@ json:
 "660390bd5a91f5aa4add3850",
 "6603924a5a91f5aa4add3866"
 ],
- "courseId": "65f8b2371c297968e2db0f5a"
+ "courseId": "65f8b2371c297968e2db0f5a",
+"target": 95
 }
 
 - get los under course
@@ -823,6 +821,7 @@ get all assessment methods: get http://localhost:8087/assessment-methods/
 - get competencies under course
   http://localhost:8087/getComp/:courseId
   
+
 
 # for program repot grading system
 - create ,getAll:

@@ -20,6 +20,11 @@ router.get(
   assessmentMethodController.getAssessmentMethodById
 );
 
+router.get(
+  "/assessment-methods-under-course/:id",
+  assessmentMethodController.getAssessmentsByCourseId
+);
+
 // Route to update an existing assessment method
 router.put(
   "/assessment-methods/:id",
