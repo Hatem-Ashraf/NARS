@@ -557,42 +557,43 @@ json:
 create topic:
 http://localhost:8087/topic/:courseId
 {
-"title": "Database Management Systems",
-"week": 4,
-"plannedHours": 8,
-"actualHours": 7,
-"learningOutcomes": ["6655f9166b8d7865b1107abc"],
-"isCovered": true
+  "title": "Database Management Systems",
+  "week": 4,
+  "plannedHours": 8,
+  "actualHours": 7,
+  "learningOutcomes": ["6655f9166b8d7865b1107abc"],
+  "isCovered": true
 }
 {
-"title": "Algorithms",
-"week": 3,
-"plannedHours": 7,
-"actualHours": 5,
-"learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
-"isCovered": false,
-"possibleCompensationActions": "Extra class sessions and additional homework"
+  "title": "Algorithms",
+  "week": 3,
+  "plannedHours": 7,
+  "actualHours": 5,
+  "learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+  "isCovered": false,
+  "possibleCompensationActions": "Extra class sessions and additional homework"
 }
+
 
 get topic by id, update , delete
 http://localhost:8087/topic/:topicId
 update Json:
 {
-"title": "Database Management Systems",
-"week": 4,
-"plannedHours": 8,
-"actualHours": 7,
-"learningOutcomes": ["6655f9166b8d7865b1107abc"],
-"isCovered": true
+  "title": "Database Management Systems",
+  "week": 4,
+  "plannedHours": 8,
+  "actualHours": 7,
+  "learningOutcomes": ["6655f9166b8d7865b1107abc"],
+  "isCovered": true
 }
 {
-"title": "Algorithms",
-"week": 3,
-"plannedHours": 7,
-"actualHours": 5,
-"learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
-"isCovered": false,
-"possibleCompensationActions": "Extra class sessions and additional homework"
+  "title": "Algorithms",
+  "week": 3,
+  "plannedHours": 7,
+  "actualHours": 5,
+  "learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+  "isCovered": false,
+  "possibleCompensationActions": "Extra class sessions and additional homework"
 }
 
 get all topics
@@ -696,31 +697,15 @@ json :
 {
 "assessment": "quiz1",
 "grades": [
-{
-"studentId": "6664c664091ccee715bd2e56",
-"courseId": "661540c535f3db1c1f3c0e3c",
-"grade": 5
-},
-{
-"studentId": "6664c58d5cf71f8c5226ce45",
-"courseId": "661540c535f3db1c1f3c0e3c",
-"grade": 10
-}
+{"studentId": "665d9c801fb9fa6d97249ce1", "grade": 10},
+{"studentId": "665d9c901fb9fa6d97249ce6", "grade": 15}
 ]
 },
 {
 "assessment": "mid term",
 "grades": [
-{
-"studentId": "6664c664091ccee715bd2e56",
-"courseId": "661540c535f3db1c1f3c0e3c",
-"grade": 15
-},
-{
-"studentId": "6664c58d5cf71f8c5226ce45",
-"courseId": "661540c535f3db1c1f3c0e3c",
-"grade": 20
-}
+{ "studentId": "665d9c801fb9fa6d97249ce1", "grade": 30 },
+{ "studentId": "665d9c901fb9fa6d97249ce6", "grade": 25}
 ]
 }
 ]
@@ -792,12 +777,12 @@ json:
 "660390bd5a91f5aa4add3850",
 "6603924a5a91f5aa4add3866"
 ],
-"courseId": "65f8b2371c297968e2db0f5a",
+ "courseId": "65f8b2371c297968e2db0f5a",
 "target": 95
 }
 
 - get los under course
-  http://localhost:8087/los/courses/:courseId
+http://localhost:8087/los/courses/:courseId
 
 - get all los
   http://localhost:8087/los/all
@@ -829,18 +814,13 @@ json:
 # course specs report
 
 get all assessment methods: get http://localhost:8087/assessment-methods/
-get all assessment methods under course: http://localhost:8087/assessment-methods-under-course/661540c535f3db1c1f3c0e3c //course id
 
 - get all los http://localhost:8087/los/all
 - get los under course: http://localhost:8087/los/courses/:courseId
 - to get los by domain : http://localhost:8087/los?domain=Cognitive
 - get competencies under course
   http://localhost:8087/getComp/:courseId
-
-# course report
-
-get number of grades for each course : get http://localhost:8087/grade-distribution/661540c535f3db1c1f3c0e3c //course id
-
+  
 
 
 # for program repot grading system
