@@ -163,10 +163,14 @@ exports.covered_nonCovered =  async (req, res) => {
   }
 };
 
-exports.lo_coverage =  async (req, res) => {
+exports.lo_coverage = async (req, res) => {
   try {
     const courseId = req.params.courseId;
     const coverageResult = await Topic.calculateLearningOutcomeCoverage(courseId);
+    await Course.findByIdAndUpdate(courseId, {
+      $set: { learningOutcomeCoverage: coverageResult }
+    });
+
     res.json(coverageResult);
   } catch (error) {
     console.error(error);

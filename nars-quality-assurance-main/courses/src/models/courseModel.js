@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-
   name: {
     type: String,
     trim: true,
@@ -18,7 +17,7 @@ const courseSchema = new mongoose.Schema({
     required: [true, "Course must have hours"],
   },
   academicYear: {
-  type: String,
+    type: String,
   },
   courseAims: {
     type: String,
@@ -36,7 +35,7 @@ const courseSchema = new mongoose.Schema({
   learningOutcomes: [{
     type: mongoose.Schema.Types.ObjectId,
     trim: true,
-    ref: 'los' ,
+    ref: 'los',
     required: true
   }],
   department: {
@@ -78,7 +77,17 @@ const courseSchema = new mongoose.Schema({
   competencesModel: {
     type: String,
     enum: ['departmentCompetences', 'facultyCompetences', 'programCompetences']
-  }
+  },
+  learningOutcomeCoverage: [{
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'LO'
+    },
+    coverage: {
+      type: Number,
+      default: 0
+    }
+  }]
 });
 
 courseSchema.pre(/^find/, function (next) {
