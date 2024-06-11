@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Newcourse',
-    required: [true, 'Please provide a course ID']
-  },
   name: {
     type: String,
     trim: true,
@@ -18,7 +13,7 @@ const courseSchema = new mongoose.Schema({
     required: [true, "Course must have a code"]
   },
   academicYear: {
-  type: String,
+    type: String,
   },
   courseAims: {
     type: String,
@@ -31,13 +26,11 @@ const courseSchema = new mongoose.Schema({
   competences: [{
     type: mongoose.Schema.Types.ObjectId,
     refPath: 'competencesModel',
-    required: [true, "course must have Competences"],
-
+    required: [true, "Course must have Competences"],
   }],
   learningOutcomes: [{
     code: { type: String, required: true },
     name: { type: String, required: true },
-    required: true
   }],
   department: {
     type: mongoose.Schema.Types.ObjectId,
@@ -54,14 +47,12 @@ const courseSchema = new mongoose.Schema({
   fullMark: {
     type: Number,
   },
-  materialsPaths: [
-    {
-      path: String,
-      name: String,
-      description: String,
-      date: Date,
-    },
-  ],
+  materialsPaths: [{
+    path: String,
+    name: String,
+    description: String,
+    date: Date,
+  }],
   minTarget: {
     type: Number,
     default: 50,
@@ -73,13 +64,28 @@ const courseSchema = new mongoose.Schema({
   competencesModel: {
     type: String,
     enum: ['departmentCompetences', 'facultyCompetences', 'programCompetences']
-  }
+  },
+  program: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Program', // Reference to the 'Program' schema
+    required: true
+  },
+  learningOutcomeCoverage: [{
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'LO'
+    },
+    coverage: {
+      type: Number,
+      default: 0
+    }
+  }]
 });
 
 courseSchema.pre(/^find/, function (next) {
   const populateOptions = {
     path: 'competences',
-    populate: { path: 'competencesModel' } 
+    populate: { path: 'competencesModel' }
   };
 
   if (this.competencesModel) {
