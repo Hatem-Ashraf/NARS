@@ -428,8 +428,6 @@ json:
 }
 }
 
-
-
 ## SURVAYS
 
 getAllSurveys: get http://localhost:8082/
@@ -482,7 +480,6 @@ json:
 
 Update,delete,get survey by id:
 http://localhost:8082/:surveyId
-
 
 submit survey response:
 http://localhost:8082/submissions
@@ -557,43 +554,42 @@ json:
 create topic:
 http://localhost:8087/topic/:courseId
 {
-  "title": "Database Management Systems",
-  "week": 4,
-  "plannedHours": 8,
-  "actualHours": 7,
-  "learningOutcomes": ["6655f9166b8d7865b1107abc"],
-  "isCovered": true
+"title": "Database Management Systems",
+"week": 4,
+"plannedHours": 8,
+"actualHours": 7,
+"learningOutcomes": ["6655f9166b8d7865b1107abc"],
+"isCovered": true
 }
 {
-  "title": "Algorithms",
-  "week": 3,
-  "plannedHours": 7,
-  "actualHours": 5,
-  "learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
-  "isCovered": false,
-  "possibleCompensationActions": "Extra class sessions and additional homework"
+"title": "Algorithms",
+"week": 3,
+"plannedHours": 7,
+"actualHours": 5,
+"learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+"isCovered": false,
+"possibleCompensationActions": "Extra class sessions and additional homework"
 }
-
 
 get topic by id, update , delete
 http://localhost:8087/topic/:topicId
 update Json:
 {
-  "title": "Database Management Systems",
-  "week": 4,
-  "plannedHours": 8,
-  "actualHours": 7,
-  "learningOutcomes": ["6655f9166b8d7865b1107abc"],
-  "isCovered": true
+"title": "Database Management Systems",
+"week": 4,
+"plannedHours": 8,
+"actualHours": 7,
+"learningOutcomes": ["6655f9166b8d7865b1107abc"],
+"isCovered": true
 }
 {
-  "title": "Algorithms",
-  "week": 3,
-  "plannedHours": 7,
-  "actualHours": 5,
-  "learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
-  "isCovered": false,
-  "possibleCompensationActions": "Extra class sessions and additional homework"
+"title": "Algorithms",
+"week": 3,
+"plannedHours": 7,
+"actualHours": 5,
+"learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+"isCovered": false,
+"possibleCompensationActions": "Extra class sessions and additional homework"
 }
 
 get all topics
@@ -777,12 +773,12 @@ json:
 "660390bd5a91f5aa4add3850",
 "6603924a5a91f5aa4add3866"
 ],
- "courseId": "65f8b2371c297968e2db0f5a",
+"courseId": "65f8b2371c297968e2db0f5a",
 "target": 95
 }
 
 - get los under course
-http://localhost:8087/los/courses/:courseId
+  http://localhost:8087/los/courses/:courseId
 
 - get all los
   http://localhost:8087/los/all
@@ -820,53 +816,54 @@ get all assessment methods: get http://localhost:8087/assessment-methods/
 - to get los by domain : http://localhost:8087/los?domain=Cognitive
 - get competencies under course
   http://localhost:8087/getComp/:courseId
-  
-
 
 # for program repot grading system
+
 - create ,getAll:
-http://localhost:8086/grade
-json:
-{
+  http://localhost:8086/grade
+  json:
+  {
   "programId": "66151085a5450305f1424f85",
   "academicYear": "First Year",
   "grades": [
-    {
-      "grade": "Excellent",
-      "numberOfStudents": 52,
-      "percentage": 62.65
-    },
-    {
-      "grade": "Very good",
-      "numberOfStudents": 28,
-      "percentage": 33.73
-    },
-    {
-      "grade": "Good",
-      "numberOfStudents": 1,
-      "percentage": 1.2
-    },
-    {
-      "grade": "Pass",
-      "numberOfStudents": 0,
-      "percentage": 0
-    },
-    {
-      "grade": "Failed in one or two subjects",
-      "numberOfStudents": 1,
-      "percentage": 1.2
-    },
-    {
-      "grade": "Failed in more than two subjects",
-      "numberOfStudents": 1,
-      "percentage": 1.2
-    }
+  {
+  "grade": "Excellent",
+  "numberOfStudents": 52,
+  "percentage": 62.65
+  },
+  {
+  "grade": "Very good",
+  "numberOfStudents": 28,
+  "percentage": 33.73
+  },
+  {
+  "grade": "Good",
+  "numberOfStudents": 1,
+  "percentage": 1.2
+  },
+  {
+  "grade": "Pass",
+  "numberOfStudents": 0,
+  "percentage": 0
+  },
+  {
+  "grade": "Failed in one or two subjects",
+  "numberOfStudents": 1,
+  "percentage": 1.2
+  },
+  {
+  "grade": "Failed in more than two subjects",
+  "numberOfStudents": 1,
+  "percentage": 1.2
+  }
   ]
-}
+  }
 
 - update, get by id,delete:
-http://localhost:8086/grade/:gradeId
-json: same as the create json
+  http://localhost:8086/grade/:gradeId
+  json: same as the create json
 
 - get grading under certain program
-http://localhost:8086/grade/gradeUnderProgram/:programId
+  http://localhost:8086/grade/gradeUnderProgram/:programId
+
+get asssesment Los percentage : get http://localhost:8087/assessment-results/666839bca18039ff12ed8f67 //course id

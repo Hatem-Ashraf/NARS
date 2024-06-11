@@ -418,13 +418,12 @@ exports.calculateGradeDistributionForCourse = async (req, res) => {
 
 exports.getAssessmentResults = async (req, res) => {
   try {
-    const { courseId } = req.params; // Get courseId from request parameters
+    const { courseId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(courseId)) {
       return res.status(400).json({ error: "Invalid courseId" });
     }
 
-    // Fetch all assessments for the specific course
     const assessments = await assessmentMethod.find({ courses: courseId });
 
     if (!assessments.length) {
@@ -433,53 +432,101 @@ exports.getAssessmentResults = async (req, res) => {
         .json({ error: "No assessments found for this course" });
     }
 
-    // Log the fetched assessments
     console.log("Fetched Assessments:", assessments);
 
-    // Initialize the result object
-    const result = {};
+    const result = {
+      assessmentResults: {},
+      loRecoveryPercentage: {},
+    };
 
-    // Create a map for easy access to the full grades of each assessment
     const assessmentFullGrades = {};
     assessments.forEach((assessment) => {
       assessmentFullGrades[assessment.assessment] = assessment.grade;
-      result[assessment.assessment] = {
+      result.assessmentResults[assessment.assessment] = {
         assessment: assessment.assessment,
         passCount: 0,
         failCount: 0,
       };
+
+      assessment.LO.forEach((lo) => {
+        if (!result.loRecoveryPercentage[lo]) {
+          result.loRecoveryPercentage[lo] = {
+            totalAssessments: 0,
+            recoveryPercentages: [],
+          };
+        }
+        result.loRecoveryPercentage[lo].totalAssessments++;
+      });
     });
 
-    // Fetch all students who have this course
     const students = await Student.find({ courses: courseId });
 
-    // Log the fetched students
     console.log("Fetched Students:", students);
 
-    // Loop through each student
     students.forEach((student) => {
       student.assessmentMethods.forEach((studentAssessment) => {
         const assessmentName = studentAssessment.assessment;
         const fullGrade = assessmentFullGrades[assessmentName];
 
         if (fullGrade !== undefined) {
-          // Log the student's grade for the current assessment
           console.log(
             `Student ${student._id} grade for assessment ${assessmentName}:`,
             studentAssessment.grade
           );
 
-          // Check if the student's grade is more than half of the assessment's full grade
-          if (studentAssessment.grade >= fullGrade / 2) {
-            result[assessmentName].passCount++;
+          const isPass = studentAssessment.grade >= fullGrade / 2;
+          if (isPass) {
+            result.assessmentResults[assessmentName].passCount++;
           } else {
-            result[assessmentName].failCount++;
+            result.assessmentResults[assessmentName].failCount++;
           }
         }
       });
     });
 
-    // Return the result
+    const course = await Course.findById(courseId);
+
+    assessments.forEach((assessment) => {
+      const assessmentName = assessment.assessment;
+      const passCount = result.assessmentResults[assessmentName].passCount;
+      const failCount = result.assessmentResults[assessmentName].failCount;
+
+      const recoveryPercentage = passCount > failCount ? 100 : 0;
+
+      assessment.LO.forEach((lo) => {
+        result.loRecoveryPercentage[lo].recoveryPercentages.push(
+          recoveryPercentage
+        );
+      });
+    });
+
+    for (const lo in result.loRecoveryPercentage) {
+      const loData = result.loRecoveryPercentage[lo];
+      const totalRecovery = loData.recoveryPercentages.reduce(
+        (acc, curr) => acc + curr,
+        0
+      );
+      loData.recoveryPercentage =
+        totalRecovery / loData.recoveryPercentages.length;
+      delete loData.recoveryPercentages;
+
+      const index = course.learningOutcomeAssessmentsCoverage.findIndex(
+        (coverage) => coverage.id.toString() === lo
+      );
+
+      if (index !== -1) {
+        course.learningOutcomeAssessmentsCoverage[index].coverage =
+          loData.recoveryPercentage;
+      } else {
+        course.learningOutcomeAssessmentsCoverage.push({
+          id: lo,
+          coverage: loData.recoveryPercentage,
+        });
+      }
+    }
+
+    await course.save();
+
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
