@@ -415,3 +415,123 @@ exports.calculateGradeDistributionForCourse = async (req, res) => {
     });
   }
 };
+
+exports.getAssessmentResults = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ error: "Invalid courseId" });
+    }
+
+    const assessments = await assessmentMethod.find({ courses: courseId });
+
+    if (!assessments.length) {
+      return res
+        .status(404)
+        .json({ error: "No assessments found for this course" });
+    }
+
+    console.log("Fetched Assessments:", assessments);
+
+    const result = {
+      assessmentResults: {},
+      loRecoveryPercentage: {},
+    };
+
+    const assessmentFullGrades = {};
+    assessments.forEach((assessment) => {
+      assessmentFullGrades[assessment.assessment] = assessment.grade;
+      result.assessmentResults[assessment.assessment] = {
+        assessment: assessment.assessment,
+        passCount: 0,
+        failCount: 0,
+      };
+
+      assessment.LO.forEach((lo) => {
+        if (!result.loRecoveryPercentage[lo]) {
+          result.loRecoveryPercentage[lo] = {
+            totalAssessments: 0,
+            recoveryPercentages: [],
+          };
+        }
+        result.loRecoveryPercentage[lo].totalAssessments++;
+      });
+    });
+
+    const students = await Student.find({ courses: courseId });
+
+    console.log("Fetched Students:", students);
+
+    students.forEach((student) => {
+      student.assessmentMethods.forEach((studentAssessment) => {
+        const assessmentName = studentAssessment.assessment;
+        const fullGrade = assessmentFullGrades[assessmentName];
+
+        if (fullGrade !== undefined) {
+          console.log(
+            `Student ${student._id} grade for assessment ${assessmentName}:`,
+            studentAssessment.grade
+          );
+
+          const isPass = studentAssessment.grade >= fullGrade / 2;
+          if (isPass) {
+            result.assessmentResults[assessmentName].passCount++;
+          } else {
+            result.assessmentResults[assessmentName].failCount++;
+          }
+        }
+      });
+    });
+
+    const course = await Course.findById(courseId);
+
+    assessments.forEach((assessment) => {
+      const assessmentName = assessment.assessment;
+      const passCount = result.assessmentResults[assessmentName].passCount;
+      const failCount = result.assessmentResults[assessmentName].failCount;
+
+      const recoveryPercentage = passCount > failCount ? 100 : 0;
+
+      assessment.LO.forEach((lo) => {
+        result.loRecoveryPercentage[lo].recoveryPercentages.push(
+          recoveryPercentage
+        );
+      });
+    });
+
+    for (const lo in result.loRecoveryPercentage) {
+      const loData = result.loRecoveryPercentage[lo];
+      const totalRecovery = loData.recoveryPercentages.reduce(
+        (acc, curr) => acc + curr,
+        0
+      );
+      loData.recoveryPercentage =
+        totalRecovery / loData.recoveryPercentages.length;
+      delete loData.recoveryPercentages;
+
+      const index = course.learningOutcomeAssessmentsCoverage.findIndex(
+        (coverage) => coverage.id.toString() === lo
+      );
+
+      if (index !== -1) {
+        course.learningOutcomeAssessmentsCoverage[index].coverage =
+          loData.recoveryPercentage;
+      } else {
+        course.learningOutcomeAssessmentsCoverage.push({
+          id: lo,
+          coverage: loData.recoveryPercentage,
+        });
+      }
+    }
+
+    await course.save();
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching results." });
+  }
+};
