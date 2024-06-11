@@ -8,6 +8,7 @@ import { GrAddCircle, GrOrderedList } from "react-icons/gr";
 import { updateField } from "./store/userSlice";
 import HeaderElement from "./HeaderElement";
 import { header } from "./header";
+import { TiGroupOutline } from "react-icons/ti";
 import Cookies from "js-cookie";
 
 export default function InstructorDashboard({ cookies }) {
@@ -53,7 +54,7 @@ export default function InstructorDashboard({ cookies }) {
 
   return (
     <nav
-      className={`nav2 transition-all duration-300 transform ${
+      className={`instructorNav transition-all duration-300 transform ${
         navStatus ? "-translate-x-full" : "translate-x-0"
       }`}
     >
@@ -94,6 +95,27 @@ export default function InstructorDashboard({ cookies }) {
           <span className="ml-2 text-lg">Create Course</span>
         </div>
       </Link>
+
+      <Link className="link2  font-semibold" href="/instructor/courses/LOs">
+        <div className="flex items-center mt-4">
+          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
+          <span className="ml-2 text-lg">LOs</span>
+        </div>
+      </Link>
+
+      <Link className="link2  font-semibold" href="/indirectAssessment/assessment">
+        <div className="flex items-center mt-4">
+          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
+          <span className="ml-2 text-lg">Create Assessment</span>
+        </div>
+      </Link>
+
+      <Link className="link2  font-semibold" href="/indirectAssessment/topics">
+        <div className="flex items-center mt-4">
+          <GrAddCircle style={{ fontSize: 30, marginBottom: 5}} />
+          <span className="ml-2 text-lg">Create Topics</span>
+        </div>
+      </Link>
       <Link
         className="link2   font-semibold"
         href={{ pathname: `/indirectAssessment/grade`, query: { role: "isInstructor" } }}
@@ -113,6 +135,47 @@ export default function InstructorDashboard({ cookies }) {
           {/* <GrOrderedList style={{ fontSize: 30, marginBottom: 5, x}} /> */}
           <span className="ml-2 text-lg">Create Surveys</span>
         </div>
+      </Link>
+      {header(
+        <span>
+          <i class="fa-solid fa-signal text-2xl mr-2"></i>
+          Learngin Outcomes
+        </span>,
+        [
+            <Link
+              className={
+                router.pathname === "/instructor/courses/LOvsComp"
+                  ? "activeLinkDashboard2"
+                  : "normalLinkDashboard2"
+              }
+              href="/instructor/courses/LOvsComp"
+            >
+              LO with competences
+            </Link>,
+            <Link
+              className={
+                router.pathname === "/admin/staff/addDepartmentAdmin"
+                  ? "activeLinkDashboard2"
+                  : "normalLinkDashboard2"
+              }
+              href="/admin/staff/addDepartmentAdmin"
+            >
+              LO with Assessments
+            </Link>,
+        ]
+      )}
+          <Link
+          className="link2 focus:text-green-400"
+          href="/indirectAssessment/report"
+      >
+            <span >
+                <span>
+                    <i class="fa-solid fa-file-lines text-3xl ml-1"></i>
+              </span>
+              
+              <span className="ml-3">Course Report</span>
+          </span>
+          
       </Link>
 
       <button className="link2   text-left mt-4 font-semibold" onClick={logoutHandler}>

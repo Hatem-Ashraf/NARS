@@ -14,5 +14,12 @@ router
 router
   .route("/studentGrade")
   .patch(studentController.updateAssessmentGradesForCourse);
-
+router.route("/assign-grades/:id").post(studentController.assignGrades);
+router
+  .route("/grade-distribution/:id")
+  .get(studentController.calculateGradeDistributionForCourse);
+router.get(
+  "/assessment-results/:courseId",
+  studentController.getAssessmentResults
+);
 module.exports = router;

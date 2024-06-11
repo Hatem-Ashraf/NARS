@@ -106,7 +106,7 @@ export default function Login({ cookies }) {
   </div>
 </div>
 
-<div className="flex  justify-center h-screen mb-8">
+<div className="flex  justify-center min-h-screen mb-8">
   <div style={{ 
     backgroundColor: "#ffffff",
     borderRadius: "20px",
@@ -115,7 +115,7 @@ export default function Login({ cookies }) {
     marginRight: "20px",
   }}>
     <div className="flex flex-col justify-center items-center gap-8 w-full mt-10 text-blue-900 font-bold">
-  <div className=" text-3xl font-bold"> Welcome to Login Page  </div>
+  <div className=" text-3xl font-bold"> Welcome to NARQA </div>
   <form
     onSubmit={submitHandler}
     className=" px-5 py-10 w-[600px] max-w-full"

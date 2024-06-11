@@ -296,17 +296,20 @@ json:
 delete,update,get course by id
 http://localhost:8087/newCourse/<courseid>
 
-get all courses under certain program
-http://localhost:8087/getCoursesByProgramId/<programId>
+- get competencies under course
+  http://localhost:8087/getComp/:courseId
 
-assign instructor to course or mutiple courses
-http://localhost:8087/assign-course-instructor
-{
-"instructorId": "65cb5ae3140600eebac07fc0",
-"courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"]
-}
-get all instructors
-http://localhost:8081/getAllInstructors
+- get all courses under certain program
+  http://localhost:8087/getCoursesByProgramId/<programId>
+
+- assign instructor to course or mutiple courses
+  PATCH: http://localhost:8087/assign-course-instructor
+  {
+  "instructorId": "65cb5ae3140600eebac07fc0",
+  "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"]
+  }
+  get all instructors
+  http://localhost:8081/getAllInstructors
 
 get instructor by id
 http://localhost:8081/staff/<id>
@@ -425,9 +428,6 @@ json:
 }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 ## SURVAYS
 
 getAllSurveys: get http://localhost:8082/
@@ -468,7 +468,6 @@ json:
 
 ],
 "overallRating": 7
-<<<<<<< HEAD
 
 > > > > > > > # 8215157 (surveys API)
 > > > > > > >
@@ -481,8 +480,6 @@ json:
 
 Update,delete,get survey by id:
 http://localhost:8082/:surveyId
-<<<<<<< HEAD
-=======
 
 submit survey response:
 http://localhost:8082/submissions
@@ -552,19 +549,48 @@ json:
 "qualityCompetencies": ["660390bd5a91f5aa4add384f", "6603924a5a91f5aa4add3865"]
 }
 
-#instructor TOPICS
+# instructor TOPICS
+
 create topic:
 http://localhost:8087/topic/:courseId
-json:
 {
-"title": "Advanced Topic: Applications",
+"title": "Database Management Systems",
+"week": 4,
+"plannedHours": 8,
+"actualHours": 7,
+"learningOutcomes": ["6655f9166b8d7865b1107abc"],
+"isCovered": true
+}
+{
+"title": "Algorithms",
 "week": 3,
-"plannedHours": 4,
-"learningOutcomes": ["LO2", "LO3"]
+"plannedHours": 7,
+"actualHours": 5,
+"learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+"isCovered": false,
+"possibleCompensationActions": "Extra class sessions and additional homework"
 }
 
 get topic by id, update , delete
 http://localhost:8087/topic/:topicId
+update Json:
+{
+"title": "Database Management Systems",
+"week": 4,
+"plannedHours": 8,
+"actualHours": 7,
+"learningOutcomes": ["6655f9166b8d7865b1107abc"],
+"isCovered": true
+}
+{
+"title": "Algorithms",
+"week": 3,
+"plannedHours": 7,
+"actualHours": 5,
+"learningOutcomes": ["6655f8d56b8d7865b1107ab9"],
+"isCovered": false,
+"possibleCompensationActions": "Extra class sessions and additional homework"
+}
 
 get all topics
 http://localhost:8087/topic
@@ -572,7 +598,22 @@ http://localhost:8087/topic
 get all Topics under course:
 http://localhost:8087/topic/getTopicsBycourse/:coureId
 
-#instructor Courses
+topic coverage precentage
+http://localhost:8087/topic/precentage/:courseId
+
+return all topics under the course filtered by coverage
+http://localhost:8087/topic/allTopics/:courseId
+
+return all topics under the course filtered by coverage but using query
+http://localhost:8087/topic/665d997ac78a6463d4f4fbb9/query?status=non-covered
+
+los ptecentage coverage for each
+http://localhost:8087/topic/loCoverage/:courseId
+
+courseId:665d997ac78a6463d4f4fbb9
+
+# instructor Courses
+
 first to get back courses IDs
 http://localhost:8081/getAssignedCourses/:instructorId
 
@@ -606,8 +647,9 @@ JSON:
 {
 "assessment":"quiz1",
 "grade":20,
-"LO":["LO1","LO2"]
-,"courses": courses id
+"LO":["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba"]
+,"courses": courses id,
+"weight":20
 }
 
 get all assessment methods: get http://localhost:8087/assessment-methods/
@@ -651,16 +693,177 @@ json :
 {
 "assessment": "quiz1",
 "grades": [
-{"studentId": "6620011defb9984fb09b4ac7", "grade": 10},
-{"studentId": "662008f8686fb836592ed5a8", "grade": 15}
+{"studentId": "665d9c801fb9fa6d97249ce1", "grade": 10},
+{"studentId": "665d9c901fb9fa6d97249ce6", "grade": 15}
 ]
 },
 {
 "assessment": "mid term",
 "grades": [
-{ "studentId": "6620011defb9984fb09b4ac7", "grade": 30 },
-{ "studentId": "662008f8686fb836592ed5a8", "grade": 22}
+{ "studentId": "665d9c801fb9fa6d97249ce1", "grade": 30 },
+{ "studentId": "665d9c901fb9fa6d97249ce6", "grade": 25}
 ]
 }
 ]
 }
+
+# 25/5/2024!
+
+# New competences, program Objectives !
+
+## competences
+
+- POST, GETall
+  http://localhost:8085/faculty/facultyId
+
+- GETone, PATCCH, DELETE
+  http://localhost:8085/competenceId
+
+- GET competences by level
+  http://localhost:8085/faculty/:facultyId/level/C
+
+## program objectives
+
+- GET all, POST
+  http://localhost:8085/programObj/faculty/facultyId
+
+- GET one, PATCH, DELETE
+  http://localhost:8085/programObj/proObjId
+
+## Instructor Things
+
+- GET one course by id
+- http://localhost:8087/newCourse/:courseId
+
+- add basic information of the course (program admin use it only)
+- POST: http://localhost:8087/newCourse
+- {"name": "NEW ONE! Software Engineering", "code": "CS440", "hours": 4, "program": "66151085a5450305f1424f85"}
+
+- add extra information of the course (Instructor use it only)
+- PATCH http://localhost:8087/newCourse/66549659d60a369a8bc68adb
+  {
+  "courseInformation" : "Some info about this COURSE!",
+  "courseAims": "This course aims to ....",
+  "learningOutcomes": [
+  {
+  "code":"LO1",
+  "description": "Some desc about this LO1"
+  }
+  ]
+  }
+
+- get assigned courses
+- GET http://localhost:8081/getAssignedCourses/:instructorId
+
+- assign instructor to course or mutiple courses
+- PATCH http://localhost:8087/assign-course-instructor/
+  { "instructorId": "665335cae9d1f4e77786e8ce", "courseIds": ["65f8caa91c297968e2db0f7d","65f8cca01c297968e2db0f7f"] }
+
+# LOS API
+
+## create los
+
+http://localhost:8087/los
+json:
+{
+"code": "LO132",
+"name": "Robotics and Automation",
+"domain": "Psychomotor",
+"competencies": [
+"660390bd5a91f5aa4add3850",
+"6603924a5a91f5aa4add3866"
+],
+"courseId": "65f8b2371c297968e2db0f5a",
+"target": 95
+}
+
+- get los under course
+  http://localhost:8087/los/courses/:courseId
+
+- get all los
+  http://localhost:8087/los/all
+
+- get los under certain domain
+  method: GET
+  http://localhost:8087/los?domain=Cognitive
+
+- update,delete,get by id
+  http://localhost:8087/los/:id
+  json for update:
+  json:
+  {
+  "code": "LO124",
+  "name": "Mastering Node.js Fundamentals",
+  "domain": "Cognitive",
+  "competencies": [
+  "660390bd5a91f5aa4add3850",
+  "6603924a5a91f5aa4add3866"
+  ]
+  }
+- get mutiple los by ids
+  http://localhost:8087/los/mulLos
+  json:
+  {
+  "ids": ["6655f7c36b8d7865b1107ab6", "6655f8356b8d7865b1107aba", "6655f8406b8d7865b1107abc"]
+  }
+
+# course specs report
+
+get all assessment methods: get http://localhost:8087/assessment-methods/
+
+- get all los http://localhost:8087/los/all
+- get los under course: http://localhost:8087/los/courses/:courseId
+- to get los by domain : http://localhost:8087/los?domain=Cognitive
+- get competencies under course
+  http://localhost:8087/getComp/:courseId
+
+# for program repot grading system
+
+- create ,getAll:
+  http://localhost:8086/grade
+  json:
+  {
+  "programId": "66151085a5450305f1424f85",
+  "academicYear": "First Year",
+  "grades": [
+  {
+  "grade": "Excellent",
+  "numberOfStudents": 52,
+  "percentage": 62.65
+  },
+  {
+  "grade": "Very good",
+  "numberOfStudents": 28,
+  "percentage": 33.73
+  },
+  {
+  "grade": "Good",
+  "numberOfStudents": 1,
+  "percentage": 1.2
+  },
+  {
+  "grade": "Pass",
+  "numberOfStudents": 0,
+  "percentage": 0
+  },
+  {
+  "grade": "Failed in one or two subjects",
+  "numberOfStudents": 1,
+  "percentage": 1.2
+  },
+  {
+  "grade": "Failed in more than two subjects",
+  "numberOfStudents": 1,
+  "percentage": 1.2
+  }
+  ]
+  }
+
+- update, get by id,delete:
+  http://localhost:8086/grade/:gradeId
+  json: same as the create json
+
+- get grading under certain program
+  http://localhost:8086/grade/gradeUnderProgram/:programId
+
+get asssesment Los percentage : get http://localhost:8087/assessment-results/666839bca18039ff12ed8f67 //course id

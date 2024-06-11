@@ -180,8 +180,8 @@ const Creategrade = ({ cookies }) => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen text-white">
-      <div className="bg-form p-12 max-w-3xl w-full shadow-2xl rounded-3xl mt-10 text-form">
+    <div className="flex justify-center min-h-scree ">
+      <div className="bg-form p-12 max-w-3xl w-full shadow-2xl rounded-3xl mt-10 text-form bg-white">
         <h2 className="font-bold text-blue-900 mb-4 text-3xl">Enter Student Grades</h2>
         <div className="flex flex-col gap-4">
           <label htmlFor="numQuizzes" className="text-form font-bold mb-3">

@@ -1,72 +1,74 @@
 const ProgramObjective = require("../models/programObjective");
+const catchAsync = require("../shared/utils/catchAsync");
 
-exports.createProgramObjective = async (req, res) => {
-  try {
-    const objData = req.body;
-    const programObjectives = [];
-
-    for (const obj of objData) {
-      const { code, description } = obj;
-      const programObj = new ProgramObjective({ code, description });
-      await programObj.save();
-      programObjectives.push(programObj);
-    }
-
-    res.status(201).json({ programObjectives });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+//add program competence
+exports.createProgramObjective = catchAsync( async (req, res, next) => {
+  if (!req.params.facultyId) {
+    return next(new AppError("Please provide a faculty id", 400));
   }
-};
-
-exports.getAllProgramObjectives = async (req, res) => {
-  try {
-    const objectives = await ProgramObjective.find();
-    res.status(200).json({ objectives });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  if (!req.body) {
+    return next(new AppError("Please provide a body", 400));
   }
-};
 
-exports.deleteProgramObjective = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deletedObjective = await ProgramObjective.findByIdAndDelete(id);
-    if (!deletedObjective) {
-      return res.status(404).json({ error: "Objective not found" });
-    }
-    res.status(200).json({ message: "Objective deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  const programObjectives = req.body.map(proObj => ({
+      code: proObj.code,
+      description: proObj.description,
+      faculty: req.params.facultyId
+  }));
 
-exports.updateProgramObjective = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { code, description } = req.body;
-    const updatedObjective = await ProgramObjective.findByIdAndUpdate(
-      id,
-      { code, description },
-      { new: true }
-    );
-    if (!updatedObjective) {
-      return res.status(404).json({ error: "Objective not found" });
-    }
-    res.status(200).json({ objective: updatedObjective });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  const docs = await ProgramObjective.insertMany(programObjectives);
 
-exports.getProgramObjectiveById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const objective = await ProgramObjective.findById(id);
-    if (!objective) {
-      return res.status(404).json({ error: "Objective not found" });
-    }
-    res.status(200).json({ objective });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  res.status(201).json({
+  status: "success",
+  data: docs,
+  });
+
+} )
+
+exports.getAllProgramObjectives = catchAsync( async(req, res, next) => {
+  if (!req.params.facultyId) {
+    return next(new AppError("Please provide a faculty id", 400));
   }
-};
+  const programObjectives = await ProgramObjective.find({ faculty: req.params.facultyId });
+  res.status(200).json({
+  status: "success",
+  data: programObjectives,
+  });
+} )
+
+exports.deleteOne = catchAsync(async (req, res, next) => {
+  const doc = await ProgramObjective.findByIdAndDelete(req.params.id);
+  if (!doc) {
+    return next(new AppError("No document found with that id", 404));
+  }
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});
+
+exports.updateOne = catchAsync(async (req, res, next) => {
+  const doc = await ProgramObjective.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!doc) {
+    return next(new AppError("No document found with that id", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: doc,
+  });
+});
+
+exports.getOne = catchAsync(async (req, res, next) => {
+
+  const doc = await ProgramObjective.findById(req.params.id);
+  if (!doc) {
+    return next(new AppError("No document found with that id", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: doc,
+  });
+})

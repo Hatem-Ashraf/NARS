@@ -1,30 +1,57 @@
 const mongoose = require('mongoose');
 
 const topicSchema = new mongoose.Schema({
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course', // Reference to the 'Course' schema
+  title: {
+    type: String,
+    required: true
+  },
+  week: {
+    type: Number,
+    required: true
+  },
+  plannedHours: {
+    type: Number,
+    required: true
+  },
+  actualHours: {
+    type: Number,
     required: true
   },
   learningOutcomes: [{
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'LO'
+  }],
+  course: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'LO', // Reference to the 'LO' schema
     required: true
-  }],
+  },
   isCovered: {
     type: Boolean,
     default: false
+  },
+  possibleCompensationActions: {
+    type: String,
+    default: ""
   }
 });
 
-// Static method to calculate learning outcome coverage by program
-topicSchema.statics.calculateLearningOutcomeCoverageByProgram = async function(programId) {
-  const courses = await mongoose.model('Course').find({ program: programId }).select('_id');
-  const courseIds = courses.map(course => course._id);
+topicSchema.statics.calculateCoveragePercentage = async function(courseId) {
+  const totalTopics = await this.countDocuments({ course: courseId });
+  const coveredTopics = await this.countDocuments({ course: courseId, isCovered: true });
 
-  const topics = await this.find({ course: { $in: courseIds } });
+  if (totalTopics === 0) {
+    return 0;
+  }
+
+  return (coveredTopics / totalTopics) * 100;
+};
+
+topicSchema.statics.calculateLearningOutcomeCoverage = async function(courseId) {
+  const topics = await this.find({ course: courseId });
 
   const learningOutcomeCounts = {};
+  const coveredLearningOutcomes = {};
 
   topics.forEach(topic => {
     topic.learningOutcomes.forEach(loId => {
@@ -40,24 +67,13 @@ topicSchema.statics.calculateLearningOutcomeCoverageByProgram = async function(p
   });
 
   const coverageResults = [];
-  let totalCount = 0;
-  let totalCoveredCount = 0;
-
   Object.keys(learningOutcomeCounts).forEach(loId => {
-    const count = learningOutcomeCounts[loId].count;
-    const coveredCount = learningOutcomeCounts[loId].coveredCount;
-    const coveragePercentage = (coveredCount / count) * 100;
-    coverageResults.push({ id: loId, coverage: parseFloat(coveragePercentage.toFixed(2)) });
-
-    totalCount += count;
-    totalCoveredCount += coveredCount;
+    const coveragePercentage = (learningOutcomeCounts[loId].coveredCount / learningOutcomeCounts[loId].count) * 100;
+    coverageResults.push({ id: loId, coverage: coveragePercentage.toFixed(2) });
   });
 
-  const totalCoveragePercentage = (totalCoveredCount / totalCount) * 100;
-
-  return { coverageResults, totalCoveragePercentage: parseFloat(totalCoveragePercentage.toFixed(2)) };
+  return coverageResults; // Return the results instead of logging them
 };
 
-const Topic = mongoose.model('Topic', topicSchema);
 
-module.exports = Topic;
+module.exports = mongoose.model('Topic', topicSchema);

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
   name: {
@@ -10,49 +10,68 @@ const courseSchema = new mongoose.Schema({
     type: String,
     unique: true,
     trim: true,
-    required: [true, "Course must have a code"]
+    required: [true, "Course must have a code"],
+  },
+  hours: {
+    type: Number,
+    required: [true, "Course must have hours"],
   },
   academicYear: {
     type: String,
   },
   courseAims: {
     type: String,
-    required: [true, 'Please provide course aims']
+    required: [true, "Please provide course aims"],
   },
   courseInformation: {
     type: String,
-    required: [true, 'Please provide course info']
+    required: [true, "Please provide course info"],
   },
-  competences: [{
-    type: mongoose.Schema.Types.ObjectId,
-    refPath: 'competencesModel',
-    required: [true, "Course must have Competences"],
-  }],
-  learningOutcomes: [{
-    code: { type: String, required: true },
-    name: { type: String, required: true },
-  }],
+  competences: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "los",
+      // required: [true, "course must have Competences"],
+    },
+  ],
+  learningOutcomes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      trim: true,
+      ref: "los",
+      required: true,
+    },
+  ],
   department: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Department'
+    ref: "Department",
+  },
+  program: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Program",
+    required: [true, "Course must be in a program"],
   },
   faculty: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Faculty'
+    ref: "Faculty",
   },
-  exams: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exam'
-  }],
+  exams: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Exam",
+    },
+  ],
   fullMark: {
     type: Number,
   },
-  materialsPaths: [{
-    path: String,
-    name: String,
-    description: String,
-    date: Date,
-  }],
+  materialsPaths: [
+    {
+      path: String,
+      name: String,
+      description: String,
+      date: Date,
+    },
+  ],
   minTarget: {
     type: Number,
     default: 50,
@@ -63,36 +82,41 @@ const courseSchema = new mongoose.Schema({
   },
   competencesModel: {
     type: String,
-    enum: ['departmentCompetences', 'facultyCompetences', 'programCompetences']
+    enum: ["departmentCompetences", "facultyCompetences", "programCompetences"],
   },
-  program: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Program', // Reference to the 'Program' schema
-    required: true
-  },
-  learningOutcomeCoverage: [{
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'LO'
+  learningOutcomeCoverage: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LO",
+      },
+      coverage: {
+        type: Number,
+        default: 0,
+      },
     },
-    coverage: {
-      type: Number,
-      default: 0
-    }
-  }]
+  ],
+  learningOutcomeAssessmentsCoverage: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LO",
+      },
+      coverage: {
+        type: Number,
+        default: 0,
+      },
+    },
+  ],
 });
 
 courseSchema.pre(/^find/, function (next) {
-  const populateOptions = {
-    path: 'competences',
-    populate: { path: 'competencesModel' }
-  };
-
   if (this.competencesModel) {
-    populateOptions.populate.refPath = this.competencesModel;
+    this.populate({
+      path: "competences",
+      model: this.competencesModel,
+    });
   }
-
-  this.populate(populateOptions);
   next();
 });
 

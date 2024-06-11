@@ -13,6 +13,7 @@ const assessmentMethod = require("./routes/assessmentMethod");
 const student = require("./routes/student");
 const globalErrorHandler = require("./shared/controllers/errorController");
 const topicRoute = require("./routes/topicsRoute");
+const losRoute = require("./routes/losRoute");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dispLos = require('../controllers/dispLos');
@@ -50,6 +51,7 @@ app.use("/", assessmentMethod);
 app.use("/", student);
 app.use('/los/program/:programId' , dispLos );
 app.use("/topic", topicRoute);
+app.use("/los",losRoute);
 app.all("*", (req, res, next) => {
   next(
     new AppError(`can't find ${req.originalUrl} on this course server `, 404)
