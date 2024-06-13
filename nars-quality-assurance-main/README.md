@@ -867,3 +867,11 @@ get all assessment methods: get http://localhost:8087/assessment-methods/
   http://localhost:8086/grade/gradeUnderProgram/:programId
 
 get asssesment Los percentage : get http://localhost:8087/assessment-results/666839bca18039ff12ed8f67 //course id
+
+# competence for program report 
+http://localhost:8085/facultyComp  >> level A
+
+http://localhost:8085/programComp   >> level C
+
+http://localhost:8085/departmentComp  >> level B
+
