@@ -74,12 +74,10 @@ exports.getProgramCompetenceById = async (req, res) => {
 
 exports.getAllCompetences = async (req, res) => {
   try {
-    // Fetch all competences from different collections
     const departmentCompetences = await DepartmentCompetences.find();
     const facultyCompetences = await FacultyCompetences.find();
     const programCompetences = await ProgramComp.find();
 
-    // Concatenate all competences into a single array
     const allCompetences = [
       ...departmentCompetences,
       ...facultyCompetences,
