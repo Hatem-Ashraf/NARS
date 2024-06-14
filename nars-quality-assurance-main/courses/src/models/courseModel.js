@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
-
   name: {
     type: String,
     trim: true,
@@ -11,51 +10,57 @@ const courseSchema = new mongoose.Schema({
     type: String,
     unique: true,
     trim: true,
-    required: [true, "Course must have a code"]
+    required: [true, "Course must have a code"],
   },
   hours: {
     type: Number,
     required: [true, "Course must have hours"],
   },
   academicYear: {
-  type: String,
+    type: String,
   },
   courseAims: {
     type: String,
-    required: [true, 'Please provide course aims']
+    required: [true, "Please provide course aims"],
   },
   courseInformation: {
     type: String,
-    required: [true, 'Please provide course info']
+    required: [true, "Please provide course info"],
   },
-  competences: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'los',
-    // required: [true, "course must have Competences"],
-  }],
-  learningOutcomes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    trim: true,
-    ref: 'los' ,
-    required: true
-  }],
+  competences: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "los",
+      // required: [true, "course must have Competences"],
+    },
+  ],
+  learningOutcomes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      trim: true,
+      ref: "los",
+      required: true,
+    },
+  ],
   department: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Department'
+    ref: "Department",
   },
   program: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Program',
-    required: [true, "Course must be in a program"]
+    ref: "Program",
+    required: [true, "Course must be in a program"],
   },
   faculty: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Faculty'
+    ref: "Faculty",
   },
-  exams: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exam'
-  }],
+  exams: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Exam",
+    },
+  ],
   fullMark: {
     type: Number,
   },
@@ -77,15 +82,39 @@ const courseSchema = new mongoose.Schema({
   },
   competencesModel: {
     type: String,
-    enum: ['departmentCompetences', 'facultyCompetences', 'programCompetences']
-  }
+    enum: ["departmentCompetences", "facultyCompetences", "programCompetences"],
+  },
+  learningOutcomeCoverage: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LO",
+      },
+      coverage: {
+        type: Number,
+        default: 0,
+      },
+    },
+  ],
+  learningOutcomeAssessmentsCoverage: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LO",
+      },
+      coverage: {
+        type: Number,
+        default: 0,
+      },
+    },
+  ],
 });
 
 courseSchema.pre(/^find/, function (next) {
   if (this.competencesModel) {
     this.populate({
-      path: 'competences',
-      model: this.competencesModel
+      path: "competences",
+      model: this.competencesModel,
     });
   }
   next();

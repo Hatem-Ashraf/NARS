@@ -23,7 +23,7 @@ const topicSchema = new mongoose.Schema({
   }],
   course: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course', 
+    ref: 'LO', // Reference to the 'LO' schema
     required: true
   },
   isCovered: {

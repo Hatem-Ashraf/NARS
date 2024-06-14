@@ -14,7 +14,7 @@ export default function Layout({ children, cookies }) {
   return (
     <>
       <div className="grid grid-cols-12">
-      {!router.asPath.includes('/register') ? (
+      {!router.asPath.includes('/register') && !router.asPath.includes('/password') && !router.asPath.includes('/otp') ? (
         <>
           <div className="col-span-2 h-screen"> 
           <SideDashboard />

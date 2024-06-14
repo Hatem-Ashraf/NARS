@@ -5,11 +5,11 @@ const router = express.Router();
 
 router.get("/faculty/:facultyId", competencesController.getAll);
 router.post("/faculty/:facultyId", competencesController.addCompetences);
-router.get("/:id", competencesController.getOne);
+//router.get("/:id", competencesController.getOne);
 
 router.get("/faculty/:facultyId/level/:level", competencesController.getAllByLevel);
-router.patch("/:id", competencesController.updateOne);
-router.delete("/:id", competencesController.deleteOne);
+//router.patch("/:id", competencesController.updateOne);
+//router.delete("/:id", competencesController.deleteOne);
 
 
 module.exports = router;
