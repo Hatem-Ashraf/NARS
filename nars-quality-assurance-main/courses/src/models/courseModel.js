@@ -108,6 +108,18 @@ const courseSchema = new mongoose.Schema({
       },
     },
   ],
+  learningOutcomeTotalCoverage: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LO",
+      },
+      coverage: {
+        type: Number,
+        default: 0,
+      },
+    },
+  ],
 });
 
 courseSchema.pre(/^find/, function (next) {

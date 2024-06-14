@@ -535,3 +535,61 @@ exports.getAssessmentResults = async (req, res) => {
       .json({ error: "An error occurred while fetching results." });
   }
 };
+
+exports.calculateLOCoverage = async (req, res) => {
+  try {
+    // Get the course ID from request parameters
+    const { courseId } = req.params;
+
+    // Find the course by ID
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    // Extract the learning outcome coverages
+    const { learningOutcomeCoverage, learningOutcomeAssessmentsCoverage } =
+      course;
+
+    // Create a map to store the total coverages
+    const loTotalCoverageMap = new Map();
+
+    // Process the learningOutcomeCoverage array
+    learningOutcomeCoverage.forEach((lo) => {
+      loTotalCoverageMap.set(lo.id.toString(), {
+        coverage: lo.coverage,
+        count: 1,
+      });
+    });
+
+    // Process the learningOutcomeAssessmentsCoverage array
+    learningOutcomeAssessmentsCoverage.forEach((lo) => {
+      const loId = lo.id.toString();
+      if (loTotalCoverageMap.has(loId)) {
+        const loData = loTotalCoverageMap.get(loId);
+        loData.coverage += lo.coverage;
+        loData.count += 1;
+        loTotalCoverageMap.set(loId, loData);
+      } else {
+        loTotalCoverageMap.set(loId, { coverage: lo.coverage, count: 1 });
+      }
+    });
+
+    // Calculate the average coverages and construct the learningOutcomeTotalCoverage array
+    const learningOutcomeTotalCoverage = Array.from(
+      loTotalCoverageMap.entries()
+    ).map(([id, { coverage, count }]) => ({
+      id: mongoose.Types.ObjectId(id),
+      coverage: coverage / count,
+    }));
+
+    // Update the course with the new learningOutcomeTotalCoverage
+    course.learningOutcomeTotalCoverage = learningOutcomeTotalCoverage;
+    await course.save();
+
+    // Respond with the updated course
+    res.status(200).json(course);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

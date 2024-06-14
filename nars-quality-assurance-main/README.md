@@ -867,3 +867,4 @@ get all assessment methods: get http://localhost:8087/assessment-methods/
   http://localhost:8086/grade/gradeUnderProgram/:programId
 
 get asssesment Los percentage : get http://localhost:8087/assessment-results/666839bca18039ff12ed8f67 //course id
+get total LOs btw topics and assessments : http://localhost:8087/calculateLOCoverage/666839bca18039ff12ed8f67 //course id
