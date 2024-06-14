@@ -22,9 +22,10 @@ const addfaculty = ({ cookies }) => {
   const [competencesChecked, setCompetencesChecked] = useState([]);
   const [msg, setMsg] = useState("");
   const [competences, setcompetences] = useState([]);
+  const [programId, setProgramId] = useState(null);
   const name = useRef();
   const email = useRef();
-  const about = useRef();
+  const program = useRef();
   const choosen = useRef();
 
   // async function getCreatedCoursesForInstructor() {
@@ -89,8 +90,10 @@ const addfaculty = ({ cookies }) => {
   
         name.current.value = data.data.name;
         email.current.value = data.data.email;
+        const instructorProgramId = data.data.program;
+        setProgramId(instructorProgramId);
   
-        const response2 = await fetch(`http://localhost:8087/newCourse`, {
+        const response2 = await fetch(`http://localhost:8087/getCoursesByProgramId/${instructorProgramId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
