@@ -22,6 +22,14 @@ exports.lo_coverage_by_program = async (req, res) => {
 };
 
 // Define the route
-router.get('/programs/:programId/learning-outcome-coverage', exports.lo_coverage_by_program);
+//router.get('/programs/:programId/learning-outcome-coverage', exports.lo_coverage_by_program);
+
+module.exports = router;
+
+const express = require('express');
+const { getLOCoverageByProgram } = require('../controllers/los'); // Adjust the path as necessary
+
+// Define the route for getting LO coverage by program ID
+router.get('/:programId/lo-coverage', getLOCoverageByProgram);
 
 module.exports = router;
