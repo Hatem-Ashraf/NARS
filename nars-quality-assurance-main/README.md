@@ -330,7 +330,7 @@ http://localhost:8081/staff/<id>
 
 ## Course TOPICS
 
-createTopic: POST http://localhost:8087/
+createTopic: POST http://localhost:8087/topic
 
 json:
 {
@@ -346,13 +346,13 @@ json:
 ]
 }
 
-getAllTopics: GET http://localhost:8087/
+getAllTopics: GET http://localhost:8087/topic
 
-getTopic: GET http://localhost:8087/:topicId
+getTopic: GET http://localhost:8087/topic/:topicId
 
-deleteTopic: delete http://localhost:8087/:topicId
+deleteTopic: delete http://localhost:8087/topic/:topicId
 
-updateTopic : patch http://localhost:8087/:topicId
+updateTopic : patch http://localhost:8087/topic/:topicId
 
 json:
 {
@@ -717,7 +717,7 @@ json :
   http://localhost:8085/faculty/facultyId
 
 - GETone, PATCCH, DELETE
-  http://localhost:8085/competenceId
+  http://localhost:8085/compId/competenceId
 
 - GET competences by level
   http://localhost:8085/faculty/:facultyId/level/C
@@ -812,6 +812,7 @@ json:
 get all assessment methods: get http://localhost:8087/assessment-methods/
 
 - get all los http://localhost:8087/los/all
+- get assessments under course http://localhost:8087/assessment-methods-under-course/:id
 - get los under course: http://localhost:8087/los/courses/:courseId
 - to get los by domain : http://localhost:8087/los?domain=Cognitive
 - get competencies under course

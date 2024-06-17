@@ -9,6 +9,8 @@ import { updateField } from "./store/userSlice";
 import HeaderElement from "./HeaderElement";
 import { header } from "./header";
 import { TiGroupOutline } from "react-icons/ti";
+import { RiFileList2Line } from "react-icons/ri";
+
 import Cookies from "js-cookie";
 
 export default function InstructorDashboard({ cookies }) {
@@ -174,6 +176,25 @@ export default function InstructorDashboard({ cookies }) {
               </span>
               
               <span className="ml-3">Course Report</span>
+          </span>
+          
+      </Link>
+          <Link
+          className="link2 focus:text-green-400"
+          href="/instructor/courses/CourseSpecs"
+      >
+            <span >
+                <span>
+                <RiFileList2Line
+                  style={{
+                    fontSize: 30,
+                    display: "inline",
+                    marginRight: 0,
+                  }}
+                />
+              </span>
+              
+              <span className="ml-3">Course Specs</span>
           </span>
           
       </Link>
