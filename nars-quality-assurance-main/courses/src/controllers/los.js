@@ -203,8 +203,8 @@ exports.createMultipleLos = async (req, res) => {
 }
 
 const mongoose = require('mongoose');
-const Program = require('../models/Program'); 
-const Topic = require('../models/Topic');     
+const Program = require('../models/programModel'); 
+const Topic = require('../models/topicsModel');     
 
 exports.getLOCoverageByProgram = async (req, res) => {
   try {
