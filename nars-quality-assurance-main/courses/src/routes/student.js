@@ -22,4 +22,9 @@ router.get(
   "/assessment-results/:courseId",
   studentController.getAssessmentResults
 );
+router.get(
+  "/calculateLOCoverage/:courseId",
+  studentController.calculateLOCoverage
+);
+
 module.exports = router;
