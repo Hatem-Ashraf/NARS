@@ -253,12 +253,10 @@ exports.calculateLOCoverage = async (req, res) => {
     program.totalLOs = aggregatedLOs;
     await program.save();
 
-    res
-      .status(200)
-      .json({
-        message: "LO coverage calculated successfully",
-        totalLOs: aggregatedLOs,
-      });
+    res.status(200).json({
+      message: "LO coverage calculated successfully",
+      totalLOs: aggregatedLOs,
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }

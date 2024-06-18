@@ -74,7 +74,7 @@
   @apply bg-white overflow-y-scroll fixed shadow-lg w-[16.7%] flex flex-col justify-start gap-10 min-h-screen py-6 px-2 text-indigo-700;
 }
 .instructorNav {
-  @apply bg-white overflow-y-scroll fixed shadow-lg w-[16.7%] flex flex-col justify-start gap-5 min-h-screen py-6 px-2 text-indigo-700;
+  @apply bg-white overflow-y-scroll fixed shadow-lg w-[16.7%] flex flex-col justify-start gap-3 min-h-screen py-6 px-2 text-indigo-700;
 }
 
 .cusGradientColor{

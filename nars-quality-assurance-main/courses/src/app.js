@@ -51,7 +51,8 @@ app.use("/assignmentSolution", assignmentSolutionsRoute);
 app.use("/", courseRoute);
 app.use("/", assessmentMethod);
 app.use("/", student);
-// app.use("/los/program/:programId", dispLos);
+// app.use('/los/program/:programId' , dispLos );
+
 app.use("/topic", topicRoute);
 app.use("/los", losRoute);
 
