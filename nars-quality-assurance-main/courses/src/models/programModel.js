@@ -9,7 +9,7 @@ const programSchema = new mongoose.Schema({
   competences: {
     type: [
       {
-        type: String
+        type: String,
       },
     ],
     required: [true, "Program must have competences"],
@@ -43,6 +43,18 @@ const programSchema = new mongoose.Schema({
       type: [Object],
     },
   },
+  totalLOs: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LO",
+      },
+      coverage: {
+        type: Number,
+        default: 0,
+      },
+    },
+  ],
 });
 
 const program = mongoose.model("program", programSchema);
