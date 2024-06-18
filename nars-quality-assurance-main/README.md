@@ -877,3 +877,5 @@ http://localhost:8085/programComp >> level C
 http://localhost:8085/departmentComp >> level B
 
 get total LOs btw topics and assessments : http://localhost:8087/calculateLOCoverage/666839bca18039ff12ed8f67 //course id
+
+get program total LOs: http://localhost:8087/calculate-lo-coverage/66151085a5450305f1424f85 //program id
