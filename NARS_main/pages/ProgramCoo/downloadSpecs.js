@@ -40,7 +40,7 @@ const generatePdf = async () => {
     heightLeft -= pdfHeight;
   }
 
-  pdf.save('program_specs.pdf');
+  pdf.save('program_Report.pdf');
 };
 
 export default generatePdf;

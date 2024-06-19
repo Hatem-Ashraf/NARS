@@ -24,11 +24,11 @@ const programReport = ({ cookies }) => {
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto scrollbar-none">
           <div id="pdfContent">
             <label class="label-form md:text-2xl text-center">
-              Program Specs
+              Program Report
             </label>
             <LosDescriptionTable />
-            <CoursesCompetences cookies={cookies} />
             <Graph1 cookies={cookies}/>
+            <CoursesCompetences cookies={cookies} />
           </div>
           </div>
         </form>
