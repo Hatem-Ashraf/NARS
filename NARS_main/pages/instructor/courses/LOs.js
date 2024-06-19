@@ -252,7 +252,7 @@ const CreateCourse = ({ cookies }) => {
   
     // Function to fetch competence details
     const fetchCompetenceDetails = async (competenceId) => {
-      const response = await fetch(`http://localhost:8085/${competenceId}`, {
+      const response = await fetch(`http://localhost:8085/CompId/${competenceId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + userState.token,
@@ -304,6 +304,8 @@ const CreateCourse = ({ cookies }) => {
     }
   };
   
+
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
