@@ -137,59 +137,42 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.signupWithEmail = catchAsync(async (req, res, next) => {
+  // Find the user in either the Staff or Student collection by email
   const user =
-    (await Staff.findOne({ email: req.body.email }).select("+password")) ||
-    (await Student.findOne({ email: req.body.email }).select("+password"));
+    (await Staff.findOne({ email: req.body.email })) ||
+    (await Student.findOne({ email: req.body.email }));
+
+  // If no user is found, return an error
   if (!user)
     return next(
       new AppError(
-        `there is no user with this => ${req.body.email} email address`,
+        `There is no user with this => ${req.body.email} email address`,
         404
       )
     );
-  
+
+  // If the user already has a password, it means they have already signed up
   if (user.password) {
-    return next(new AppError(`that email already signup`, 404));
+    return next(new AppError(`That email is already signed up`, 404));
   }
 
   // Generate verification code
   const verifyCode = user.createPasswordResetToken();
 
   // Log verification code in console
-  console.log('Verification Code:', verifyCode);
+  console.log("Verification Code:", verifyCode);
 
   // Save user without validation
   await user.save({ validateBeforeSave: false });
 
-  //Test Way to fix the bug
+  // Respond with success message
   res.status(200).json({
     status: "success",
     message: "Code sent to email",
-  })
-  
+  });
+
   const message = `Your verification code: ${verifyCode}. Please copy this code to verify your account.`;
-  // try {
-  //   // Send email with verification code
-  //   await sendEmail({
-  //     email: user.email,
-  //     subject: "Your verification code (Valid for 10m)",
-  //     message,
-  //     verifyCode,
-  //   });
-
-  //   res.status(200).json({
-  //     status: "success",
-  //     message: "Code sent to email",
-  //   });
-  // } catch (err) {
-  //   // Handle error if email sending fails
-  //   await user.save({ validateBeforeSave: false });
-  //   return next(
-  //     new AppError("There was an error sending the email. Please try again later", 500)
-  //   );
-  // }
 });
-
 
 exports.completeSignup = catchAsync(async (req, res, next) => {
   const hashedToken = crypto
