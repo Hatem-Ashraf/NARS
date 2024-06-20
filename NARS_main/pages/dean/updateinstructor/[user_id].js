@@ -11,21 +11,47 @@ const addfaculty = ({ cookies }) => {
 
   //Check if user is logged in
   const userState = useSelector((s) => s.user);
-  if (userState.role != "system admin" || userState.loggedInStatus != "true") {
-    return <div className="error">404 could not found</div>;
-  }
+  // if (userState.role != "program admin" || userState.loggedInStatus != "true") {
+  //   return <div className="error">404 could not found</div>;
+  // }
 
 
   const router = useRouter();
-  const { faculty_id } = router.query;
+  const { user_id } = router.query;
   const role = useRef();
   const [competencesChecked, setCompetencesChecked] = useState([]);
   const [msg, setMsg] = useState("");
   const [competences, setcompetences] = useState([]);
+  const [programId, setProgramId] = useState(null);
   const name = useRef();
   const email = useRef();
-  const about = useRef();
+  const program = useRef();
   const choosen = useRef();
+
+  // async function getCreatedCoursesForInstructor() {
+  //   const data = await fetch(
+  //     `http://localhost:8087/original-courses?program=${userState.program}`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: "Bearer " + userState.token,
+  //       },
+  //     }
+  //   );
+
+  //   const resp = await data.json();
+
+  //   console.log(resp);
+
+  //   sC(resp.data);
+  // }
+  const navStatus = useSelector((s) => s.user.navStatus);
+
+  const handelFile = () => {
+    myFileInput.current.click();
+  };
 
   const handleCheckboxChange = (event) => {
     const updatedList = [...competencesChecked]; // Create a copy of the existing competencesChecked array
@@ -42,56 +68,53 @@ const addfaculty = ({ cookies }) => {
     console.log("miniinin1", updatedList);
   };
 
+
+  const [competence, setCompetence] = useState(competences); // Define setCompetence here
   const closeMsg = () => {
     setMsg("");
   };
   useEffect(() => {
     const fetchCompetence = async () => {
       try {
-        const response = await fetch(`http://localhost:8083/${faculty_id}`, {
+        const response = await fetch(`http://localhost:8081/staff/${user_id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: "Bearer " + userState.token,
           },
-      });
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch competence');
-        // }
+        });
+  
         const data = await response.json();
         console.log("res Data:", data);
-        // choosen.current.value = data.data.competences.map((e) => {
-        //   return e;
-        // });
-        name.current.value = data.data.name
-        email.current.value = data.data.dean
-        about.current.value = data.data.about
-        // setCompetencesChecked(data.data.competences);
-
-        const response2 = await fetch(`http://localhost:8085/faculty/${faculty_id}/level/A`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                  Authorization: "Bearer " + userState.token,
-                },
-            });
+  
+        name.current.value = data.data.name;
+        email.current.value = data.data.email;
+        const instructorProgramId = data.data.program;
+        setProgramId(instructorProgramId);
+  
+        const response2 = await fetch(`http://localhost:8087/getCoursesByProgramId/${instructorProgramId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + userState.token,
+          },
+        });
+  
         const data2 = await response2.json();
         console.log("data2.competences", data2.data);
         setcompetences(data2.data);
-
-
-        setCompetence(competenceData);
       } catch (error) {
         console.error('Error fetching competence:', error);
       }
     };
-
-    if (faculty_id) {
+  
+    if (user_id) {
       fetchCompetence();
     }
-  }, [faculty_id]);
+  }, [user_id]);
+
 
   const [inputs, setInputs] = useState([]);
   const [inputs2, setInputs2] = useState([]);
@@ -145,80 +168,20 @@ const addfaculty = ({ cookies }) => {
     console.log(itemsArr);
   };
 
-  // const getIdByEmail = async (email) => {
-  //   try {
-  //     const r = await fetch(`http://localhost:8081/staff?email=${email.current.value}`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //         Authorization: "Bearer " + userState.token,
-  //       },
-  //     });
-
-  //     const resp = await r.json();
-  //     console.log(resp);
-  //     if (resp.status == "fail" || resp.status == "error") {
-  //       setErr(resp.error.errors.dean.message);
-  //       console.log(resp, err);
-  //     }
-  //     else {
-  //       setID(resp.data[0]._id);
-  //       console.log(resp, ID);
-  //     }
-
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-
-  // const year = useRef();
-
-  // const items = [
-  //   "prep",
-  //   "first",
-  //   "second",
-  //   "third",
-  //   "fourth",
-  //   "fifth",
-  //   "sixth",
-  // ];
-
   const submitHandler = async (e) => {
     e.preventDefault();
-    // const arr1 = inputs.map((input1) => {
-    //   return {
-    //     code: input1.ref.current.value,
-    //   };
-    // });
-    // const arr2 = inputs2.map((input2) => {
-    //   return {
-    //     value: input2.ref.current.value,
-    //   };
-    // });
-    // const competences = arr1.map((a, index) => {
-    //   const b = arr2[index];
-    //   return {
-    //     code: a.code,
-    //     description: b.value,
-    //   };
-    // });
     console.log({
-      name: name.current.value,
-      dean: email.current.value,
-      about: about.current.value,
-      competences: competencesChecked,
+      instructorId: user_id,
+      courseIds: competencesChecked,
       // academicYears: itemsArr,
     })
+    
     try {
-      const r = await fetch(`http://localhost:8083/${faculty_id}`, {
+      const r = await fetch(`http://localhost:8087/assign-course-instructor`, {
         method: "PATCH",
         body: JSON.stringify({
-          name: name.current.value,
-          dean: email.current.value,
-          about: about.current.value,
-          competences: competencesChecked,
+          instructorId: user_id,
+          courseIds: competencesChecked,
           // academicYears: itemsArr,
         }),
         headers: {
@@ -239,9 +202,6 @@ const addfaculty = ({ cookies }) => {
       else {
         console.log(resp);
         setMsg(success);
-        setTimeout(() => {
-          router.push("/admin/faculty/viewfaculty");
-        }, 1500);
       }
     } catch (e) {
       console.log(e);
@@ -256,7 +216,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
       <div class="ml-3 text-lg font-medium">
-        Failed to update faculty
+        Failed to assign Instructor
         <a href="#" class="font-semibold underline hover:no-underline"></a>.
       </div>
       <button
@@ -292,7 +252,7 @@ const addfaculty = ({ cookies }) => {
     >
       <i class="fa-solid fa-circle-check"></i>
       <div class="ml-3 text-lg font-medium">
-        Faculty has been updated successfully
+        Instructor has been assigned successfully
         <a href="#" class="font-semibold underline hover:no-underline"></a>
       </div>
       <button
@@ -328,46 +288,70 @@ const addfaculty = ({ cookies }) => {
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
-            <p lassName="text-3xl font-bold text-blue-800 mb-6 mt-4">Update Faculty</p>
+            <p className="font-normal">Instructor {">"} Assign Instructor</p>
             <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-2/5">
-                <div>Faculty Name:</div>
+                <div>Instructor Name:</div>
                 <input
                   required
                   type="text"
                   name="name"
                   className="input-form w-full"
                   ref={name}
+                  readOnly
+                  style={{ color: 'gray' }}
                 />
               </div>
               <div className="flex flex-col gap-5  w-2/5">
-                <div> Dean email:</div>
+                <div> Instructor email:</div>
                 <input
                   required
                   type="email"
                   name="year"
                   className="input-form  w-full"
                   ref={email}
-                  // onBlur={() => getIdByEmail(email)}
+                  readOnly
+                  style={{ color: 'gray' }}
                 />
               </div>
             </div>
 
-            
-            <div className="flex gap-20">
+            <div className="flex justify-between gap-20">
               <div className="flex flex-col gap-5 w-full">
-                <div>About:</div>
-                <textarea
-                  required
-                  className="w-full input-form"
-                  rows="4"
-                  placeholder="Type here  about the faculty"
-                  ref={about}
-                />
+              <label for="country" class="block text-xl font-medium leading-6 text-gray-900">Courses</label>
+              <fieldset>
+                <legend className="sr-only">Checkboxes</legend>
+                  <div className="space-y-2">
+                    {competences && competences.map((el, index) => (
+                      <label
+                        key={index + 1}
+                        htmlFor={index}
+                        className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
+                      >
+                        <div className="flex items-center">
+                          &#8203;
+                          <input
+                            type="checkbox"
+                            className="size-4 rounded border-gray-300"
+                            id={index} 
+                            value={el._id}
+                            data-id={index}
+                            onChange={handleCheckboxChange}
+                          />
+                        </div>
+
+                        <div>
+                          <strong className="font-medium text-gray-900">{el.code}</strong>
+                          <p className="mt-1 text-pretty text-medium text-gray-500">
+                            {el.name}.
+                          </p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+              </fieldset>
               </div>
             </div>
-
-            <CompetenceList competences={competences} handleCheckboxChange={handleCheckboxChange}/>
               
             <div className="flex gap-20 ">
               {<div className="w-1/2 mt-10">{msg}</div>}
@@ -378,7 +362,7 @@ const addfaculty = ({ cookies }) => {
                 type="submit"
                 class="w-[6rem]  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 mx-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                Update
+                Assign
               </button>
             </div>
           </div>
@@ -387,64 +371,4 @@ const addfaculty = ({ cookies }) => {
     </>
   );
 };
-
-
-const CompetenceList = ({ competences, handleCheckboxChange }) => {
-
-  console.log("Competences from CompetenceList: ", competences)
-
-  if (competences.length == 0) {
-    return (
-      <div className="flex flex-col gap-5 w-full">
-        <h4 className="font-semibold text-xl"> 
-            Please mark the competences this faculty aims to achieve:
-        </h4>
-        <p className="text-red-500 font-semibold text-lg ml-5">No competences found for this faculty</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex justify-between gap-20">
-    <div className="flex flex-col gap-5 w-full">
-    <h4 className="font-semibold ">
-        Please mark the competences this faculty aims to achieve:
-    </h4>
-    <fieldset>
-      <legend className="sr-only">Checkboxes</legend>
-
-      <div className="space-y-2">
-      {competences.map((el, index) => {
-          return (
-        <label
-          key={index + 1}
-          htmlFor={index}
-          className="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-200 has-[:checked]:bg-blue-50"
-        >
-          <div className="flex items-center">
-            &#8203;
-            <input type="checkbox" className="size-4 rounded border-gray-300" id={index} 
-            value={el._id}
-            data-id={index}
-            onChange={handleCheckboxChange}
-            />
-          </div>
-
-          <div>
-            <strong className="font-medium text-gray-900"> {el.code} </strong>
-
-            <p className="mt-1 text-pretty text-medium text-gray-500">
-            {el.description}.
-            </p>
-          </div>
-        </label>
-          )
-        })}
-      </div>
-    </fieldset>
-    </div>
-  </div>
-  )
-}
-
 export default addfaculty;

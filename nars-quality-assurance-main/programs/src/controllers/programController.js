@@ -304,7 +304,7 @@ exports.getProgramDirectAssessment = catchAsync(async (req, res, next) => {
 exports.addProgram = async (req, res) => {
   try {
     // Extract name and competences from the request body
-    const { name, competences } = req.body;
+    const { name, competences, vision, mission } = req.body;
 
     const facultyId = req.params.facultyId;
     const departmentId = req.params.departmentId;
@@ -322,6 +322,8 @@ exports.addProgram = async (req, res) => {
       faculty: facultyId,
       department: departmentId,
       competences,
+      vision,
+      mission,
     });
 
     // Save the program to the database
@@ -357,6 +359,59 @@ exports.getAllPrograms = async (req, res) => {
     const allPrograms = await Program.find({
       faculty: facultyId,
       department: departmentId,
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        programs: allPrograms,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Error retrieving programs from the database",
+    });
+  }
+};
+
+//get one program
+exports.getOneProgram = async (req, res) => {
+  try {
+    const program = await Program.findById(req.params.id);
+
+    if (!program) return res.json({status: "fail", message: "Program not found"})
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        program,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
+
+//GET all program in a faculty
+exports.getAllProgramsInFaculty = async (req, res) => {
+  try {
+    const facultyId = req.params.facultyId;
+
+    if (!facultyId) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Program must have a name, facultyId",
+      });
+    }
+
+    // Fetch all programs from the database in a specific faculty and department
+    const allPrograms = await Program.find({
+      faculty: facultyId,
     });
 
     res.status(200).json({

@@ -361,6 +361,9 @@ setMsg(failImport);
         console.log("submit Response:",data2);
         if (data2.status == "success") {
           setMsg(success);
+          setTimeout(() => {
+            router.push("/admin/staff/view-all");
+          }, 1500);
         } else {
           setMsg(fail);
         }

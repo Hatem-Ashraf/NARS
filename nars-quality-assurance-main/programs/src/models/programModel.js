@@ -43,6 +43,12 @@ const programSchema = new mongoose.Schema({
       type: [Object],
     },
   },
+  mission: {
+    type: String,
+  },
+  vision: {
+    type: String,
+  },
 });
 
 const program = mongoose.model("program", programSchema);

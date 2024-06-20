@@ -1,4 +1,5 @@
 import { createRef } from "react";
+import { useRouter } from 'next/router';
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
@@ -12,6 +13,7 @@ const addfaculty = ({ cookies }) => {
   }
 
   const role = useRef();
+  const router = useRouter();
   const [competencesChecked, setCompetencesChecked] = useState([]);
   const [msg, setMsg] = useState("");
   const [competences, setcompetences] = useState([]);
@@ -92,6 +94,8 @@ const addfaculty = ({ cookies }) => {
   const name = useRef();
   const email = useRef();
   const about = useRef();
+  const mission = useRef();
+  const vision = useRef();
   const year = useRef();
 
   const submitHandler = async (e) => {
@@ -100,6 +104,8 @@ const addfaculty = ({ cookies }) => {
       name: name.current.value,
       dean: email.current.value,
       about: about.current.value,
+      mission: mission.current.value,
+      vision: vision.current.value,
       competences: competencesChecked,
     })
     try {
@@ -110,6 +116,8 @@ const addfaculty = ({ cookies }) => {
           name: name.current.value,
           dean: email.current.value,
           about: about.current.value,
+          mission: mission.current.value,
+          vision: vision.current.value,
           competences: competencesChecked,
         }),
         headers: {
@@ -130,6 +138,11 @@ const addfaculty = ({ cookies }) => {
       else {
         setMsg(success);
         console.log(resp);
+
+        //after 1.5 second it redirect to the /profile
+        setTimeout(() => {
+          router.push("/admin/faculty/viewfaculty");
+        }, 1500);
       }
     } catch (e) {
       console.log(e);
@@ -210,7 +223,7 @@ const addfaculty = ({ cookies }) => {
 
   return (
     <>
-      <div className="flex flex-row h-screen mt-5 mb-5">
+      <div className="flex flex-row h-screen mt-5 mb-5" >
         <form
           onSubmit={submitHandler}
           className=" h-screen w-screen flex flex-col justify-center items-center text-black"
@@ -243,6 +256,28 @@ const addfaculty = ({ cookies }) => {
               </div>
             </div>
 
+            <div className="flex justify-between gap-20">
+              <div className="flex flex-col gap-5 w-3/6">
+                <div className="font-semibold">Vision :</div>
+                <textarea
+                  required
+                  className="w-full input-form"
+                  rows="4"
+                  placeholder="Type here  about the vision"
+                  ref={vision}
+                />
+              </div>
+              <div className="flex flex-col gap-5  w-3/6">
+                <div className="font-semibold">Mission :</div>
+                <textarea
+                  required
+                  className="w-full input-form"
+                  rows="4"
+                  placeholder="Type here  about the mission"
+                  ref={mission}
+                />
+              </div>
+            </div>
             
             <div className="flex gap-20">
               <div className="flex flex-col gap-5 w-full">

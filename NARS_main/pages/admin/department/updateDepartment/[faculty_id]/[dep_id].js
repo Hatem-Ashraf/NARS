@@ -256,6 +256,9 @@ const addfaculty = ({ cookies }) => {
       else {
         console.log(resp);
         setMsg(success);
+        setTimeout(() => {
+          router.push("/admin/department/viewDepartments");
+        }, 1500);
       }
     } catch (e) {
       console.log(e);

@@ -17,6 +17,14 @@ const facultySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Competence",
   }],
+  mission: {
+    type: String,
+    required: [true, "Faculty must have about"],
+  },
+  vision: {
+    type: String,
+    required: [true, "Faculty must have about"],
+  },
 });
 
 const Faculty = mongoose.model("Faculty", facultySchema);
