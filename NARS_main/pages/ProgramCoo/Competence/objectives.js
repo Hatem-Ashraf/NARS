@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import Link from "next/link";
 import { useSelector } from "react-redux";
 
-function Competences({ competences}) {
+function Competences({ competences }) {
   const userState = useSelector((s) => s.user);
 
   return (
-    <div className="container mt-10 ">
+    <div className="container mt-10">
       <table className="w-full text-left border rounded">
         <thead className="bg-sky-100">
           <tr className="text-xl">
@@ -16,14 +15,20 @@ function Competences({ competences}) {
           </tr>
         </thead>
         <tbody>
-          {competences.map((comp) => {
-            return (
+          {competences && competences.length > 0 ? (
+            competences.map((comp) => (
               <tr key={comp.code}>
                 <td className="border text-xl px-4 py-2 bg-white">{comp.code}</td>
                 <td className="border text-xl px-4 py-2 bg-white">{comp.description}</td>
               </tr>
-            );
-          })}
+            ))
+          ) : (
+            <tr>
+              <td className="border text-xl px-4 py-2 bg-white" colSpan="2">
+                No competences found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
@@ -32,7 +37,6 @@ function Competences({ competences}) {
 
 Competences.propTypes = {
   competences: PropTypes.array.isRequired,
-  level: PropTypes.string.isRequired,
 };
 
 export default Competences;
