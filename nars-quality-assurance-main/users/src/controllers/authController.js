@@ -7,14 +7,14 @@ const catchAsync = require("../shared/utils/catchAsync");
 const AppError = require("../shared/utils/appError");
 const sendEmail = require("../shared/utils/email");
 
-const signToken = (id) => {
-  return JWT.sign({ id }, process.env.JWT_SECRET, {
+const signToken = (id, role) => {
+  return JWT.sign({ id, role }, process.env.JWT_SECRET, {
     expiresIn: process.env.EXPIRES_IN,
   });
 };
 
 const createSendToken = (user, statusCode, req, res) => {
-  const token = signToken(user._id);
+  const token = signToken(user._id, user.roles[0]);
 
   const cookieOptions = {
     expires: new Date(
@@ -202,29 +202,36 @@ exports.completeSignup = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-  const userPassword = req.body.password;
-  const userEmail =
-    (await Staff.findOne({ email: req.body.email })) ||
-    (await Student.findOne({ email: req.body.email }));
+  const { email, password, role } = req.body;
 
-  if (!userEmail || !userPassword) {
-    return next(new AppError("Please provide email and password!", 400));
-  }
-  // 2) Check if user exists && password is correct
-  const user =
-    (await Staff.findOne({ email: req.body.email }).select("+password")) ||
-    (await Student.findOne({ email: req.body.email }).select("+password"));
-
-  if (!user || !(await user.correctPassword(userPassword, user.password))) {
-    return next(new AppError("Incorrect email or password", 401));
+  if (!email || !password || !role) {
+    return next(new AppError("Please provide email, password, and role!", 400));
   }
 
-  // 3) If everything ok, send token to client
+  // Search for users in the Staff collection based on the role
+  let user;
+  if (role === "student") {
+    user = await Student.findOne({ email }).select("+password");
+  } else {
+    user = await Staff.findOne({ email, roles: role }).select("+password");
+  }
+
+  if (!user) {
+    return next(new AppError("Incorrect email, password, or role", 401));
+  }
+
+  const correctPassword = await user.correctPassword(password, user.password);
+
+  if (!correctPassword) {
+    return next(new AppError("Incorrect email, password, or role", 401));
+  }
+
+  // If everything is ok, send token to client
   createSendToken(user, 200, req, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  // 1) Getting token and check of it's there
+  // 1) Getting token and check if it's there
   let token;
   if (
     req.headers.authorization &&
@@ -234,8 +241,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
-  console.log("Headers are " + JSON.stringify(req.headers.authorization));
-  console.log("Received token is " + token);
 
   if (!token) {
     return next(
@@ -246,7 +251,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   // 2) Verification token
   const decoded = await promisify(JWT.verify)(token, process.env.JWT_SECRET);
 
-  // 3) Check if user still exists
+  // 3) Check if user still exists and role matches
   const staffUser = await Staff.findById(decoded.id);
   const studentUser = await Student.findById(decoded.id);
   if (!staffUser && !studentUser) {
@@ -258,6 +263,11 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
   const currentUser = staffUser ? staffUser : studentUser;
+
+  // Check if the role matches
+  if (decoded.role !== currentUser.roles[0]) {
+    return next(new AppError("Role mismatch! Please log in again.", 401));
+  }
 
   // 4) Check if user changed password after the token was issued
   if (currentUser.chagesPasswordAfter(decoded.iat)) {
@@ -273,38 +283,12 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.restrictTo = (...roles) => {
-  return async (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.roles[0])) {
       return next(
         new AppError("You do not have permission to perform this action", 403)
       );
     }
-
-    let token;
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      token = req.headers.authorization.split(" ")[1];
-    } else if (req.cookies.jwt) {
-      token = req.cookies.jwt;
-    }
-
-    if (!token) {
-      return next(
-        new AppError("You are not logged in! Please log in to get access.", 401)
-      );
-    }
-
-    //check if this user is actually a staff member (to avoid students trying to get around this by passing a role)
-    const decoded = await promisify(JWT.verify)(token, process.env.JWT_SECRET);
-    const staffUser = await Staff.findById(decoded.id);
-    if (!staffUser || !roles.includes(staffUser.role)) {
-      return next(
-        new AppError("You do not have permission to perform this action", 403)
-      );
-    }
-
     next();
   };
 };
