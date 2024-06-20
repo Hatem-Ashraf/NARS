@@ -361,6 +361,9 @@ setMsg(failImport);
         console.log("submit Response:",data2);
         if (data2.status == "success") {
           setMsg(success);
+          setTimeout(() => {
+            router.push("/admin/staff/view-all");
+          }, 1500);
         } else {
           setMsg(fail);
         }
@@ -375,7 +378,7 @@ setMsg(failImport);
   let fail = (
     <div
       id="alert-border-2"
-      class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+      class="flex p-4 mb-4 text-red-800 border-t-4 text-lg border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
       role="alert"
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
@@ -410,7 +413,7 @@ setMsg(failImport);
   let failImport = (
     <div
       id="alert-border-2"
-      class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+      class="flex p-4 mb-4 text-red-800 border-t-4 text-lg border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
       role="alert"
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
@@ -445,7 +448,7 @@ setMsg(failImport);
   let partiallyfailImport = (
     <div
       id="alert-border-2"
-      class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+      class="flex p-4 mb-4 text-red-800 border-t-4 text-lg border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
       role="alert"
     >
       <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
@@ -480,7 +483,7 @@ setMsg(failImport);
   let success = (
     <div
       id="alert-border-3"
-      class="flex p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800"
+      class="flex p-4 mb-4 text-green-800 border-t-4 text-lg border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800"
       role="alert"
     >
       <i class="fa-solid fa-circle-check"></i>
@@ -661,7 +664,7 @@ setMsg(failImport);
 
             <div className="flex gap-10 w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="w-1/2">{msg}</div>
+                <div className="w-1/2 text-xl">{msg}</div>
                 <div className="flex space-x-2">
                   {/* <button
                     type="button"

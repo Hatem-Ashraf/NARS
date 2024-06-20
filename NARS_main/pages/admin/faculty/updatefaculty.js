@@ -9,6 +9,8 @@ import Checkbox from "@/components/checkbox/checkbox";
 const updatefaculty = ({ cookies }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [facultyArr, setFaculty] = useState([]);
+  const router = useRouter();
+
   useEffect(() => {
     // document.querySelector("body").classList.add("scrollbar-none");
   });
@@ -69,6 +71,11 @@ const updatefaculty = ({ cookies }) => {
       console.log(resp);
       if (resp.status == "success") {
         setMsg(success);
+
+        //after 1.5 second it redirect to the /profile
+        setTimeout(() => {
+          router.push("/admin/faculty/viewfaculty");
+        }, 1500);
       } else {
         setMsg(fail);
       }

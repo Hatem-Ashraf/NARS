@@ -16,11 +16,12 @@ export default function Layout({ children, cookies }) {
       <div className="grid grid-cols-12">
       {!router.asPath.includes('/register') && !router.asPath.includes('/password') && !router.asPath.includes('/otp') ? (
         <>
-          <div className="col-span-2 h-screen"> 
+          <div className="col-span-2 h-screen "> 
           <SideDashboard />
           </div>
           <div className="col-span-10 min-h-screen overflow-y-scroll gap-10">
-            <div className="cusGradientColor overflow-auto">{children}</div>
+          {/* cusGradientColor the class I removed */}
+            <div className=" overflow-auto cusGradientColor">{children}</div>
             <Footer />
           </div>
         </>

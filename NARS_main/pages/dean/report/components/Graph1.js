@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const RelationshipMatrixTable = () => {
+const RelationshipMatrixTable = ({ programID }) => {
   const userState = useSelector((state) => state.user);
   const [grades, setGrades] = useState([]);
 
   useEffect(() => {
     fetchGrades();
-  }, []);
+  }, [programID]);
 
   const fetchGrades = async () => {
     try {
-      const response = await fetch(`http://localhost:8086/grade/gradeUnderProgram/${userState.program}`, {
+      if (programID == null) return
+      console.log("program id selected", programID)
+      const response = await fetch(`http://localhost:8086/grade/gradeUnderProgram/${programID}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

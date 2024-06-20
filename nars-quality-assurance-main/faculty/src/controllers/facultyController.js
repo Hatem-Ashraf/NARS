@@ -14,6 +14,8 @@ exports.createFaculty = catchAsync(async (req, res, next) => {
       name: req.body.name,
       dean: req.body.dean,
       about: req.body.about,
+      vision: req.body.vision,
+      mission: req.body.mission,
       competences: req.body.competences,
     };
 

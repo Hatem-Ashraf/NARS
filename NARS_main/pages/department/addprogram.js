@@ -118,12 +118,16 @@ const addDepartment = ({ cookies }) => {
   const name = useRef();
   const email = useRef();
   const about = useRef();
+  const mission = useRef();
+  const vision = useRef();
   const year = useRef();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log({
       name: name.current.value,
+      mission: mission.current.value,
+      vision: vision.current.value,
       // dean: email.current.value,
       // about: about.current.value,
       competences: competencesChecked,
@@ -131,6 +135,8 @@ const addDepartment = ({ cookies }) => {
     try {
       console.log({
         name: name.current.value,
+        mission: mission.current.value,
+        vision: vision.current.value,
         // dean: email.current.value,
         // about: about.current.value,
         competences: competencesChecked,
@@ -139,6 +145,8 @@ const addDepartment = ({ cookies }) => {
         method: "POST",
         body: JSON.stringify({
           name: name.current.value,
+          mission: mission.current.value,
+          vision: vision.current.value,
           // dean: email.current.value,
           // about: about.current.value,
           competences: competencesChecked,
@@ -241,15 +249,15 @@ const addDepartment = ({ cookies }) => {
 
   return (
     <>
-      <div className="flex flex-row h-screen mt-5 mb-5">
+      <div className="flex flex-row min-h-screen mt-5 mb-5">
         <form
           onSubmit={submitHandler}
-          className=" h-screen w-screen flex flex-col justify-center items-center text-black"
+          className=" min-h-screen w-screen flex flex-col justify-center items-center text-black"
         >
           <div className="contentAddUser2 flex flex-col gap-10 overflow-auto">
             <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Program</p>
             <div className="flex justify-between gap-20">
-              <div className="flex flex-col gap-5 w-2/5">
+              <div className="flex flex-col gap-5 w-3/5">
                 <div className="font-semibold">Program Name:</div>
                 <input
                   required
@@ -260,6 +268,30 @@ const addDepartment = ({ cookies }) => {
                   ref={name}
                 />
               </div>
+            </div>
+
+            <div className="flex justify-between gap-20">
+              <div className="flex flex-col gap-5 w-3/6">
+                <div className="font-semibold">Vision :</div>
+                <textarea
+                  required
+                  className="w-full input-form"
+                  rows="4"
+                  placeholder="Type here  about the vision"
+                  ref={vision}
+                />
+              </div>
+              <div className="flex flex-col gap-5  w-3/6">
+                <div className="font-semibold">Mission :</div>
+                  <textarea
+                    required
+                    className="w-full input-form"
+                    rows="4"
+                    placeholder="Type here  about the mission"
+                    ref={mission}
+                />
+              </div>
+            </div>
               {/* <div className="flex flex-col gap-5  w-2/5">
                 <div className="font-semibold"> Dean email:</div>
                 <input
@@ -272,7 +304,6 @@ const addDepartment = ({ cookies }) => {
                   // onBlur={() => getIdByEmail(email)}
                 />
               </div> */}
-            </div>
 
             
             {/* <div className="flex gap-20">
@@ -364,7 +395,7 @@ const addDepartment = ({ cookies }) => {
               </div>
             </div>
             <div className="flex gap-20 ">
-              {<div className="w-1/2 mt-10">{msg}</div>}
+              {<div className="w-1/2">{msg}</div>}
             </div>
 
             <div className="flex justify-end">

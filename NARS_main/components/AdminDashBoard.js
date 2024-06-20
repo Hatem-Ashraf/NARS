@@ -84,6 +84,16 @@ export default function AdminDashBoard() {
         [
             <Link
               className={
+                router.pathname === "/admin/staff/addDean"
+                  ? "activeLinkDashboard2"
+                  : "normalLinkDashboard2"
+              }
+              href="/admin/staff/addDean"
+            >
+              Add Dean
+            </Link>,
+            <Link
+              className={
                 router.pathname === "/admin/staff/addDepartmentAdmin"
                   ? "activeLinkDashboard2"
                   : "normalLinkDashboard2"

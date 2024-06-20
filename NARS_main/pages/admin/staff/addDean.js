@@ -167,16 +167,16 @@ const addStaff = ({ cookies }) => {
   };
   const handleDepartmentChange = async () => {
     const selectedDepartment = department.current.value;
-    const selectedfaculty = faculty.current.value;
-
     const selectedOption =
       department.current.options[department.current.selectedIndex];
     const selectedOptionName = selectedOption.text;
     const depID = department.current.value;
-
-    console.log(`http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`)
+    console.log(depID);
+    console.log(depID);
+    console.log(depID);
+    console.log(depID);
     const resp = await fetch(
-      `http://localhost:8086/${selectedfaculty}/department/${selectedDepartment}`,
+      `http://localhost:8086/?department=${depID}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -191,7 +191,7 @@ const addStaff = ({ cookies }) => {
     console.log(data);
     console.log(data);
     console.log(data);
-    tempArray = data.data.programs.map((e) => {
+    tempArray = data.data.map((e) => {
       return { id: e._id, name: e.name };
     });
     console.log(tempArray);
@@ -318,32 +318,29 @@ setMsg(failImport);
   };
   const submitHandler = async (e) => {
     e.preventDefault();
+    
     try {
       console.log({
-          roles: "program admin",
+          roles: "dean",
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          department: department.current.value,
-          program: program.current.value,
       })
-      const resp = await fetch('http://localhost:8081/newProgramAdmin', {
+      const resp = await fetch('http://localhost:8081/Deans', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify({
-          roles: "instructor",
+          roles: "dean",
           name: name.current.value,
           email: email.current.value,
           faculty: faculty.current.value,
-          department: department.current.value,
-          program: program.current.value,
         }),
       });
       const data = await resp.json();
-      console.log(data);
+      console.log("submit Response:",data);
       if (data.status == "success") {
         setMsg(success);
         setTimeout(() => {
@@ -352,6 +349,8 @@ setMsg(failImport);
       } else {
         setMsg(fail);
       }
+
+      
     } catch (e) {
       console.log(e);
     }
@@ -506,7 +505,7 @@ setMsg(failImport);
   return (
     <>
       {exportModalIsOpen ? (
-        <div className="fixed  inset-0 flex justify-center items-center z-20 h-screen" >
+        <div className="fixed inset-0 flex justify-center items-center z-20 h-screen" >
           <div className=" container relative  rounded-lg p-6 w-[40rem] bg-white text-black border-2 shadow-xl border-black  ">
             <button
               onClick={exportCancel}
@@ -558,12 +557,12 @@ setMsg(failImport);
         <form
          
           onSubmit={submitHandler}
-          className=" min-h-screen w-screen my-5 flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
+          className=" min-h-screen w-screen flex flex-col justify-center items-center text-black ml-1 rounded-2xl"
         >
           <div className="contentAddUser2 mx-auto flex flex-col gap-10">
-            <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Instructor</p>
-            <div className="flex gap-10 ">
-              <div className="flex flex-col gap-5  w-1/4">
+            <p className="text-3xl font-bold text-blue-800 mb-6 mt-4">Add Dean</p>
+            <div className="flex ml-5 gap-10 ">
+              <div className="flex flex-col  gap-5  w-1/4">
                 <div> Name</div>
                 <input
                   ref={name}
@@ -584,7 +583,7 @@ setMsg(failImport);
             </div>
 
             <div className="flex gap-10 ">
-              <div className="flex flex-col gap-5 w-1/4  ">
+              <div className="flex flex-col ml-10 gap-5 w-2/4  ">
                 <div> Faculty</div>
                 <select
                   ref={faculty}
@@ -600,14 +599,14 @@ setMsg(failImport);
                   })}{" "}
                 </select>
               </div>
-              <div className="flex flex-col gap-5  w-1/2">
+              {/* <div className="flex flex-col gap-5  w-1/2">
                 <div>Department</div>
                 <select
                   id="department"
                   className="choose-form w-full"
                   disabled={!departments.length}
                   ref={department}
-                  onChange={handleDepartmentChange}
+                  // onChange={handleDepartmentChange}
                 >
                   <option value="" disabled selected>
                     {departments.length
@@ -620,33 +619,12 @@ setMsg(failImport);
                     </option>
                   ))}
                 </select>
-              </div>
-            </div>
-            <div className="flex gap-10 ">
-              <div className="flex flex-col gap-5  w-1/2">
-                <div>Program</div>
-                <select
-                  className="choose-form w-full"
-                  disabled={!programs.length}
-                  ref={program}
-                >
-                  <option value="" disabled selected>
-                    {programs.length
-                      ? "Choose a Program"
-                      : "Select a Department first"}
-                  </option>
-                  {programs.map((program) => (
-                    <option value={program.id} key={program.id}>
-                      {program.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex gap-10 w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="w-1/2">{msg}</div>
+                <div className="w-1/2 text-lg">{msg}</div>
                 <div className="flex space-x-2">
                   {/* <button
                     type="button"

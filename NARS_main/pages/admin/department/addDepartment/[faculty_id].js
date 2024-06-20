@@ -232,6 +232,9 @@ const addfaculty = ({ cookies }) => {
       else {
         console.log(resp);
         setMsg(success);
+        setTimeout(() => {
+          router.push("/admin/department/viewDepartments");
+        }, 1500);
       }
     } catch (e) {
       console.log(e);
@@ -497,7 +500,7 @@ const CompetenceList = ({ competences, handleCheckboxChange }) => {
     return (
       <div className="flex flex-col gap-5 w-full">
         <h4 className="font-semibold text-xl"> 
-            Please mark the competences this faculty aims to achieve:
+            Please mark the competences this Department aims to achieve:
         </h4>
         <p className="text-red-500 font-semibold text-lg ml-5">No competences found for this faculty</p>
       </div>
