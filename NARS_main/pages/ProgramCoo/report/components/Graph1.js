@@ -29,6 +29,7 @@ const RelationshipMatrixTable = () => {
 
       setGrades(data || []);
       console.log("API Response2:", data);
+      console.log("user:", userState.program);
     } catch (error) {
       console.error("Error fetching grades:", error);
     }

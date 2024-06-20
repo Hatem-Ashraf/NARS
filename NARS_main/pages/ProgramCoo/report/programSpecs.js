@@ -2,6 +2,7 @@ import React from "react";
 import CoursesCompetences from "./components/CoursesCompetences";
 import LosDescriptionTable from "./components/LosDescriptionTable";
 import Graph1 from './components/Graph1';
+import FlowChart from './components/FlowChart';
 
 const programReport = ({ cookies }) => {
   const getAvg = (avgs) => {
@@ -29,6 +30,7 @@ const programReport = ({ cookies }) => {
             <LosDescriptionTable />
             <Graph1 cookies={cookies}/>
             <CoursesCompetences cookies={cookies} />
+            <FlowChart cookies={cookies} />
           </div>
           </div>
         </form>
