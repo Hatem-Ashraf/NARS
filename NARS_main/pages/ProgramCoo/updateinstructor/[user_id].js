@@ -11,9 +11,9 @@ const addfaculty = ({ cookies }) => {
 
   //Check if user is logged in
   const userState = useSelector((s) => s.user);
-  // if (userState.role != "program admin" || userState.loggedInStatus != "true") {
-  //   return <div className="error">404 could not found</div>;
-  // }
+  if (userState.role != "program coordinator" || userState.loggedInStatus != "true") {
+    return <div className="error">404 could not found</div>;
+  }
 
 
   const router = useRouter();
@@ -22,10 +22,9 @@ const addfaculty = ({ cookies }) => {
   const [competencesChecked, setCompetencesChecked] = useState([]);
   const [msg, setMsg] = useState("");
   const [competences, setcompetences] = useState([]);
-  const [programId, setProgramId] = useState(null);
   const name = useRef();
   const email = useRef();
-  const program = useRef();
+  const about = useRef();
   const choosen = useRef();
 
   // async function getCreatedCoursesForInstructor() {
@@ -90,10 +89,8 @@ const addfaculty = ({ cookies }) => {
   
         name.current.value = data.data.name;
         email.current.value = data.data.email;
-        const instructorProgramId = data.data.program;
-        setProgramId(instructorProgramId);
   
-        const response2 = await fetch(`http://localhost:8087/getCoursesByProgramId/${instructorProgramId}`, {
+        const response2 = await fetch(`http://localhost:8087/original-courses/`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

@@ -9,9 +9,18 @@ import { updateField } from "./store/userSlice";
 import HeaderElement from "./HeaderElement";
 import { header } from "./header";
 import { TiGroupOutline } from "react-icons/ti";
-import { RiFileList2Line } from "react-icons/ri";
-
 import Cookies from "js-cookie";
+import { FaChalkboardTeacher } from 'react-icons/fa';
+import { FaFileAlt } from 'react-icons/fa';
+import { FaPlusCircle } from 'react-icons/fa';
+import { FaBook } from 'react-icons/fa'; // Ensure this import matches the icon library you're using
+
+
+
+
+
+
+
 
 export default function InstructorDashboard({ cookies }) {
   const [courses, setCourses] = useState([]);
@@ -56,7 +65,7 @@ export default function InstructorDashboard({ cookies }) {
 
   return (
     <nav
-      className={`instructorNav transition-all duration-300 transform ${
+      className={`instructorNav transition-all duration-300 transform max-h-screen overflow-auto ${
         navStatus ? "-translate-x-full" : "translate-x-0"
       }`}
     >
@@ -90,41 +99,91 @@ export default function InstructorDashboard({ cookies }) {
           ))}
         </ul>
       </div> */}
+     
 
       <Link className="link2  font-semibold" href="/instructor/courses/create">
         <div className="flex items-center mt-4">
-          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
+        
+<FaChalkboardTeacher style={{ fontSize: 30, marginBottom: 5 }} />
+
+         
           <span className="ml-2 text-lg">Create Course</span>
         </div>
       </Link>
+      
+      {header(
+        <span>
+          <i class="fa-solid fa-user-graduate text-2xl mr-2"></i>
 
-      <Link className="link2  font-semibold" href="/instructor/courses/LOs">
-        <div className="flex items-center mt-4">
-          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
-          <span className="ml-2 text-lg">LOs</span>
-        </div>
-      </Link>
+          Assessment
+        </span>,
+        [
+          <Link className="link2  font-semibold" href="/indirectAssessment/assessment">
+          <div className="flex items-center mt-4">
+          
+            <span className=" text-lg mb-1">Create Assessment</span>
+          </div>
+         </Link>,
+            <Link
+              
+            href={{ pathname: `/indirectAssessment/updateassessment`, query: { role: "isInstructor" } }}
+            >
+              Update Assessment
+            </Link>,
+            // <Link
+            //   className={
+            //     router.pathname === "/admin/staff/addDepartmentAdmin"
+            //       ? "activeLinkDashboard2"
+            //       : "normalLinkDashboard2"
+            //   }
+            //   href="/admin/staff/addDepartmentAdmin"
+            // >
+            //   LO with Assessments
+            // </Link>,
+        ]
+      )}
+      {header(
+       <span style={{ display: "flex", alignItems: "center" }}>
+       <FaPlusCircle style={{ fontSize: 30, marginBottom: 5, marginRight: 5 }} />
+       <span>Topic</span>
+     </span>
+     ,
+        [
+          <Link className="link2  font-semibold" href="/indirectAssessment/topics">
+          <div className="flex items-center mt-1">
+          
+            <span className="text-lg">Create Topics</span>
+          </div>
+        </Link>,
+            <Link
+              
+            href={{ pathname: `/indirectAssessment/updatetopic`, query: { role: "isInstructor" } }}
+            >
+              View Topic
+            </Link>,
+            // <Link
+            //   className={
+            //     router.pathname === "/admin/staff/addDepartmentAdmin"
+            //       ? "activeLinkDashboard2"
+            //       : "normalLinkDashboard2"
+            //   }
+            //   href="/admin/staff/addDepartmentAdmin"
+            // >
+            //   LO with Assessments
+            // </Link>,
+        ]
+      )}
+     
 
-      <Link className="link2  font-semibold" href="/indirectAssessment/assessment">
-        <div className="flex items-center mt-4">
-          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
-          <span className="ml-2 text-lg">Create Assessment</span>
-        </div>
-      </Link>
 
-      <Link className="link2  font-semibold" href="/indirectAssessment/topics">
-        <div className="flex items-center mt-4">
-          <GrAddCircle style={{ fontSize: 30, marginBottom: 5}} />
-          <span className="ml-2 text-lg">Create Topics</span>
-        </div>
-      </Link>
+    
       <Link
         className="link2   font-semibold"
         href={{ pathname: `/indirectAssessment/grade`, query: { role: "isInstructor" } }}
       >
         <div className="flex items-center mt-4">
-        <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
-          <span className="ml-2 text-lg">Add Student Marks</span>
+         <FaFileAlt style={{ fontSize: 30, marginBottom: 5 }} />
+          <span className="ml-2 text-lg"> Marks</span>
         </div>
       </Link>
 
@@ -133,11 +192,43 @@ export default function InstructorDashboard({ cookies }) {
         href={{ pathname: `/indirectAssessment/surveys`, query: { role: "isInstructor" } }}
       >
         <div className="flex items-center mt-4">
-          <GrAddCircle style={{ fontSize: 30, marginBottom: 5 }} />
+        <FaPlusCircle style={{ fontSize: 30, marginBottom: 5 }} />
           {/* <GrOrderedList style={{ fontSize: 30, marginBottom: 5, x}} /> */}
-          <span className="ml-2 text-lg">Create Surveys</span>
+          <span className="ml-2 text-lg">Surveys</span>
         </div>
       </Link>
+
+      {header(
+        <span>
+          <i class="fa-solid fa-user-graduate text-2xl mr-2"></i>
+
+          Student
+        </span>,
+        [
+            <Link
+              
+            href={{ pathname: `/indirectAssessment/addstudent`, query: { role: "isInstructor" } }}
+            >
+              Add Student
+            </Link>,
+            <Link
+              
+            href={{ pathname: `/indirectAssessment/viewstudents`, query: { role: "isInstructor" } }}
+            >
+              view Students
+            </Link>,
+            // <Link
+            //   className={
+            //     router.pathname === "/admin/staff/addDepartmentAdmin"
+            //       ? "activeLinkDashboard2"
+            //       : "normalLinkDashboard2"
+            //   }
+            //   href="/admin/staff/addDepartmentAdmin"
+            // >
+            //   LO with Assessments
+            // </Link>,
+        ]
+      )}
       {header(
         <span>
           <i class="fa-solid fa-signal text-2xl mr-2"></i>
@@ -146,58 +237,47 @@ export default function InstructorDashboard({ cookies }) {
         [
             <Link
               className={
-                router.pathname === "/instructor/courses/LOvsComp"
-                  ? "activeLinkDashboard2"
-                  : "normalLinkDashboard2"
-              }
-              href="/instructor/courses/LOvsComp"
-            >
-              LO with competences
-            </Link>,
-            <Link
-              className={
                 router.pathname === "/admin/staff/addDepartmentAdmin"
                   ? "activeLinkDashboard2"
                   : "normalLinkDashboard2"
               }
               href="/admin/staff/addDepartmentAdmin"
             >
-              LO with Assessments
-            </Link>,
+              LO with competences
+            </Link>
+           
         ]
       )}
-          <Link
-          className="link2 focus:text-green-400"
-          href="/indirectAssessment/report"
-      >
-            <span >
-                <span>
-                    <i class="fa-solid fa-file-lines text-3xl ml-1"></i>
-              </span>
-              
-              <span className="ml-3">Course Report</span>
-          </span>
-          
+      <Link
+  className="link2 font-semibold"
+  href={{ pathname: `/indirectAssessment/coursespecs`, query: { role: "isInstructor" } }}
+>
+  <div className="flex items-center mt-4">
+    <FaBook style={{ fontSize: 30, marginBottom: 5 }} />
+    {/* <GrOrderedList style={{ fontSize: 30, marginBottom: 5, x}} /> */}
+    <span className="ml-2 text-lg">Course specs</span>
+  </div>
+</Link>
+<Link className="link2  font-semibold" href="/indirectAssessment/comp">
+        <div className="flex items-center mt-4">
+        
+<FaChalkboardTeacher style={{ fontSize: 30, marginBottom: 5 }} />
+
+         
+          <span className="ml-2 text-lg">Competences</span>
+        </div>
       </Link>
-          <Link
-          className="link2 focus:text-green-400"
-          href="/instructor/courses/CourseSpecs"
+<Link
+        className="link2   font-semibold"
+        href={{ pathname: `/indirectAssessment/flowchart`, query: { role: "isInstructor" } }}
       >
-            <span >
-                <span>
-                <RiFileList2Line
-                  style={{
-                    fontSize: 30,
-                    display: "inline",
-                    marginRight: 0,
-                  }}
-                />
-              </span>
-              
-              <span className="ml-3">Course Specs</span>
-          </span>
-          
+        <div className="flex items-center mt-4">
+        <FaPlusCircle style={{ fontSize: 30, marginBottom: 5 }} />
+          {/* <GrOrderedList style={{ fontSize: 30, marginBottom: 5, x}} /> */}
+          <span className="ml-2 text-lg">FlowChart</span>
+        </div>
       </Link>
+
 
       <button className="link2   text-left mt-4 font-semibold" onClick={logoutHandler}>
         <div className="flex items-center">

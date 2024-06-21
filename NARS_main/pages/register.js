@@ -16,12 +16,16 @@ export default function Register() {
   } = useForm();
   const router = useRouter();
 
+  const password = useRef({}); // Initialize useRef here
+
+  password.current = watch("password", "");
 
   const onSubmit = async (data) => {
     const response = await fetch("http://localhost:8081/signup", {
       method: "POST",
       body: JSON.stringify({
-        email: data.email
+        email: data.email,
+        password: data.password,
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -67,7 +71,44 @@ export default function Register() {
                 required: "Email is required",
               })}
             />
-           </div>
+            {errors.email && <span className="text-red-500">{errors.email.message}</span>}
+            {notAdded && <span className="text-red-500">User with this email already exists</span>}
+          </div>
+          <div className="flex flex-col gap-5">
+            <label htmlFor="password" className="block text-lg font-semibold text-gray-800 mb-2">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Enter your password"
+              required
+              {...register("password", {
+                required: "Password is required",
+              })}
+            />
+            {errors.password && <span className="text-red-500">{errors.password.message}</span>}
+          </div>
+          <div className="flex flex-col gap-5">
+            <label htmlFor="confirmPassword" className="block text-lg font-semibold text-gray-800 mb-2">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Confirm your password"
+              required
+              {...register("confirmPassword", {
+                required: "Confirm Password is required",
+                validate: (value) => value === password.current || "The passwords do not match",
+              })}
+            />
+            {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword.message}</span>}
+          </div>
           <button type="submit" className="btn-primary bg-blue-500 p-3 rounded-lg text-white ">
             Register
           </button>

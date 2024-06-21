@@ -38,7 +38,7 @@ const Profile = ({ cookies }) => {
 
     return (
         <div className="h-screen mt-5 flex flex-col items-center text-blue-700 ml-1 rounded-2xl font-bold">
-            <h1 className="font-bold text-3xl text-white">Welcome To You In Our Plateform</h1>
+            <h1 className="font-bold text-3xl text-white">welcome to you in our plateform .......</h1>
             <form className="mt-8" >
                 <div className="p-16 ml-10 shadow-2xl rounded-3xl bg-white text-blue-800" style={{width:"730px"}}>
                     <div className="grid md:grid-cols-3 grid-cols-1 gap-2 ">
