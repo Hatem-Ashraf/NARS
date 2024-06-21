@@ -1,217 +1,201 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Creategrade = ({ cookies }) => {
-  const [numCourses, setNumCourses] = useState(1);
-  const [numQuizzes, setNumQuizzes] = useState(1);
-  const [students, setStudents] = useState([]);
-  const [grades, setGrades] = useState([]);
+const Creategrade = () => {
+  const [studentmarks, setStudentmarks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [updateError, setUpdateError] = useState(null);
+  const [courseId, setCourseId] = useState(null);
+  const [assessments, setAssessments] = useState([]); // State to store the assessment names
 
-  const handleNumCoursesChange = (e) => {
-    setNumCourses(parseInt(e.target.value));
+  useEffect(() => {
+    fetchGrades();
+  }, []);
+
+  const fetchGrades = async () => {
+    try {
+      const response = await fetch("http://localhost:8087/student");
+      if (!response.ok) {
+        throw new Error("Failed to fetch");
+      }
+      const res = await response.json();
+      setStudentmarks(res.data.students);
+      setCourseId(res.data.courseId);
+
+      // Extract assessment names from the first student's assessmentMethods
+      if (res.data.students.length > 0) {
+        const firstStudent = res.data.students[0];
+        const assessmentNames = firstStudent.assessmentMethods.map(method => method.assessment);
+        setAssessments(assessmentNames);
+      }
+    } catch (error) {
+      console.error("Error fetching grades:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleNumQuizzesChange = (e) => {
-    setNumQuizzes(parseInt(e.target.value));
+  const updateGrades = async () => {
+    setUpdateLoading(true);
+    setUpdateError(null);
+
+    try {
+      const gradesData = assessments.map(assessment => ({
+        assessment,
+        grades: studentmarks.map((student) => ({
+          studentId: student._id,
+          courseId,
+          grade: student.assessmentMethods.find(
+            (method) => method.assessment === assessment
+          ).grade,
+        })),
+      }));
+
+      const response = await fetch("http://localhost:8087/studentGrade", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ assessments: gradesData }),
+      });
+
+      if (response.ok) {
+        console.log("Grades updated successfully");
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update grades");
+      }
+    } catch (error) {
+      console.error("Error updating grades:", error);
+      setUpdateError(error.message || "Failed to update grades");
+    } finally {
+      setUpdateLoading(false);
+    }
   };
 
-  const handleStudentChange = (e, index) => {
-    const { value } = e.target;
-    const updatedStudents = [...students];
-    updatedStudents[index] = { ...updatedStudents[index], name: value };
-    setStudents(updatedStudents);
+  const handleInputChange = (e, studentIndex, methodIndex) => {
+    const { name, value } = e.target;
+    const updatedStudentMarks = [...studentmarks];
+    updatedStudentMarks[studentIndex].assessmentMethods[
+      methodIndex
+    ][name] = value;
+    setStudentmarks(updatedStudentMarks);
+    setHasChanges(true);
   };
 
-  const handleGradeChange = (e, studentIndex, gradeIndex) => {
-    const { value } = e.target;
-    const updatedGrades = [...grades];
-    updatedGrades[studentIndex][gradeIndex] = value;
-    setGrades(updatedGrades);
+  const handleEditClick = (index) => {
+    setEditingIndex(index);
+  };
+
+  const handleSaveClick = async () => {
+    if (editingIndex !== null) {
+      await updateGrades();
+      setEditingIndex(null);
+      setHasChanges(false);
+    }
   };
 
   const renderCourseTable = () => {
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+
+    const handleSaveOrEditClick = async (studentIndex) => {
+      if (editingIndex === studentIndex) {
+        await handleSaveClick();
+      } else {
+        handleEditClick(studentIndex);
+      }
+    };
+
     return (
-      <div className="mx-auto" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <div className="mx-auto" style={{ maxHeight: "100vh", display: "flex", flexDirection: "column" }}>
         <style>{`
           body {
-            background-color: #012a4a;
             font-family: Arial, sans-serif;
           }
           th, td {
             text-align: center;
+            padding: 8px;
           }
-          input[type="text"] {
-            color: white;
-            background-color: transparent;
-            border: none;
+          .table-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+          }
+          .editable-cell {
+            color: blue;
+            border: 1px solid #ccc;
             text-align: center;
             width: 100%;
             outline: none;
-          }
-          .table-container {
-            max-width: 1200px; /* Adjust as needed */
+            padding: 8px;
+            box-sizing: border-box;
           }
         `}</style>
         <div className="table-container">
-          <table className="w-full border-collapse border border-blue-800">
+          <table className="border-collapse border border-blue-800 w-100">
             <thead>
-              <tr className="bg-blue-200">
-                <th className="border border-blue-800 py-2">
-                  <input
-                    type="text"
-                    placeholder="Student"
-                    onChange={(e) => handleStudentChange(e, 0)}
-                  />
-                </th>
-                {[...Array(numCourses)].map((_, index) => (
-                  <th key={index} className="border border-blue-800 py-2">
-                    <input
-                      type="text"
-                      placeholder={`Course ${index + 1}`}
-                      onChange={(e) => handleGradeChange(e, 0, index)}
-                    />
-                  </th>
+              <tr>
+                <th className="border border-blue-800 py-2">Student Name</th>
+                {assessments.map(assessment => (
+                  <th key={assessment} className="border border-blue-800 py-2">{assessment}</th>
                 ))}
-                <th className="border border-blue-800 py-2">
-                  <input
-                    type="text"
-                    placeholder="Final Exam"
-                    onChange={(e) => handleGradeChange(e, 0, numCourses)}
-                  />
-                </th>
-                <th className="border border-blue-800 py-2">
-                  <input
-                    type="text"
-                    placeholder="Midterm Exam"
-                    onChange={(e) => handleGradeChange(e, 0, numCourses + 1)}
-                  />
-                </th>
-                <th className="border border-blue-800 py-2">
-                  <input
-                    type="text"
-                    placeholder="Final Project"
-                    onChange={(e) => handleGradeChange(e, 0, numCourses + 2)}
-                  />
-                </th>
-                {[...Array(numQuizzes)].map((_, index) => (
-                  <th key={index} className="border border-blue-800 py-2">
-                    <input
-                      type="text"
-                      placeholder={`Quiz ${index + 1}`}
-                      onChange={(e) => handleGradeChange(e, 0, numCourses + 3 + index)}
-                    />
-                  </th>
-                ))}
+                <th className="border border-blue-800 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {students.map((student, studentIndex) => (
-                <tr key={studentIndex} className={studentIndex % 2 === 0 ? "bg-blue-100" : "bg-blue-50"}>
-                  <td className="border border-blue-800 px-4 py-2">
-                    <input
-                      type="text"
-                      value={student.name}
-                      onChange={(e) => handleStudentChange(e, studentIndex)}
-                    />
-                  </td>
-                  {[...Array(numCourses)].map((_, courseIndex) => (
-                    <td key={courseIndex} className="border border-blue-800 px-4 py-2">
-                      {/* Input fields for course grades */}
-                    </td>
-                  ))}
-                  <td className="border border-blue-800 px-4 py-2">
-                    <input
-                      type="text"
-                      value={grades[studentIndex][0] || ""}
-                      onChange={(e) => handleGradeChange(e, studentIndex, 0)}
-                    />
-                  </td>
-                  <td className="border border-blue-800 px-4 py-2">
-                    <input
-                      type="text"
-                      value={grades[studentIndex][1] || ""}
-                      onChange={(e) => handleGradeChange(e, studentIndex, 1)}
-                    />
-                  </td>
-                  <td className="border border-blue-800 px-4 py-2">
-                    <input
-                      type="text"
-                      value={grades[studentIndex][2] || ""}
-                      onChange={(e) => handleGradeChange(e, studentIndex, 2)}
-                    />
-                  </td>
-                  {[...Array(numQuizzes)].map((_, quizIndex) => (
-                    <td key={quizIndex} className="border border-blue-800 px-4 py-2">
-                      <input
-                        type="text"
-                        value={grades[studentIndex][numCourses + 3 + quizIndex] || ""}
-                        onChange={(e) => handleGradeChange(e, studentIndex, numCourses + 3 + quizIndex)}
-                      />
-                    </td>
-                  ))}
+              {studentmarks.length > 0 ? (
+                studentmarks.map((student, studentIndex) => (
+                  <React.Fragment key={student._id || studentIndex}>
+                    <tr>
+                      <td className="border border-blue-800 py-2">{student.name}</td>
+                      {student.assessmentMethods.map((method, methodIndex) => (
+                        <td key={method.assessment} className="border border-blue-800 py-2">
+                          {editingIndex === studentIndex ? (
+                            <input
+                              type="text"
+                              name="grade"
+                              value={method.grade}
+                              onChange={(e) => handleInputChange(e, studentIndex, methodIndex)}
+                              className="editable-cell"
+                            />
+                          ) : (
+                            method.grade || 'N/A'
+                          )}
+                        </td>
+                      ))}
+                      <td className="border border-blue-800 py-2">
+                        <button
+                          onClick={() => handleSaveOrEditClick(studentIndex)}
+                          className={`px-2 py-1 text-white rounded-md hover:bg-${editingIndex === studentIndex ? 'green' : 'blue'}-700 bg-${editingIndex === studentIndex ? 'green' : 'blue'}-600 transition duration-300`}
+                        >
+                          {editingIndex === studentIndex ? 'Save' : 'Edit'}
+                        </button>
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={assessments.length + 2} className="border border-blue-800 py-2">No students found.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
-        </div>
-
-        <div className="flex justify-end mt-4">
-          <button
-            type="button"
-            onClick={addStudent}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300"
-          >
-            Add Student
-          </button>
         </div>
       </div>
     );
   };
 
-  const addStudent = () => {
-    setStudents((prevStudents) => [...prevStudents, { name: "" }]);
-    setGrades((prevGrades) => [
-      ...prevGrades,
-      Array.from({ length: numCourses + numQuizzes + 3 }, () => ""),
-    ]);
-  };
-
-  const submitGrades = () => {
-    // Logic to submit grades to backend
-  };
-
   return (
-    <div className="flex justify-center min-h-scree ">
-      <div className="bg-form p-12 max-w-3xl w-full shadow-2xl rounded-3xl mt-10 text-form bg-white">
-        <h2 className="font-bold text-blue-900 mb-4 text-3xl">Enter Student Grades</h2>
+    <div className="flex justify-center min-h-screen text-black">
+      <div className="bg-form p-12 shadow-2xl rounded-3xl mt-10 text-form bg-white w-4/5">
+        <h2 className="font-bold text-blue-900 mb-6 text-3xl text-center">Enter Student Grades</h2>
         <div className="flex flex-col gap-4">
-          <label htmlFor="numQuizzes" className="text-form font-bold mb-3">
-            Number of Quizzes:
-          </label>
-          <select
-            id="numQuizzes"
-            value={numQuizzes}
-            onChange={handleNumQuizzesChange}
-            className="input-field mb-4 bg-blue-400"
-            required
-          >
-            {[...Array(6)].map((_, index) => (
-              <option key={index} value={index + 1}>
-                {index + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {renderCourseTable()}
-
-        <div className="flex justify-end mt-4">
-          <button
-            type="button"
-            onClick={submitGrades}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ml-4"
-          >
-            Submit Grades
-          </button>
+          {renderCourseTable()}
         </div>
       </div>
     </div>

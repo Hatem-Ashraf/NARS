@@ -239,9 +239,6 @@ const addfaculty = ({ cookies }) => {
       else {
         console.log(resp);
         setMsg(success);
-        setTimeout(() => {
-          router.push("/admin/faculty/viewfaculty");
-        }, 1500);
       }
     } catch (e) {
       console.log(e);

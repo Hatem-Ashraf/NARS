@@ -24,74 +24,22 @@ const CreateSurvey = ({ cookies }) => {
 
   useEffect(() => {
     async function getCourses() {
-      try {
-        // Fetch the array of course IDs assigned to the user
-        const response = await fetch(`http://localhost:8081/getAssignedCourses/${userState._id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        });
-    
-        if (!response.ok) {
-          throw new Error('Failed to fetch assigned courses');
-        }
-     
-        
-        const coursesData = await response.json();
-        const courseIds = coursesData.data;
-    
-        // Fetch details for each course ID
-        const courseDetailsPromises = courseIds.map(async (courseId) => {
-          const response = await fetch(`http://localhost:8087/newCourse/${courseId}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${cookies.token}`,
-            },
-          });
-    
-          if (!response.ok) {
-            console.error(`Failed to fetch course details for ID: ${courseId}`);
-            return null;
-          }
-    
-          return response.json();
-        });
-    
-        // Wait for all course details to be fetched
-        const coursesDetails = await Promise.all(courseDetailsPromises);
-    
-        // Filter out null responses (failed fetches)
-        const validCoursesDetails = coursesDetails.filter(detail => detail !== null);
-    
-        // Log the details of all valid courses
-        validCoursesDetails.forEach((courseDetail, index) => {
-          console.log(`Course ${index + 1} data:`, courseDetail);
-        });
-    
-        // Create the courses array with valid details
-        const courses = validCoursesDetails.map(e => ({
-          name: e.data.name,
-          id: e.data._id,
-          code: e.data.code,
-          // competences: e.data.qualityCompetencies,
-          aims: e.data.courseAims,
-          information: e.data.courseInformation
-        }));
-    
-        console.log("courses from server:", courses);
-        setCourses(courses);
-    
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    }
-    
+      const d = await fetch(`http://localhost:8087/original-courses`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + cookies.token,
+        },
+      });
 
+      const data = await d.json();
+      let a = data.data.map((e) => {
+        return { name: e.name, id: e._id, code: e.code };
+      });
+      console.log("courses from server:",  a);
+      setCourses(a);
+    }
     getCourses();
-       
   }, []);
 
   const submitHandler = async (e) => {

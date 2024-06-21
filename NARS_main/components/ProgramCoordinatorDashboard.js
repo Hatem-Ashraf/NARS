@@ -12,7 +12,6 @@ import { GiTeacher } from "react-icons/gi";
 import { GrAddCircle, GrOrderedList } from "react-icons/gr";
 import { BsBook } from "react-icons/bs";
 import { RiFileList2Line } from "react-icons/ri";
-import generatePdf from 'pages/ProgramCoo/downloadSpecs.js';
 
 export default function ProgramCoordinatorDashboard({ cookies }) {
   const [c, sC] = useState([]);
@@ -22,7 +21,6 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const myFileInput = useRef(null);
-  
 
   const logoutHandler = () => {
     r.push("/logout");
@@ -35,8 +33,6 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
   useEffect(() => {
     console.log("TOKEN IS ", JSON.stringify(userState._id));
     console.log("TOKEN IS ", JSON.stringify(userState.token));
-    console.log("data.competences", userState.faculty);
-
 
     try {
       getCreatedCoursesForInstructor();
@@ -45,44 +41,25 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
     }
   }, []);
 
-  async function getCreatedCoursesForInstructor() {
-    // const data = await fetch(
-    //   `http://localhost:8087/original-courses?program=${userState.program}`,
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Accept: "application/json",
-    //       Authorization: "Bearer " + userState.token,
-    //     },
-    //   }
-    // );
-      try {
-        const data = await fetch(
-          `http://localhost:8087/original-courses?program=${userState.program}`,
-          {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: "Bearer " + userState.token,
-            },
-        });
+  // async function getCreatedCoursesForInstructor() {
+  //   const data = await fetch(
+  //     `http://localhost:8087/original-courses?program=${userState.program}`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: "Bearer " + userState.token,
+  //       },
+  //     }
+  //   );
 
-        // const resp = await r.json();
-        // setName(resp.data.name);
-        // console.log(userState.token);
-        const resp = await data.json();
+  //   const resp = await data.json();
 
-        console.log(resp);
-    
-        sC(resp.data);
-    } catch (e) {
-        console.log(e);
-    }
+  //   console.log(resp);
 
-
-  }
+  //   sC(resp.data);
+  // }
   const navStatus = useSelector((s) => s.user.navStatus);
 
   const handelFile = () => {
@@ -161,22 +138,22 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
             Assign Instructor
           </Link>
   
-          // ,Array(
-          //   c && Array.isArray(c) && c.map((original) => {
-          //     return (
-          //       <div key={original._id} className=" mb-5 -mx-4  px-0 ">
-          //         <HeaderElementProgramCoordinator
-          //           className={``}
-          //           key={original._id}
-          //           id={original._id}
-          //           name={original.name}
-          //           code={original.code}
-          //           cookies={cookies}
-          //         />
-          //       </div>
-          //     );
-          //   })
-          // ),
+          ,Array(
+            c && Array.isArray(c) && c.map((original) => {
+              return (
+                <div key={original._id} className=" mb-5 -mx-4  px-0 ">
+                  <HeaderElementProgramCoordinator
+                    className={``}
+                    key={original._id}
+                    id={original._id}
+                    name={original.name}
+                    code={original.code}
+                    cookies={cookies}
+                  />
+                </div>
+              );
+            })
+          ),
         ]
       )}
 
@@ -226,32 +203,21 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
               }
             }}
           />,
+          <button className="normalLinkDashboard2" onClick={handelFile}>
+            Upload program specs
+          </button>,
           <Link
-          className={
-            router.pathname === "/ProgramCoo/report/programSpecs"
-              ? "activeLinkDashboard2"
-              : "normalLinkDashboard2"
-          }
-          href="/ProgramCoo/report/programSpecs"
+            className={
+              router.pathname === "/programcoordiator/downloadspecs"
+                ? "activeLinkDashboard2"
+                : "normalLinkDashboard2"
+            }
+            href={`http://localhost:8086/programSpcs/${userState.program}`}
+            target="_blank"
+            download
           >
-          View program specs
+            Download program specs
           </Link>,
-          <Link
-          className={
-            router.pathname === ""
-              ? "activeLinkDashboard2"
-              : "normalLinkDashboard2"
-          }
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            generatePdf();
-          }}
-          target="_blank"
-          download
-        >
-          Download program specs
-        </Link>,
         ]
       )}
 

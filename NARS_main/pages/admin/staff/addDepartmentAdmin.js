@@ -359,9 +359,6 @@ setMsg(failImport);
       console.log("submit Response:",data2);
       if (data2.status == "success") {
         setMsg(success);
-        setTimeout(() => {
-          router.push("/admin/staff/view-all");
-        }, 1500);
       } else {
         setMsg(fail);
       }
@@ -644,7 +641,7 @@ setMsg(failImport);
 
             <div className="flex gap-10 w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="w-1/2 text-lg">{msg}</div>
+                <div className="w-1/2">{msg}</div>
                 <div className="flex space-x-2">
                   {/* <button
                     type="button"
