@@ -45,6 +45,33 @@ exports.createStudent = async (req, res) => {
     });
   }
 };
+exports.getStudentsByCourseId = async (req, res) => {
+  try {
+    const { courseId } = req.params; // Assuming the course ID is passed as a URL parameter
+
+    // Find all students where the courses array includes the given course ID
+    const students = await Student.find({ courses: courseId });
+
+    if (students.length === 0) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No students found for this course",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        students,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
 
 exports.getStudentById = async (req, res) => {
   try {
