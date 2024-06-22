@@ -12,6 +12,10 @@ router
   .delete(studentController.deleteStudent);
 
 router
+  .route("/allStudentUnderCourse/:courseId")
+  .get(studentController.getStudentsByCourseId);
+
+router
   .route("/studentGrade")
   .patch(studentController.updateAssessmentGradesForCourse);
 router.route("/assign-grades/:id").post(studentController.assignGrades);

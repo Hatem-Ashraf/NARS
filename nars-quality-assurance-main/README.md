@@ -888,3 +888,5 @@ new dean : post : http://localhost:8081/Deans
 "faculty":"65eb1d67d1555f7450c9a027",
 "roles":"dean"
 }
+
+get all students under course : get http://localhost:8087/allStudentUnderCourse/666839bca18039ff12ed8f67 //course id
