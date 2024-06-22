@@ -21,12 +21,14 @@ export default function Login({ cookies }) {
   const [rolesArr, setRoles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
-
+//test
   const submitHandler = async (e) => {
     e.preventDefault();
     const r = await fetch('http://localhost:8081/login', {
       method: "POST",
  
+
+      
       body: JSON.stringify({
         email: email.current.value,
         password: password.current.value,
