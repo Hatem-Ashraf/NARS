@@ -26,7 +26,7 @@ export default function Login({ cookies }) {
     e.preventDefault();
     const r = await fetch('http://localhost:8081/login', {
       method: "POST",
-
+ 
       body: JSON.stringify({
         email: email.current.value,
         password: password.current.value,
