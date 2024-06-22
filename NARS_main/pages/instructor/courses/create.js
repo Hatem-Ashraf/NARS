@@ -414,12 +414,12 @@ const CreateCourse = ({ cookies }) => {
               rows="4"
             ></textarea>
 
-        {selectedCourse && 
+        {/* {selectedCourse && 
           <>
             <CompetencesList course={selectedCourse} />
             <LOsList LOs={courseLOs} course={selectedCourse} />
           </>
-        }
+        } */}
 
       
 

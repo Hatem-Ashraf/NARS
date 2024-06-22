@@ -1,20 +1,27 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { updateField } from "@/components/store/userSlice";
+import { useSelector } from "react-redux";
 
 const CreateCourse = ({ cookies }) => {
   const userState = useSelector((s) => s.user);
   const router = useRouter();
 
-  const [courseLOs, setCourseLOs] = useState([]);
   const [courseAssesments, setCourseAssesments] = useState([]);
   const [courseTopics, setCourseTopics] = useState([]);
   const [mapping, setMapping] = useState({});
+
+
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [assessments, setAssessments] = useState([]);
+  const [courseLOs, setCourseLOs] = useState([]);
+  const [gradeDistribution, setGradeDistribution] = useState(null);
+  const [topics, setTopics] = useState([]);
+  const [courseData, setCourseData] = useState(null);
+  const [competences, setCompetences] = useState(null);
+
   const coursesList = useRef();
 
   useEffect(() => {
@@ -24,7 +31,7 @@ const CreateCourse = ({ cookies }) => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${cookies.token}`,
+            Authorization: "Bearer " + userState.token,
           },
         });
 
@@ -40,7 +47,7 @@ const CreateCourse = ({ cookies }) => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${cookies.token}`,
+              Authorization: "Bearer " + userState.token,
             },
           });
 
@@ -54,25 +61,32 @@ const CreateCourse = ({ cookies }) => {
 
         const coursesDetails = await Promise.all(courseDetailsPromises);
         const validCoursesDetails = coursesDetails.filter(detail => detail !== null);
+
         const courses = validCoursesDetails.map(e => ({
           name: e.data.name,
           id: e.data._id,
           code: e.data.code,
+          academicYear: e.data.academicYear,
           aims: e.data.courseAims,
-          information: e.data.courseInformation
+          information: e.data.courseInformation,
         }));
 
-        console.log("courses from server:", courses);
         setCourses(courses);
+
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
     }
 
     getCourses();
-  }, []);
 
-  const handleCourseChange = async () => {
+  }, [cookies.token, userState._id]);
+
+
+
+
+  const handleCourseChange = async (e) => {
+    
     const selectedId = coursesList.current.value;
     console.log("selectedId", selectedId);
   
@@ -105,9 +119,28 @@ const CreateCourse = ({ cookies }) => {
       const competenceData = await response.json();
       return competenceData.data;
     };
-  
+    
     try {
-      // Fetch all competence details
+      
+// --------------------------------------------------------------------------------
+
+      const gradeDistributionResponse = await fetch(`http://localhost:8087/grade-distribution/${selectedId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userState.token,
+        },
+      });
+
+      if (!gradeDistributionResponse.ok) {
+        throw new Error('Failed to fetch grade distribution');
+      }
+
+      const gradeDistributionData = await gradeDistributionResponse.json();
+      setGradeDistribution(gradeDistributionData.data.gradeDistribution);
+      console.log("Grade Distribution Data:", gradeDistributionData);
+
+// ---------------------------------------------------------------------------------
       const competencesDetailsPromises = Onecourse.competences.map(fetchCompetenceDetails);
       const competencesDetails = await Promise.all(competencesDetailsPromises);
   
@@ -199,174 +232,130 @@ const CreateCourse = ({ cookies }) => {
       }
 
     } catch (error) {
-      console.error('Error fetching competences:', error);
+      console.error('Error fetching data:', error);
     }
   };
 
-  // const handleCheckboxChange = (loId, competenceId) => {
-  //   console.log("Before change:", mapping);
+  const uniqueLOCodes = assessments.length > 0 
+    ? [...new Set(assessments.flatMap(assessment => assessment.LO.map(lo => lo.code)))]
+    : [];
 
-  //   setMapping(prevMapping => {
-  //     const updatedMapping = { ...prevMapping };
-
-  //     if (!Array.isArray(updatedMapping[loId])) {
-  //       updatedMapping[loId] = [];
-  //     }
-
-  //     if (updatedMapping[loId].includes(competenceId)) {
-  //       updatedMapping[loId] = updatedMapping[loId].filter(id => id !== competenceId);
-  //     } else {
-  //       updatedMapping[loId].push(competenceId);
-  //     }
-
-  //     console.log("After change:", updatedMapping);
-  //     return updatedMapping;
-  //   });
-  // };
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    console.log("selectedCourse", selectedCourse);
-    console.log("mapping", mapping);
-  };
+  
 
   return (
     <div className="flex flex-row min-h-screen mt-5 mb-5">
-      <form onSubmit={submitHandler} className="min-h-screen w-screen flex flex-col justify-center items-center text-black">
-        <div className="mt-5 w-[80%] flex justify-center min-h-screen">
-          <div className="p-20 bg-gray-100 w-full shadow-2xl rounded-3xl">
-            <h2 className="font-bold text-form mb-4 text-3xl text-center">Course Specs</h2>
-            <div className="flex flex-col gap-4">
-              <label htmlFor="title" className="text-form font-bold w-1/3">Course Title:</label>
-              <select ref={coursesList} id="small" className="choose-form w-full px-10" onChange={handleCourseChange}>
-                <option className="text-left" disabled selected>Choose a Course</option>
-                {courses.map((e) => {
-                  return <option value={e.id}>{e.name}</option>;
-                })}
-              </select>
+      <div className="p-20 bg-gray-100 w-full shadow-2xl rounded-3xl">
+        <h2 className="font-bold text-form mb-4 text-3xl text-center">Course Report</h2>
+        <div className="flex flex-col gap-4">
+          <label htmlFor="title" className="text-form font-bold w-1/3">Course Title:</label>
+          <select
+            ref={coursesList}
+            id="small"
+            className="choose-form w-full px-10"
+            onChange={handleCourseChange}
+            defaultValue=""
+          >
+            <option className="text-left" value="" disabled>
+              Choose a Course
+            </option>
+            {courses.map((e) => (
+              <option key={e.id} value={e.id}>{e.name}</option>
+            ))}{" "}
+          </select>
+        </div>
+
+  
+
+        <div className="mt-5">
+          <h3 className="text-lg font-bold mb-2">Grade Distribution:</h3>
+          <table className="border-collapse border border-gray-800 w-full">
+            <thead>
+              <tr className="bg-gray-200">
+                {gradeDistribution ? (
+                  Object.keys(gradeDistribution).map((grade, index) => (
+                    <th key={index} className="border border-gray-800 px-4 py-2">{grade}</th>
+                  ))
+                ) : (
+                  <th className="border border-gray-800 px-4 py-2">-</th>
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-white">
+                {gradeDistribution ? (
+                  Object.values(gradeDistribution).map((value, index) => (
+                    <td key={index} className="border border-gray-800 px-4 py-2">{value}</td>
+                  ))
+                ) : (
+                  <td className="border border-gray-800 px-4 py-2">-</td>
+                )}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-5">
+          <h3 className="text-lg font-bold mb-2 bg-red-500 text-white p-2">Course Data :</h3>
+          {selectedCourse ? (
+            <div>
+              <p>
+                <span className="p-2 mb-2 rounded text-red-700">Academic Year:</span> {selectedCourse.academicYear || "-"}  
+                <span className="p-2 mb-2 rounded text-red-700">Code:</span> {selectedCourse.code || "-"}
+              </p>
+              <h4 className="font-bold mb-2 text-lg text-red-700">Course Aims:</h4>
+              <p>{selectedCourse.courseAims || "-"}</p>
+
+              <h4 className="font-bold mb-2 text-lg text-red-700">Course Information:</h4>
+              <p>{selectedCourse.courseInformation || "-"}</p>
+            </div>
+          ) : (
+            <div>
+              <p>
+                <span className="p-2 mb-2 rounded text-red-700 font-bold">Academic Year:</span>-  
+                <span className="p-2 mb-2 rounded text-red-700 font-bold">Code:</span>-
+              </p>
+              <span className="font-bold mb-2 text-lg text-red-700  p-2">Course Aims:</span>-
+            </div>
+          )}
+        </div>
+
+        {topics.map((topic) => (
+          <div key={topic._id} className="mt-5">
+            <p>
+              <span className="p-2 mb-2 rounded text-red-700 font-bold">Title :</span> {topic.title} |
+              <span className="p-2 mb-2 rounded text-red-700 font-bold">Week:</span> {topic.week}  
+              <span className="p-2 mb-2 rounded text-red-700 font-bold">Hours:</span> {topic.plannedHours}   
+            </p>
+          </div>
+        ))}
               { selectedCourse && 
                 <>
-          
-            <CompetencesList course={selectedCourse} />
-            <LOsList LOs={courseLOs} course={selectedCourse} />
+                <CompetencesList course={selectedCourse} />
+                <LOsList LOs={courseLOs} course={selectedCourse} />
 
-
-                <CompetenceTable 
-                  course={selectedCourse} mapping={mapping} LOs={courseLOs}
-                  selectedCourse={selectedCourse} 
-                />
-
-                <MapAssessmentTable
-                  course={selectedCourse} mapping={mapping} LOs={courseLOs} 
-                  assessments={courseAssesments}
-                  selectedCourse={selectedCourse} 
-                />
-                <TopicsTable 
-                course={selectedCourse}
-                LOs={courseLOs}
-                topics={courseTopics}
-                />
-              </>
-              }
-            </div>
-            <div className="flex gap-20 mt-10">
-              {<div className="w-3/4 mt-10 mx-auto">{msg}</div>}
-            </div>
-          </div>
-        </div>
-      </form>
+                  <TopicsTable 
+                    course={selectedCourse}
+                    LOs={courseLOs}
+                    topics={courseTopics}
+                    />
+                     <MapAssessmentTable
+                      course={selectedCourse} mapping={mapping} LOs={courseLOs} 
+                      assessments={courseAssesments}
+                      selectedCourse={selectedCourse} 
+                    />
+                </>
+                }
+       
+      </div>
     </div>
   );
-};
-
-const CompetenceTable = ({ course, LOs }) => {
-  const { categorizedCompetences } = course;
-
-  if (!categorizedCompetences) {
-    return <div>Loading Mapping table...</div>;
-  }
-
-  console.log("LOs", LOs)
-  return (
-    <table className="min-w-full mb-20 mt-20 bg-white">
-      <thead>
-        <tr className="bg-gray-200">
-        <th rowSpan={2} className="py-2 border border-gray-300 w-[10%]">Learning Outcomes</th>
-        <th colSpan={course.competences.length} className="py-2 border border-gray-300 w-[15%]">Competences</th>
-
-        </tr>
-        <tr className="bg-gray-200">
-          {['A', 'B', 'C'].map(level => (
-            categorizedCompetences[level].map(competence => (
-              <th key={competence._id} className="py-2 px-4 border border-gray-300">{competence.code}</th>
-            ))
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {LOs.map(lo => (
-          <tr key={lo._id}>
-            <td className="py-2 px-4 border-b border-gray-300 ">{lo.code}</td>
-            {['A', 'B', 'C'].map(level => (
-              categorizedCompetences[level].map(competence => (
-                <td key={competence._id} className="py-2 border-b border-gray-300 text-center">
-                  {lo.competencies?.includes(competence._id) ? '✓' : ''}
-                </td>
-              ))
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
-
-
-
-//Assessment vs LOs table
-const MapAssessmentTable = ({ course, assessments, LOs }) => {
-  if (!assessments || !LOs) {
-    return <div>Loading Mapping table...</div>;
-  }
-
-  console.log("Assessments", assessments);
-  console.log("LOs", LOs);
-
-  return (
-    <table className="min-w-full bg-white">
-      <thead>
-        <tr className="bg-indigo-100">
-          <th rowSpan={2} className="py-2 border border-gray-300 w-[15%]"
-          // style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-          >Learning Outcomes</th>
-          <th colSpan={assessments.length} className="py-2 border border-gray-300 w-[35%]">Assessment Methods</th>
-        </tr>
-        <tr className="bg-indigo-100">
-          {assessments.map(assessment => (
-            <th key={assessment._id} className="py-2 px-4 border border-gray-300">{assessment.assessment}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {LOs.map(lo => (
-          <tr key={lo._id}>
-            <td className="py-2 px-4 border-b border-gray-300">{lo.code}</td>
-            {assessments.map(assessment => (
-              <td key={assessment._id} className="py-2 border-b border-gray-300 text-center">
-                {assessment.LO.some(assessmentLO => assessmentLO._id === lo._id) ? '✓' : ''}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
+}
 
 
 const TopicsTable = ({ course, topics, LOs }) => {
   const { categorizedCompetences } = course;
 
+  console.log("Data in Topics table::: ", {course, topics, LOs})
   if (!categorizedCompetences) {
     return <div>Loading Mapping table...</div>;
   }
@@ -385,6 +374,7 @@ const TopicsTable = ({ course, topics, LOs }) => {
           <th rowSpan={2} className="p-2 border border-gray-300 w-[10%]">Week</th>
           <th rowSpan={2} className="p-2 border border-gray-300 w-[40%]">Topics</th>
           <th rowSpan={2} className="p-2 border border-gray-300 w-[15%]">Planned Hours</th>
+          <th rowSpan={2} className="p-2 border border-gray-300 w-[15%]">Actual Hours</th>
           <th colSpan={LOs.length} className="p-2 border border-gray-300 w-[15%]">Learning Outcomes</th>
           </tr>
           <tr className="bg-gray-200">
@@ -407,6 +397,9 @@ const TopicsTable = ({ course, topics, LOs }) => {
             <td className="py-2 px-4 border border-gray-300 text-center">
               {Math.max(...weekTopics.map(topic => topic.plannedHours))}
             </td>
+            <td className="py-2 px-4 border border-gray-300 text-center">
+              {Math.max(...weekTopics.map(topic => topic.actualHours))}
+            </td>
             {LOs.map(lo => (
               <td key={lo._id} className="py-2 border border-gray-300 text-center">
                 {weekTopics.some(topic => topic.learningOutcomes.includes(lo._id)) ? '✓' : ''}
@@ -418,6 +411,8 @@ const TopicsTable = ({ course, topics, LOs }) => {
     </table>
   );
 };
+
+
 
 const LOsList = ({ LOs, course }) => {
 
@@ -565,4 +560,46 @@ const CompetencesList = ({ course }) => {
   );
 };
 
+
+//Assessment vs LOs table
+const MapAssessmentTable = ({ course, assessments, LOs }) => {
+  if (!assessments || !LOs) {
+    return <div>Loading Mapping table...</div>;
+  }
+
+  console.log("Assessments", assessments);
+  console.log("LOs", LOs);
+
+  return (
+    <table className="min-w-full bg-white">
+      <thead>
+        <tr className="bg-indigo-100">
+          <th rowSpan={2} className="py-2 border border-gray-300 w-[15%]"
+          // style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+          >Learning Outcomes</th>
+          <th colSpan={assessments.length} className="py-2 border border-gray-300 w-[35%]">Assessment Methods</th>
+        </tr>
+        <tr className="bg-indigo-100">
+          {assessments.map(assessment => (
+            <th key={assessment._id} className="py-2 px-4 border border-gray-300">{assessment.assessment}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {LOs.map(lo => (
+          <tr key={lo._id}>
+            <td className="py-2 px-4 border-b border-gray-300">{lo.code}</td>
+            {assessments.map(assessment => (
+              <td key={assessment._id} className="py-2 border-b border-gray-300 text-center">
+                {assessment.LO.some(assessmentLO => assessmentLO._id === lo._id) ? '✓' : ''}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
 export default CreateCourse;
+
