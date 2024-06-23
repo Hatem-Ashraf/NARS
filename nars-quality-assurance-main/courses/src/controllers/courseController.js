@@ -21,10 +21,10 @@ exports.deleteCourse = factory.deleteOne(Course);
 exports.getCourse = factory.getOne(Course);
 exports.getAllCourses = factory.getAll(Course);
 
-exports.createNewCourse = factory.createOne(Newcourse);
-exports.updateNewCourse = factory.updateOne(Newcourse);
-exports.deleteNewCourse = factory.deleteOne(Newcourse);
-exports.getNewCourse = factory.getOne(Newcourse);
+exports.createNewCourse = factory.createOne(Course);
+exports.updateNewCourse = factory.updateOne(Course);
+exports.deleteNewCourse = factory.deleteOne(Course);
+exports.getNewCourse = factory.getOne(Course);
 // exports.getAllNewCourses = factory.getAll(Newcourse);
 exports.getAllNewCourses = catchAsync(async (req, res, next) => {
   const courses = await Newcourse.find();
@@ -547,7 +547,7 @@ exports.getCoursesByProgramId = async (req, res) => {
   try {
     const { programId } = req.params;
 
-    const courses = await Newcourse.find({ program: programId });
+    const courses = await Course.find({ program: programId });
 
     if (!courses || courses.length === 0) {
       return res.status(404).json({
@@ -574,7 +574,7 @@ exports.addCompetenciesToCourse = async (req, res) => {
   const { qualityCompetencies } = req.body;
 
   try {
-    const course = await Newcourse.findById(courseId);
+    const course = await Course.findById(courseId);
 
     if (!course) {
       return res.status(404).json({ error: "Course not found" });
@@ -600,7 +600,7 @@ exports.getCoursesByIds = catchAsync(async (req, res, next) => {
     });
   }
   try {
-    const courses = await Newcourse.find({ _id: { $in: courseIds } });
+    const courses = await Course.find({ _id: { $in: courseIds } });
     res.status(200).json({
       status: "success",
       data: courses,
@@ -632,7 +632,7 @@ exports.getAllCoursesCount = async (req, res, next) => {
 
 exports.getCompUnderCourse = async (req, res) => {
   try {
-    const course = await Newcourse.findById(req.params.courseId).select(
+    const course = await Course.findById(req.params.courseId).select(
       "qualityCompetencies"
     );
     if (!course) {

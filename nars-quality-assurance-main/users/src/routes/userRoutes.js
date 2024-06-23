@@ -75,12 +75,17 @@ router
 
 router
   .route("/staff")
-  .get(authController.protect, staffController.getAllStaffMembers)
+  .get(staffController.getAllStaffMembers)
   .post(authController.protect, staffController.createStaff);
+
+router
+.route("/DeleteOneStaff/:id")
+  .delete(staffController.DeleteOneStaff)
 
 router
   .route("/newDepartmentAdmin")
   .post(authController.protect, staffController.newDepartmentAdmin);
+
 router
   .route("/newProgramAdmin")
   .post(authController.protect, staffController.newProgramAdmin);
