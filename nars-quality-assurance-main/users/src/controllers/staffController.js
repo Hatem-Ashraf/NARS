@@ -636,6 +636,20 @@ exports.getAllStaffMembers = catchAsync(async (req, res, next) => {
   });
 });
 
+
+exports.DeleteOneStaff = catchAsync(async (req, res, next) => {
+  const staff = await Staff.findByIdAndDelete(req.params.id);
+  res.status(200).json({
+    status: "success",
+    data: {
+      staff,
+    },
+  });
+  
+});
+
+
+
 exports.getAllStaffCount = async (req, res, next) => {
   try {
     // Query the database for all staff members
