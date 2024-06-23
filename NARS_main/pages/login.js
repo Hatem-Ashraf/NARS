@@ -19,29 +19,25 @@ export default function Login({ cookies }) {
   const dispatch = useDispatch();
   const [invalidData, setInvalidData] = useState(false);
   const [rolesArr, setRoles] = useState([
-      "instructor",
-      "quality coordinator",
-      "program coordinator",
-      "dean",
-      "teaching assistant",
-      "system admin",
-      "faculty admin",
-      "program admin",
-      "department admin",
-      "department head",
-      "program quality coordinator",
+    "instructor",
+    "quality coordinator",
+    "dean",
+    "system admin",
+    "program admin",
+    "department admin",
+    "program quality coordinator",
   ]);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
-//TEST
+  //TEST
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log({
       email: email.current.value,
       password: password.current.value,
       role: role.current.value,
-    })
-    const r = await fetch('http://localhost:8081/login', {
+    });
+    const r = await fetch("http://localhost:8081/login", {
       method: "POST",
 
       body: JSON.stringify({
@@ -66,8 +62,12 @@ export default function Login({ cookies }) {
       dispatch(updateField({ field: "jwt", value: resp.token }));
       dispatch(updateField({ field: "token", value: resp.token }));
       dispatch(updateField({ field: "name", value: resp.data.user.name }));
-      dispatch(updateField({ field: "faculty", value: resp.data.user.faculty }));
-      dispatch(updateField({ field: "department", value: resp.data.user.department }));
+      dispatch(
+        updateField({ field: "faculty", value: resp.data.user.faculty })
+      );
+      dispatch(
+        updateField({ field: "department", value: resp.data.user.department })
+      );
       dispatch(
         updateField({ field: "program", value: resp.data.user.program })
       );
@@ -93,7 +93,10 @@ export default function Login({ cookies }) {
     router.push("/profile");
   };
   return (
-    <div className="mt-5" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div
+      className="mt-5"
+      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+    >
       <style>{`
         body {
           background-color: #012a4a;
@@ -101,131 +104,166 @@ export default function Login({ cookies }) {
         }
       `}</style>
       {/* <MainHeader /> */}
-      <div style={{ display: "flex", justifyContent: "between", }} >
-       
-      <div style={{ 
-  background: "#023e7d",
-  borderRadius: "20px",
-  borderTopRightRadius: "120px",
-  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-  width: "600px",
-  margin: "auto", // Center horizontally
-  marginTop: "80px", // Add margin from the top
-  padding: "30px",
-  height: "320px",
-  position:"relative",
-  transform:"translate(8%,50%)",
-  
-}}>
-  <div className="flex justify-center items-center h-full ">
-    <p className=" font-bold text-white text-center p-4 text-2xl">
-      Welcome to NARQA, a competency-based quality assurance system tailored for higher education programs, especially in computer systems engineering.
-    </p>
-  </div>
-</div>
+      <div style={{ display: "flex", justifyContent: "between" }}>
+        <div
+          style={{
+            background: "#023e7d",
+            borderRadius: "20px",
+            borderTopRightRadius: "120px",
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+            width: "600px",
+            margin: "auto", // Center horizontally
+            marginTop: "80px", // Add margin from the top
+            padding: "30px",
+            height: "320px",
+            position: "relative",
+            transform: "translate(8%,50%)",
+          }}
+        >
+          <div className="flex justify-center items-center h-full ">
+            <p className=" font-bold text-white text-center p-4 text-2xl">
+              Welcome to NARQA, a competency-based quality assurance system
+              tailored for higher education programs, especially in computer
+              systems engineering.
+            </p>
+          </div>
+        </div>
 
-<div className="flex  justify-center min-h-screen mb-8">
-  <div style={{ 
-    backgroundColor: "#ffffff",
-    borderRadius: "20px",
-    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-    width: "700px",
-    marginRight: "20px",
-  }}>
-    <div className="flex flex-col justify-center items-center gap-8 w-full mt-10 text-blue-900 font-bold">
-  <div className=" text-3xl font-bold"> Welcome to NARQA </div>
-  <form
-    onSubmit={submitHandler}
-    className=" px-5 py-10 w-[600px] max-w-full"
-  >
-    <div className="mb-4">
-      <label htmlFor="email" className="block text-lg font-semibold text-gray-800 mb-2">
-        Email
-      </label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-        placeholder="Enter your email"
-        required
-        ref={email}
-      />
-    </div>
-    <div className="mb-6">
-      <label htmlFor="password" className="block text-lg font-semibold text-gray-800 mb-2">
-        Password
-      </label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-        placeholder="Enter your password"
-        required
-        ref={password}
-      />
-    </div>
-    <div className="mb-6">
-      <label htmlFor="role" className="block text-lg font-semibold text-gray-800 mb-2">
-        Role
-      </label>
-      <select
-        id="role"
-        name="role"
-        className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-        ref={role}
-      >
-        {rolesArr.map((role) => (
-          <option key={role} value={role}>
-            {role}
-          </option>
-        ))}
-      </select>
-    </div>
-    {invalidData && (
-      <span className="text-red-500 block mt-4 mb-4">Wrong Email or Password or Role</span>
-    )}
-    <div className="flex items-center justify-center">
-      <button type="submit" className="w-[50%] py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        Login
-      </button>
-    </div>
-    
-    <div className="mt-8 text-center">
-      <p className="text-sm">
-        Don't have an account?{" "}
-        <Link href="/register" className="text-blue-500 hover:underline">
-          Register now
-        </Link>
-      </p>
-    </div>
-    
-     <p className="text-sm text-center mt-8">
-    Forgot your password?{" "}
-    <Link href="/forget_password" className="text-blue-500 hover:underline">
-      Reset now
-    </Link>
-  </p>
-  <h1 className="text-blue-600 text-center mt-10 text-2xl">OR login with social media</h1>
-  <div className="flex justify-center items-center mt-12 space-x-4">
-  {/* Replace "fa-facebook" and "fa-twitter" with actual icon classes */}
-  <a href="#" className="text-blue hover:text-blue-500 text-3xl mr-5"><i className="fab fa-facebook fa-lg"></i></a>
-  <a href="#" className="text-blue text-3xl hover:text-blue-500"><i className="fab fa-twitter fa-lg"></i></a>
-  <a href="#" className="text-blue text-3xl hover:text-blue-500"><i className="fab fa-google fa-lg"></i></a>
+        <div className="flex  justify-center min-h-screen mb-8">
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+              width: "700px",
+              marginRight: "20px",
+            }}
+          >
+            <div className="flex flex-col justify-center items-center gap-8 w-full mt-10 text-blue-900 font-bold">
+              <div className=" text-3xl font-bold"> Welcome to NARQA </div>
+              <form
+                onSubmit={submitHandler}
+                className=" px-5 py-10 w-[600px] max-w-full"
+              >
+                <div className="mb-4">
+                  <label
+                    htmlFor="email"
+                    className="block text-lg font-semibold text-gray-800 mb-2"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                    placeholder="Enter your email"
+                    required
+                    ref={email}
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="password"
+                    className="block text-lg font-semibold text-gray-800 mb-2"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                    placeholder="Enter your password"
+                    required
+                    ref={password}
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="role"
+                    className="block text-lg font-semibold text-gray-800 mb-2"
+                  >
+                    Role
+                  </label>
+                  <select
+                    id="role"
+                    name="role"
+                    className="input-field w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                    ref={role}
+                  >
+                    {rolesArr.map((role) => (
+                      <option key={role} value={role}>
+                        {role}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {invalidData && (
+                  <span className="text-red-500 block mt-4 mb-4">
+                    Wrong Email or Password or Role
+                  </span>
+                )}
+                <div className="flex items-center justify-center">
+                  <button
+                    type="submit"
+                    className="w-[50%] py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Login
+                  </button>
+                </div>
 
-  {/* Add more social media icons as needed */}
-</div>
-  </form>
-  
- 
- 
- 
-</div>
+                <div className="mt-8 text-center">
+                  <p className="text-sm">
+                    Don't have an account?{" "}
+                    <Link
+                      href="/register"
+                      className="text-blue-500 hover:underline"
+                    >
+                      Register now
+                    </Link>
+                  </p>
+                </div>
 
-  </div>
-</div>
+                <p className="text-sm text-center mt-8">
+                  Forgot your password?{" "}
+                  <Link
+                    href="/forget_password"
+                    className="text-blue-500 hover:underline"
+                  >
+                    Reset now
+                  </Link>
+                </p>
+                <h1 className="text-blue-600 text-center mt-10 text-2xl">
+                  OR login with social media
+                </h1>
+                <div className="flex justify-center items-center mt-12 space-x-4">
+                  {/* Replace "fa-facebook" and "fa-twitter" with actual icon classes */}
+                  <a
+                    href="#"
+                    className="text-blue hover:text-blue-500 text-3xl mr-5"
+                  >
+                    <i className="fab fa-facebook fa-lg"></i>
+                  </a>
+                  <a
+                    href="#"
+                    className="text-blue text-3xl hover:text-blue-500"
+                  >
+                    <i className="fab fa-twitter fa-lg"></i>
+                  </a>
+                  <a
+                    href="#"
+                    className="text-blue text-3xl hover:text-blue-500"
+                  >
+                    <i className="fab fa-google fa-lg"></i>
+                  </a>
 
+                  {/* Add more social media icons as needed */}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
       <LoginModal isVisible={showModal} onClose={() => setShowModal(false)}>
         <div className="py-6 px-6 lg:px-8 text-left">
@@ -241,7 +279,11 @@ export default function Login({ cookies }) {
             >
               <option selected>Choose a role</option>
               {rolesArr.map((e, index) => {
-                return <option key={index} value={e}>{e}</option>;
+                return (
+                  <option key={index} value={e}>
+                    {e}
+                  </option>
+                );
               })}{" "}
             </select>
             <button

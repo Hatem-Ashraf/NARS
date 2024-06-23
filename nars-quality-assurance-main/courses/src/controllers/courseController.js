@@ -27,7 +27,7 @@ exports.deleteNewCourse = factory.deleteOne(Course);
 exports.getNewCourse = factory.getOne(Course);
 // exports.getAllNewCourses = factory.getAll(Newcourse);
 exports.getAllNewCourses = catchAsync(async (req, res, next) => {
-  const courses = await Course.find();
+  const courses = await Newcourse.find();
   res.status(200).json({
     status: "success",
     data: courses,
