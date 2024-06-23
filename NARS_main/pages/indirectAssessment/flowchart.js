@@ -1,10 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const CreateCourse = ({ cookies }) => {
   const userState = useSelector((s) => s.user);
@@ -13,14 +28,14 @@ const CreateCourse = ({ cookies }) => {
   const [courses, setCourses] = useState([]);
   const coursesList = useRef();
 
-  // State for LO Coverage chart
-  const [chartData, setChartData] = useState({
+  // State for Topic Statistics chart
+  const [topicChartData, setTopicChartData] = useState({
     labels: [],
     datasets: [],
   });
 
-  // State for Topic Statistics chart
-  const [topicChartData, setTopicChartData] = useState({
+  // State for duplicated Topic Statistics chart (for assessment)
+  const [assessmentChartData, setAssessmentChartData] = useState({
     labels: [],
     datasets: [],
   });
@@ -34,24 +49,11 @@ const CreateCourse = ({ cookies }) => {
   const avgOptions = {
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'Average LOS',
-      },
-    },
-    maintainAspectRatio: false,
-    responsive: true,
-  };
-  const chartOptions = {
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Assessment statistics',
+        text: "Average LOS",
       },
     },
     maintainAspectRatio: false,
@@ -61,11 +63,25 @@ const CreateCourse = ({ cookies }) => {
   const topicChartOptions = {
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'Topic Statistics',
+        text: "Topic Statistics",
+      },
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
+
+  const assessmentChartOptions = {
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Assessment Statistics",
       },
     },
     maintainAspectRatio: false,
@@ -75,11 +91,11 @@ const CreateCourse = ({ cookies }) => {
   const newChartOptions = {
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'New Flow Chart',
+        text: "New Flow Chart",
       },
     },
     maintainAspectRatio: false,
@@ -89,29 +105,35 @@ const CreateCourse = ({ cookies }) => {
   useEffect(() => {
     async function getCourses() {
       try {
-        const response = await fetch(`http://localhost:8081/getAssignedCourses/${userState._id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userState.token,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:8081/getAssignedCourses/${userState._id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${cookies.token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch assigned courses');
+          throw new Error("Failed to fetch assigned courses");
         }
 
         const coursesData = await response.json();
         const courseIds = coursesData.data;
 
         const courseDetailsPromises = courseIds.map(async (courseId) => {
-          const response = await fetch(`http://localhost:8087/newCourse/${courseId}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + userState.token,
-            },
-          });
+          const response = await fetch(
+            `http://localhost:8087/newCourse/${courseId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${cookies.token}`,
+              },
+            }
+          );
 
           if (!response.ok) {
             console.error(`Failed to fetch course details for ID: ${courseId}`);
@@ -122,114 +144,43 @@ const CreateCourse = ({ cookies }) => {
         });
 
         const coursesDetails = await Promise.all(courseDetailsPromises);
-        const validCoursesDetails = coursesDetails.filter(detail => detail !== null);
-        const courses = validCoursesDetails.map(e => ({
+        const validCoursesDetails = coursesDetails.filter(
+          (detail) => detail !== null
+        );
+        const courses = validCoursesDetails.map((e) => ({
           name: e.data.name,
           id: e.data._id,
           code: e.data.code,
           aims: e.data.courseAims,
-          information: e.data.courseInformation
+          information: e.data.courseInformation,
         }));
 
         setCourses(courses);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error("Error fetching courses:", error);
       }
     }
 
     getCourses();
   }, [userState._id, cookies.token]);
 
-  // Fetch LO Coverage Data
-  useEffect(() => {
-    async function getLOsForCourse(courseId) {
-      try {
-        const response = await fetch(`http://localhost:8087/los/courses/${courseId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userState.token,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch LOs for the selected course');
-        }
-
-        const data = await response.json();
-        return data.data;
-      } catch (error) {
-        console.error("Error fetching LOs for the selected course: ", error);
-        return [];
-      }
-    }
-
-    async function fetchAllCoursesLOs(courseIds) {
-      try {
-        const promises = courseIds.map(async (courseId) => {
-          const los = await getLOsForCourse(courseId);
-          return { courseId, los };
-        });
-        const coursesLOs = await Promise.all(promises);
-        const chartData = buildChartData(coursesLOs);
-        setChartData(chartData);
-      } catch (error) {
-        console.error("Error fetching all courses' LOs: ", error);
-      }
-    }
-
-    if (selectedCourse) {
-      fetchAllCoursesLOs([selectedCourse]);
-    }
-  }, [selectedCourse, cookies.token]);
-
-  const buildChartData = (coursesLOs) => {
-    const chartData = {
-      labels: [],
-      datasets: [],
-    };
-
-    coursesLOs.forEach(course => {
-      const labels = course.los.map(lo => lo.code);
-      const targets = course.los.map(lo => lo.target);
-      const covered = targets.map(target => target ? 67.66666 : 0);
-
-      chartData.datasets.push({
-        label: `Target `,
-        data: targets,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      });
-
-      chartData.datasets.push({
-        label: `Covered `,
-        data: covered,
-        backgroundColor: 'rgba(192, 75, 192, 0.2)',
-        borderColor: 'rgba(192, 75, 192, 1)',
-        borderWidth: 1,
-      });
-
-      chartData.labels = labels;
-    });
-
-    return chartData;
-  };
-
   // Fetch Topic Statistics Data
   useEffect(() => {
     async function fetchTopicStatistics(courseId) {
       try {
-        const response = await fetch(`http://localhost:8087/topic/loCoverage/${courseId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userState.token,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:8087/topic/loCoverage/${courseId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${cookies.token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch topic statistics');
+          throw new Error("Failed to fetch topic statistics");
         }
 
         const data = await response.json();
@@ -240,7 +191,7 @@ const CreateCourse = ({ cookies }) => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + userState.token,
+              Authorization: `Bearer ${cookies.token}`,
             },
           });
 
@@ -254,9 +205,10 @@ const CreateCourse = ({ cookies }) => {
         });
 
         const loDetails = await Promise.all(loDetailsPromises);
-        const validLoDetails = loDetails.filter(detail => detail !== null);
+        const validLoDetails = loDetails.filter((detail) => detail !== null);
         const topicChartData = buildTopicChartData(validLoDetails);
         setTopicChartData(topicChartData);
+        setAssessmentChartData(topicChartData); // Duplicating the data for assessment chart
       } catch (error) {
         console.error("Error fetching topic statistics: ", error);
       }
@@ -268,25 +220,25 @@ const CreateCourse = ({ cookies }) => {
   }, [selectedCourse, cookies.token]);
 
   const buildTopicChartData = (loDetails) => {
-    const labels = loDetails.map(lo => lo.code);
-    const coverageData = loDetails.map(lo => parseFloat(lo.coverage));
-    const targetData = loDetails.map(lo => lo.target);
+    const labels = loDetails.map((lo) => lo.code);
+    const coverageData = loDetails.map((lo) => parseFloat(lo.coverage));
+    const targetData = loDetails.map((lo) => lo.target);
 
     return {
       labels,
       datasets: [
         {
-          label: 'Coverage',
+          label: "Coverage",
           data: coverageData,
-          backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          borderColor: 'rgba(153, 102, 255, 1)',
+          backgroundColor: "rgba(153, 102, 255, 0.2)",
+          borderColor: "rgba(153, 102, 255, 1)",
           borderWidth: 1,
         },
         {
-          label: 'Target',
+          label: "Target",
           data: targetData,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
         },
       ],
@@ -297,16 +249,19 @@ const CreateCourse = ({ cookies }) => {
   useEffect(() => {
     async function fetchNewChartData(courseId) {
       try {
-        const response = await fetch(`http://localhost:8087/calculateLOCoverage/${courseId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userState.token,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:8087/calculateLOCoverage/${courseId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${cookies.token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch new chart data');
+          throw new Error("Failed to fetch new chart data");
         }
 
         const data = await response.json();
@@ -317,7 +272,7 @@ const CreateCourse = ({ cookies }) => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + userState.token,
+              Authorization: `Bearer ${cookies.token}`,
             },
           });
 
@@ -331,7 +286,7 @@ const CreateCourse = ({ cookies }) => {
         });
 
         const loDetails = await Promise.all(loDetailsPromises);
-        const validLoDetails = loDetails.filter(detail => detail !== null);
+        const validLoDetails = loDetails.filter((detail) => detail !== null);
         const newChartData = buildNewChartData(validLoDetails);
         setNewChartData(newChartData);
       } catch (error) {
@@ -345,25 +300,25 @@ const CreateCourse = ({ cookies }) => {
   }, [selectedCourse, cookies.token]);
 
   const buildNewChartData = (loDetails) => {
-    const labels = loDetails.map(lo => lo.code);
-    const coverageData = loDetails.map(lo => parseFloat(lo.coverage));
-    const targetData = loDetails.map(lo => lo.target);
+    const labels = loDetails.map((lo) => lo.code);
+    const coverageData = loDetails.map((lo) => parseFloat(lo.coverage));
+    const targetData = loDetails.map((lo) => lo.target);
 
     return {
       labels,
       datasets: [
         {
-          label: 'Coverage',
+          label: "Coverage",
           data: coverageData,
-          backgroundColor: 'rgba(255, 159, 64, 0.2)',
-          borderColor: 'rgba(255, 159, 64, 1)',
+          backgroundColor: "rgba(255, 159, 64, 0.2)",
+          borderColor: "rgba(255, 159, 64, 1)",
           borderWidth: 1,
         },
         {
-          label: 'Target',
+          label: "Target",
           data: targetData,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
           borderWidth: 1,
         },
       ],
@@ -371,7 +326,15 @@ const CreateCourse = ({ cookies }) => {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <style>{`
         body {
           background-color: rgb(243 244 246);
@@ -380,10 +343,21 @@ const CreateCourse = ({ cookies }) => {
       `}</style>
       <div className="mt-5 flex justify-center min-h-screen w-full">
         <div className="p-20 max-w-3xl bg-gray-100 w-full shadow-2xl rounded-3xl">
-          <h2 className="font-bold text-form mb-4 text-3xl text-center text-blue-800">Flow charts</h2>
-          <form onSubmit={(e) => { e.preventDefault(); }}>
+          <h2 className="font-bold text-form mb-4 text-3xl text-center text-blue-800">
+            Flow charts
+          </h2>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <div className="flex flex-col gap-4">
-              <label htmlFor="course" className="text-form font-bold w-1/3 text-blue-800">Course Title:</label>
+              <label
+                htmlFor="course"
+                className="text-form font-bold w-1/3 text-blue-800"
+              >
+                Course Title:
+              </label>
               <select
                 ref={coursesList}
                 id="course"
@@ -395,38 +369,37 @@ const CreateCourse = ({ cookies }) => {
                   Choose a Course
                 </option>
                 {courses.map((course) => (
-                  <option key={course.id} value={course.id}>{course.name}</option>
+                  <option key={course.id} value={course.id}>
+                    {course.name}
+                  </option>
                 ))}
               </select>
             </div>
           </form>
           <div className="mt-8">
-            
-            <div className="mt-8">
             <div className="flex justify-center items-center">
-                
-              </div>
-              <div className="flex justify-center items-center">
-                <div className='lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white w-full'>
-                  <Bar data={chartData} options={chartOptions} />
-                </div>
-              </div>
-              <div className="mt-8">
-                <div className="flex justify-center items-center">
-                  <div className='lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white w-full'>
-                    <Bar data={topicChartData} options={topicChartOptions} />
-                  </div>
-                </div>
-                <div className="flex justify-center items-center">
-              <div className='lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white w-full'>
-                <Bar data={newChartData} options={avgOptions} />
+              <div className="lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white w-full">
+                <Bar data={topicChartData} options={topicChartOptions} />
               </div>
             </div>
+            <div className="mt-8">
+              <div className="flex justify-center items-center">
+                <div className="lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white w-full">
+                  <Bar
+                    data={assessmentChartData}
+                    options={assessmentChartOptions}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-center items-center mt-8">
+                <div className="lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white w-full">
+                  <Bar data={newChartData} options={avgOptions} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
   );
 };
