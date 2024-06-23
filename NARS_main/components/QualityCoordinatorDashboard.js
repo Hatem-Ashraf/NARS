@@ -43,52 +43,7 @@ export default function QualityCoordinatorDashboard() {
         </span>
         <span className="ml-2">Competencies</span>
       </Link>
-      <Link
-        className="link2 focus:text-green-400 "
-        href="/qualitycoordinator/coursecomp"
-      >
-        <span>
-          <VscChecklist
-            style={{ fontSize: 30, display: "inline", marginBottom: 5 }}
-          />
-        </span>
-        <span className="ml-2">Assign competences</span>
-      </Link>
-      {/* <Link
-        className="link2 focus:text-green-400 "
-        href="/qualitycoordinator/downloadSpecs"
-      >
-        <span>
-          <HiDownload
-            style={{ fontSize: 30, display: "inline", marginBottom: 5 }}
-          />
-        </span>
-        <span className="ml-2">Download courses Specs</span>
-      </Link> */}
-      <Link
-        className="link2 focus:text-green-400 "
-        href="/report/programReport"
-      >
-        <span>
-          <VscChecklist
-            style={{ fontSize: 30, display: "inline", marginBottom: 5 }}
-          />
-        </span>
-        <span className="ml-2">Program Report</span>
-      </Link>
-      <Link
-        className="link2 focus:text-green-400 "
-        href={`http://localhost:8086/programSpcs/${userState.program}`}
-        target="_blank"
-        download
-      >
-        <span>
-          <HiDownload
-            style={{ fontSize: 30, display: "inline", marginBottom: 5 }}
-          />
-        </span>
-        <span className="ml-2">Download program Specs</span>
-      </Link>
+      
       <button
         className="link2 focus:text-green-400 text-left"
         onClick={logoutHandler}

@@ -67,19 +67,7 @@ export default function ProgramQualityDashboard(cookies) {
                 </span>
                 
             </Link>
-            <Link
-                className="link2 focus:text-green-400"
-                href="/programQuality/course-competences"
-            >
-                 <span >
-                     <span>
-                         <i class="fa-solid fa-file-lines text-3xl ml-1"></i>
-                    </span>
-                    
-                    <span className="ml-3">Program Report</span>
-                </span>
-                
-            </Link>
+            
 
 
             <button

@@ -101,7 +101,7 @@ const viewfaculty = ({ cookies }) => {
         <div className="mx-auto contentAddUser3 w-full flex flex-col gap-10">
           <div className=" min-h-screen m-auto flex w-full justify-center p-5 "  >
             <div className="w-full p-8 rounded-lg" >
-              <h1 className="text-5xl font-bold text-center mb-10 mt-4 text-indigo-600">Program List of {`[${department}]`}</h1>
+              <h1 className="text-5xl font-bold text-center mb-10 mt-4 text-indigo-600"> <span className="text-red-300"> {department} </span> Program List</h1>
               <form onSubmit={submitHandler} className="mb-4">
                 <div className="flex items-center justify-end">
                   {/* <input

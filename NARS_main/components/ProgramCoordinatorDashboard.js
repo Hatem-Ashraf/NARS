@@ -255,14 +255,12 @@ export default function ProgramCoordinatorDashboard({ cookies }) {
         ]
       )}
 
-{header(
   <Link className="link2  font-semibold" href="/ProgramCoo/Competence/view-all-level-C">
-  <div className="flex items-center mt-4">
-  <GiTeacher style={{ fontSize: 30, marginBottom: 5 }} />
-  <span className="ml-2 text-lg">Program Competence</span>
-  </div>
-</Link>
-)}
+    <div className="flex items-center mt-4">
+    <GiTeacher style={{ fontSize: 30, marginBottom: 5 }} />
+    <span className="ml-2 text-lg">Program Competence</span>
+    </div>
+  </Link>
 
       <button
         className="link2 focus:text-green-400 text-left"

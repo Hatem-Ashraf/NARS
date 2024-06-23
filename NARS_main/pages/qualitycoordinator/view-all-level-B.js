@@ -93,8 +93,7 @@ const competences = ({ cookies }) => {
                   </button>
                 </div>
               </form>
-              {filteredcompetences.length > 0 ? (
-                <>
+
                   <h2 className="text-xl font-semibold mb-2">Competence List</h2>
                   <CompetencesList 
                   competences={filteredcompetences} 
@@ -103,10 +102,7 @@ const competences = ({ cookies }) => {
                   delete_url="http://localhost:8085/deleteDepComp/"
                   create_file_name="AddLevelB"
                   />
-                </>
-              ) : (
-                <div className="text-center text-lg">No competences found</div>
-              )}
+
             </div>
           </div>
         </div>
