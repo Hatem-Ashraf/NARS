@@ -30,7 +30,7 @@ const CreateSurvey = ({ cookies }) => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${cookies.token}`,
+            Authorization: "Bearer " + userState.token,
           },
         });
     
@@ -48,7 +48,7 @@ const CreateSurvey = ({ cookies }) => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${cookies.token}`,
+              Authorization: "Bearer " + userState.token,
             },
           });
     
