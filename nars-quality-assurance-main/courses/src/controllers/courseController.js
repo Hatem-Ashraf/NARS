@@ -21,7 +21,7 @@ exports.deleteCourse = factory.deleteOne(Course);
 exports.getCourse = factory.getOne(Course);
 exports.getAllCourses = factory.getAll(Course);
 
-exports.createNewCourse = factory.createOne(Newcourse);
+exports.createNewCourse = factory.createOne(Course);
 exports.updateNewCourse = factory.updateOne(Course);
 exports.deleteNewCourse = factory.deleteOne(Course);
 exports.getNewCourse = factory.getOne(Course);
@@ -632,7 +632,7 @@ exports.getAllCoursesCount = async (req, res, next) => {
 
 exports.getCompUnderCourse = async (req, res) => {
   try {
-    const course = await Newcourse.findById(req.params.courseId).select(
+    const course = await Course.findById(req.params.courseId).select(
       "qualityCompetencies"
     );
     if (!course) {
